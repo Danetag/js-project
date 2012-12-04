@@ -1,7 +1,5 @@
 .DS_Store
 node_modules
-*.min.js
-*.min.css
 
 bin/.DS_Store
 bin/img/.DS_Store

@@ -14,11 +14,11 @@
     "prompt": "~>0.2.7",
     "underscore": ">0.0.0",
     "grunt-css": ">0.0.0",
-    "grunt-contrib": ">0.0.0", //lot of tasks here
-    "grunt-bump": ">0.0.0", //add version fo your app
+    "grunt-contrib": ">0.0.0",
+    "grunt-bump": ">0.0.0",
     "grunt-shell": ">0.0.0",
     "consolidate": "git://github.com/visionmedia/consolidate.js.git#master",
-    "grunt-templater": "git://github.com/rockwood/grunt-templater.git#master", //template tasks
+    "grunt-templater": "git://github.com/rockwood/grunt-templater.git#master",
     "imagemagick": ">0.0.0"
   },
   "devDependencies": {},

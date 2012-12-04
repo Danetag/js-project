@@ -1,7 +1,7 @@
 # JS Project
 ## Description
 
-JS Project template for grunt.js
+JS Project template using grunt.js
 
 
 ## Setup 

@@ -1,14 +1,4 @@
-.DS_Store
+**/.DS_Store
 node_modules
-
-bin/.DS_Store
-bin/img/.DS_Store
-bin/css/.DS_Store
-bin/js/.DS_Store
-
-bin/*.html
-
-bin/css/**/*.css
-bin/js/**/*.js
 
 *.log

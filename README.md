@@ -1,8 +1,11 @@
 # JS Project
 ## Description
 
-JS Project template using grunt.js
+JS Project template using grunt.js featuring [LESS](http://lesscss.org/), [Handlebars](http://handlebarsjs.com/), [Google Closure Tools](https://developers.google.com/closure/)
 
+## Author
+
+[@Danetag](https://twitter.com/danetag)
 
 ## Setup 
 
@@ -14,9 +17,8 @@ It requires node v0.8+, grunt v0.3.5+ and npm.
 
 ## Grunt Tasks
 
-- `grunt watch` will monitor all data files, CSS and JS for changes and rebuild everything to your app directory when changes are detected.
-- `grunt build` will build all the CSS and JS bundles as a watch task.
-- `grunt release` will build, minify and compil all the CSS and JS bundles into the dist folder.
+- `grunt watch` will monitor all HTML files, CSS and JS for changes and rebuild everything to your app directory when changes are detected.
+- `grunt build` will build all the HTML, CSS and JS bundles for the dist directory.
 
 
 ## Less

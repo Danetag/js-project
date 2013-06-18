@@ -1,0 +1,67 @@
+{
+	"common": {
+		"partial" : {
+			"header" : "partial/header.hbs",
+			"footer" : "partial/footer.hbs"
+		},
+		"css" : {
+			"app"  : [
+				{ "src" : "/css/app.css"}
+			],
+			"dist" : [
+				{ "src" : "/css/app.min.css"}
+			]
+		},
+		"js" : {
+			"app"  : [
+				{ "src" : "/js/app.lib.js"},
+				{ "src" : "/js/app/main.js"}
+			],
+			"dist" : [
+				{ "src" : "/js/app.lib.min.js"},
+				{ "src" : "/js/app.min.js"}
+			]
+		}
+	},
+	"pages" : [
+		{
+			"name"    : "index",
+			"tpl"     : "index.hbs",
+			"html"    : "index.html",
+			"partial" : {
+
+			},
+			"data" : {
+				"meta":{
+					"title":"JS Project - index"
+				},
+				"content" : {
+					"header" : {
+						"title" : "JS Project"
+					}
+				}
+			}
+			
+		},
+
+		{
+			"name"    : "about",
+			"tpl"     : "about.hbs",
+			"html"    : "about.html",
+			"partial" : {
+
+			},
+			"data" : {
+				"meta":{
+					"title":"JS Project - about"
+				},
+				"content" : {
+					"header" : {
+						"title" : "About"
+					}
+				}
+			}
+			
+		}
+	]
+}

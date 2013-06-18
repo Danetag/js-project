@@ -12,9 +12,43 @@ module.exports = function (grunt) {
         dist : 'dist'
     };
 
-    grunt.initConfig({
+    /* Page for Handlebars */
 
-        pkg: grunt.file.readJSON('package.json'),
+    var Handlebars  = require('handlebars');
+    var dataPages   = grunt.file.readJSON('data/pages.json');
+
+    var tplFiles    = [];
+    var htmlFiles   = [];
+    var tplCommon   = dataPages.common;
+
+    for (var i in dataPages.pages)
+    {
+        var page = dataPages.pages[i];
+
+        tplFiles.push( { 
+            tplFolder : config.app + "/tpl/",
+            partials  : page.partials || {},
+            src       : config.app + "/tpl/" + page.tpl, 
+            dest      : {
+                app  : config.app  + "/" + page.html, 
+                dist : config.dist + "/" + page.html
+            },
+            data      : page.data ,
+            hasLayout : page.hasLayout || true
+        });
+
+        htmlFiles.push({
+            src  : config.dist + "/" + page.html,
+            dest : config.dist + "/" + page.html
+        })
+
+    }
+
+    /* Configuration */
+
+    var configOptions = {
+
+        pkg  : grunt.file.readJSON('package.json'),
 
         less: {
             all: {
@@ -48,18 +82,34 @@ module.exports = function (grunt) {
           }
         },
 
+        htmlmin: {                                     // Task
+            dist: {                                      // Target
+              options: {                                 // Target options
+                removeComments: true,
+                collapseWhitespace: true
+              },
+              files: htmlFiles
+            }
+        },
+
         /* WATCH */
 
         watch: {
           js: {
-            files: [
-                config.app + '/js/app/**/*.js'
-            ],
+            files: config.app + '/js/app/**/*.js',
             tasks: 'devUpdateJS'
           },
           css: {
-            files: config.app + 'css/**/*.less',
+            files: config.app + '/css/**/*.less',
             tasks: 'devUpdateCSS'
+          },
+          
+          html : {
+            files : config.app + '/tpl/**/*.hbs',
+            tasks : "compileHTML",
+            options: {
+              nospawn: true
+            }
           }
         },
 
@@ -83,12 +133,6 @@ module.exports = function (grunt) {
         },
 
         concat: {
-          //css: {
-            //src: [ 
-              //  config.app + '/css/app.css'
-            //], 
-            //dest: config.dist + '/css/app.min.css'
-          //},
           js: {
             src: [
                 config.app + '/js/app/**/*.js'
@@ -103,9 +147,84 @@ module.exports = function (grunt) {
           }
         }
 
+    };
+
+    grunt.initConfig(configOptions);
+
+    /* Changed files */
+
+    var changedFiles = {};
+
+    grunt.event.on('watch', function(action, filepath) {
+        changedFiles = {};
+        changedFiles[action] = filepath;
     });
 
-    /* Dev */
+    /* compile tempalte files to HTML ! */
+    grunt.registerTask( "compileHTML", "Compile HTML from pages.json", function(){
+
+        var files   =  tplFiles;
+        var context = "dist";
+
+        if( changedFiles.changed != undefined )
+        {
+            context = "app";
+
+            for(var i in tplFiles) //No partial !
+            {
+                if( tplFiles[i].src == changedFiles.changed )
+                {
+                    files = [ tplFiles[i] ];
+                    break;
+                }
+            }
+        }
+
+        for(var i in files)
+        {
+            var file     = files[i];
+            var template = Handlebars.compile( grunt.file.read(file.src) );
+
+            /* Partial */
+
+            //Common
+            if( file.hasLayout)
+            {
+                for(var key in tplCommon.partial)
+                {
+                    Handlebars.registerPartial("partial." + key, grunt.file.read( file.tplFolder + tplCommon.partial[key]) );    
+                }
+            }
+
+            //partial page
+            for(var key in file.partials)
+            {
+                Handlebars.registerPartial("partial." + key, grunt.file.read( file.tplFolder + file.partials[key]) );    
+            }
+
+            file.data.aCSS = tplCommon.css["app"];
+            file.data.aJS  = tplCommon.js["app"];
+
+            var output   = template( file.data );
+            grunt.file.write( file.dest.app, output);
+
+            if( context == "dist" ) // Build
+            {
+                file.data.aCSS   = tplCommon.css["dist"];
+                file.data.aJS    = tplCommon.js["dist"];
+                var outputDist   = template( file.data ); 
+
+                grunt.file.write( file.dest.dist, outputDist);
+
+                console.log( file.dest.dist + " generated");
+            }   
+
+            console.log( file.dest.app + " generated");
+
+        }   
+
+    });
+    
 
     grunt.registerTask( "devUpdateCSS",[
         "less:all"
@@ -123,6 +242,12 @@ module.exports = function (grunt) {
         "cssmin:base"
     ]);
 
+    grunt.registerTask( "BuildUpdateHTML",[
+        "compileHTML",
+        "htmlmin:dist"
+        //'compile-handlebars'
+    ]);
+
     grunt.registerTask( "BuildUpdateJS", [
         "devUpdateJS",
         "copy:vendor",
@@ -131,6 +256,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask("build", [
+        "BuildUpdateHTML",
         "BuildUpdateCSS", 
         "BuildUpdateJS",
     ]);

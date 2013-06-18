@@ -10,17 +10,16 @@
   "engines": {
     "node": "*"
   },
-  "dependencies": {
-    "prompt": "~>0.2.7",
-    "underscore": ">0.0.0",
+  "devDependencies": {
     "grunt-css": ">0.0.0",
-    "grunt-contrib": ">0.0.0",
-    "grunt-bump": ">0.0.0",
-    "grunt-shell": ">0.0.0",
-    "consolidate": "git://github.com/visionmedia/consolidate.js.git#master",
-    "grunt-templater": "git://github.com/rockwood/grunt-templater.git#master",
-    "imagemagick": ">0.0.0"
+    "grunt-contrib-less": ">0.0.0",
+    "grunt-closure-compiler": ">0.0.0",
+    "grunt-contrib-concat": ">0.0.0",
+    "grunt-contrib-watch": ">0.0.0",
+    "grunt-contrib-cssmin": ">0.0.0",
+    "grunt-contrib-uglify": ">0.0.0",
+    "matchdep": "~0.1.1"
   },
-  "devDependencies": {},
+  "dependencies": {},
   "optionalDependencies": {}
 }

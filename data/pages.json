@@ -33,32 +33,14 @@
 			},
 			"data" : {
 				"meta":{
-					"title":"JS Project - index"
+					"title":"JS Project - index",
+					"description" : "This is a basic JS Project"
 				},
 				"content" : {
 					"header" : {
 						"title" : "JS Project"
-					}
-				}
-			}
-			
-		},
-
-		{
-			"name"    : "about",
-			"tpl"     : "about.hbs",
-			"html"    : "about.html",
-			"partial" : {
-
-			},
-			"data" : {
-				"meta":{
-					"title":"JS Project - about"
-				},
-				"content" : {
-					"header" : {
-						"title" : "About"
-					}
+					},
+					"body" : "This is a basic project"
 				}
 			}
 			

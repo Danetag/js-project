@@ -245,7 +245,6 @@ module.exports = function (grunt) {
     grunt.registerTask( "BuildUpdateHTML",[
         "compileHTML",
         "htmlmin:dist"
-        //'compile-handlebars'
     ]);
 
     grunt.registerTask( "BuildUpdateJS", [

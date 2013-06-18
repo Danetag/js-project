@@ -26,19 +26,6 @@ module.exports = function (grunt) {
             }
         },
 
-
-        //lint: {
-          //files: [
-            //config.app + "/js/**/*.js"
-          //]
-        //},
-
-        //jshint: {
-         // options: {
-           // scripturl: true
-          //}
-        //},
-
         cssmin: {
           base: {
             src : config.app  + '/css/app.css',

@@ -5,7 +5,9 @@ JS Project template using grunt.js featuring [LESS](http://lesscss.org/), [Handl
 
 ## Author
 
-[@Danetag](https://twitter.com/danetag)
+- Twitter   : [@Danetag](https://twitter.com/danetag)
+- Portfolio : [Cargo Collective](http://cargocollective.com/danetag)
+- LinkedIn  : [LinkedIn](fr.linkedin.com/in/danetag/en)
 
 ## Setup 
 

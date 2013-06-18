@@ -106,7 +106,7 @@ module.exports = function (grunt) {
           
           html : {
             files : config.app + '/tpl/**/*.hbs',
-            tasks : "compileHTML",
+            tasks : "devUpdateHTML",
             options: {
               nospawn: true
             }
@@ -225,6 +225,9 @@ module.exports = function (grunt) {
 
     });
     
+    grunt.registerTask( "devUpdateHTML",[
+        "compileHTML"
+    ]);    
 
     grunt.registerTask( "devUpdateCSS",[
         "less:all"
@@ -243,7 +246,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask( "BuildUpdateHTML",[
-        "compileHTML",
+        "devUpdateHTML",
         "htmlmin:dist"
     ]);
 

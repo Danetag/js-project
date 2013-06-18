@@ -14,11 +14,11 @@ It requires node v0.8+, grunt v0.3.5+ and npm.
 
 ## Grunt Tasks
 
-- `grunt watch` will monitor all templates, data files, CSS and JS for changes and rebuild everything to your build directory when changes are detected.
-- `grunt template` will build all templates to HTML
-- `grunt build` will build all templates, and the CSS and JS bundles
+- `grunt watch` will monitor all data files, CSS and JS for changes and rebuild everything to your app directory when changes are detected.
+- `grunt build` will build all the CSS and JS bundles as a watch task.
+- `grunt release` will build, minify and compil all the CSS and JS bundles into the dist folder.
 
 
 ## Less
 
-All of our CSS is preparsed with Less. If you add a new Less file, be sure to update the concat:less task in grunt.js to include it.
+All of our CSS is preparsed with Less.

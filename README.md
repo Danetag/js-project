@@ -11,7 +11,7 @@ JS Project template using grunt.js featuring [LESS](http://lesscss.org/), [Handl
 
 ## Setup 
 
-It requires node v0.8+, grunt v0.3.5+ and npm.
+It requires node v0.8+, grunt v0.4.1+ and npm.
 
 `npm install grunt -g` - installs grunt as global
 `npm install` - installs all dependencies

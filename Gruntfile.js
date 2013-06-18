@@ -19,11 +19,19 @@ module.exports = function (grunt) {
         less: {
             all: {
               src : config.app + '/css/less/*.less',
-              dest: config.app +'/css/app.css',
+              dest: config.app + '/css/app.css',
               options: {
                 compress: false
               }
             }
+        },
+
+        copy: {
+          vendor: {
+            files: [
+                {expand: true, cwd: config.app  + '/js/vendor/', src: ['**'], dest: config.dist + '/js/vendor/', filter: 'isFile'}, // includes files in path
+            ]
+          }
         },
 
         cssmin: {
@@ -97,11 +105,10 @@ module.exports = function (grunt) {
 
     });
 
-    //grunt.loadNpmTasks('grunt-contrib-less');
+    /* Dev */
 
     grunt.registerTask( "devUpdateCSS",[
-        "less:all", 
-        "cssmin:base"
+        "less:all"
     ]);
 
     grunt.registerTask( "devUpdateJS", [
@@ -109,16 +116,26 @@ module.exports = function (grunt) {
         "concat:libjs"
     ]);
 
-    grunt.registerTask("build", [
+    /* Build */
+
+    grunt.registerTask( "BuildUpdateCSS",[
         "devUpdateCSS", 
-        "devUpdateJS"
+        "cssmin:base"
     ]);
 
-    grunt.registerTask("release", [
-        "build", 
-        "uglify:base", 
+    grunt.registerTask( "BuildUpdateJS", [
+        "devUpdateJS",
+        "copy:vendor",
+        "uglify:base",
         "closure-compiler"
-    ]); 
+    ]);
+
+    grunt.registerTask("build", [
+        "BuildUpdateCSS", 
+        "BuildUpdateJS",
+    ]);
+
+    /* Default */
 
     grunt.registerTask('default', [
         'build'

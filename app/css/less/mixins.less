@@ -249,12 +249,16 @@
   .border-bottom-left-radius(@radius);
 }
 
-// Drop shadows
-.box-shadow(@shadow) {
-  -webkit-box-shadow: @shadow;
-     -moz-box-shadow: @shadow;
-          box-shadow: @shadow;
+// Box shadows
+// @all, -ms- and -o- box-shadow doesn't exist + box-shadow != drop-shadow
+// Firefox supports non prefixed as of 4.0
+// Webkit prefix for Safari 5.0, iOS 4.2-4.3, Android <= 3.0, Blackberry 7
+.box-shadow(@x:0, @y:0, @blur:1px, @color: #000) {
+  -webkit-box-shadow: @arguments;
+     -moz-box-shadow: @arguments;
+          box-shadow: @arguments;
 }
+
 
 // Transitions
 .transition(@transition) {
@@ -311,6 +315,13 @@
      -moz-transform: translate3d(@x, @y, @z);
        -o-transform: translate3d(@x, @y, @z);
           transform: translate3d(@x, @y, @z);
+}
+.transform-origin(@x, @y:50%, @z:0) {
+  -webkit-transform-origin: $x $y $z;
+     -moz-transform-origin: $x $y $z;
+      -ms-transform-origin: $x $y $z;
+       -o-transform-origin: $x $y $z;
+          transform-origin: $x $y $z;
 }
 
 // Backface visibility

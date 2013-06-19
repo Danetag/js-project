@@ -1,28 +1,24 @@
-# JS Project
-## Description
+# grunt-init-jsproject
 
-JS Project template using grunt.js featuring [LESS](http://lesscss.org/), [Handlebars](http://handlebarsjs.com/), [Google Closure Tools](https://developers.google.com/closure/)
+> Create a basic js project [grunt-init][].
 
-## Author
+[grunt-init]: http://gruntjs.com/project-scaffolding
 
-- Twitter   : [@Danetag](https://twitter.com/danetag)
-- Portfolio : [Cargo Collective](http://cargocollective.com/danetag)
-- LinkedIn  : [LinkedIn](fr.linkedin.com/in/danetag/en)
+## Installation
+If you haven't already done so, install [grunt-init][].
 
-## Setup 
+Once grunt-init is installed, place this template in your `~/.grunt-init/` directory. It's recommended that you use git to clone this template into that directory, as follows:
 
-It requires node v0.8+, grunt v0.4.1+ and npm.
+```
+git clone https://bitbucket.org/nicopigelet/grunt-init-jsproject.git ~/.grunt-init/jsproject
+```
 
-`npm install grunt -g` - installs grunt as global
-`npm install` - installs all dependencies
+_(Windows users, see [the documentation][grunt-init] for the correct destination directory path)_
 
+## Usage
 
-## Grunt Tasks
+At the command-line, cd into an empty directory, run this command and follow the prompts.
 
-- `grunt watch` will monitor all HTML files, CSS and JS for changes and rebuild everything to your app directory when changes are detected.
-- `grunt build` will build all the HTML, CSS and JS bundles for the dist directory.
-
-
-## Less
-
-All of our CSS is preparsed with Less.
+```
+grunt-init jsproject
+```

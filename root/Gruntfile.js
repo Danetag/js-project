@@ -81,7 +81,7 @@ module.exports = function (grunt) {
         less: {
             all: {
               src : config.app + '/css/less/*.less',
-              dest: configScripts.css.app, //config.app + '/css/app.css',
+              dest: configScripts.css.app,
               options: {
                 compress: false
               }
@@ -98,21 +98,21 @@ module.exports = function (grunt) {
 
         cssmin: {
           base: {
-            src : configScripts.css.app, //config.app  + '/css/app.css',
-            dest: configScripts.css.dist //config.dist + '/css/app.min.css'
+            src : configScripts.css.app,
+            dest: configScripts.css.dist
           }
         },
 
         uglify: {
           base: {
-            src : configScripts.libjs.app, //config.app  + '/js/app.lib.js',
-            dest: configScripts.libjs.dist //config.dist + "/js/app.lib.min.js"
+            src : configScripts.libjs.app,
+            dest: configScripts.libjs.dist
           }
         },
 
-        htmlmin: {                                     // Task
-            dist: {                                      // Target
-              options: {                                 // Target options
+        htmlmin: {                                    
+            dist: {                                     
+              options: {                                
                 removeComments: true,
                 collapseWhitespace: true
               },
@@ -144,8 +144,8 @@ module.exports = function (grunt) {
         'closure-compiler': {
           frontend: {
             closurePath: 'compiler/jar',
-            js: configScripts.js.app, //config.app + '/js/app.js',
-            jsOutputFile: configScripts.js.dist, //config.dist + '/js/app.min.js',
+            js: configScripts.js.app, 
+            jsOutputFile: configScripts.js.dist, 
             maxBuffer: 500,
             options: {
               compilation_level: 'SIMPLE_OPTIMIZATIONS',
@@ -165,13 +165,13 @@ module.exports = function (grunt) {
             src: [
                 config.app + '/js/app/**/*.js'
             ],
-            dest: configScripts.js.app //config.app + '/js/app.js'
+            dest: configScripts.js.app
           },
           libjs: {
             src: [
               config.app + '/js/lib/*.js'
             ],
-            dest: configScripts.libjs.app //config.app + '/js/app.lib.js'
+            dest: configScripts.libjs.app
           }
         }
 

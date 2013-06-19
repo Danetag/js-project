@@ -29,6 +29,24 @@ At the command-line, cd into an empty directory, run this command and follow the
 grunt-init jsproject
 ```
 
+Once the project is generated, please use the build task
+
+```
+grunt build
+```
+
+or basically
+
+```
+grunt
+```
+
 ## Featuring
 
 This project is using grunt.js featuring [LESS](http://lesscss.org/), [Handlebars](http://handlebarsjs.com/), [Google Closure Tools](https://developers.google.com/closure/)
+
+## Handlebars
+
+HTML is directly generated thanks to Handlebars from .hbs files. All datas come from data/pages.json. This file describes every page of the project. For each page, you can add content values, as partials used. There's a common section as well describing the shared objects for a common layout - CSS, JS, partials.
+
+## LESS

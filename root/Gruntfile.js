@@ -41,13 +41,13 @@ module.exports = function (grunt) {
 
     /* Add CSS/JS Files with NS */
 
-    tplCommon.css.app.unshift(  '/css/'+ gruntPck.namespace +'.css' );
-    tplCommon.css.dist.unshift( '/css/'+ gruntPck.namespace +'.min.css' );
+    tplCommon.css.app.unshift(  { src : '/css/'+ gruntPck.namespace +'.css' } );
+    tplCommon.css.dist.unshift( { src : '/css/'+ gruntPck.namespace +'.min.css'} );
 
-    tplCommon.js.app.unshift( '/js/'+ gruntPck.namespace +'.lib.js' );
+    tplCommon.js.app.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.js'} );
 
-    tplCommon.js.dist.unshift( '/js/'+ gruntPck.namespace +'.lib.min.js' );
-    tplCommon.js.dist.unshift( '/js/'+ gruntPck.namespace +'.min.js' );
+    tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.min.js'} );
+    tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.min.js'} );
 
     for (var i in dataPages.pages)
     {

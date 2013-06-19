@@ -69,16 +69,14 @@ exports.template = function(grunt, init, done) {
         }
     }
 
-    console.log(files);
-    console.log("-----");
-    console.log(excludedFiles);
-    return;
-
     // Add properly-named license files.
     init.addLicenseFiles(files, props.licenses);
 
     // Actually copy (and process) files.
     init.copyAndProcess(files, props);
+
+    // Only copy excluded files.
+    init.copy(excludedFiles);
 
     // Generate package.json file.
     init.writePackageJSON('package.json', props, function( pkg, props ){

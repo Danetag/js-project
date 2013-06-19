@@ -56,8 +56,22 @@ exports.template = function(grunt, init, done) {
     var files = init.filesToCopy(props);
 
     //get excluded files.. And exclude them
-    console.log(files);
+    var excludedFiles = {};
+    
+    for(var key in files)
+    {
+        var file = files[key];
 
+        if(file.indexOf(".jar") != -1)
+        {
+            excludedFiles[key] = file;
+            delete files[key];
+        }
+    }
+
+    console.log(files);
+    console.log("-----");
+    console.log(excludedFiles);
     return;
 
     // Add properly-named license files.

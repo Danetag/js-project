@@ -1,4 +1,4 @@
-# grunt-init-jsproject
+# grunt-init jsproject
 
 > Create a basic js project [grunt-init][].
 

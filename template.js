@@ -76,7 +76,11 @@ exports.template = function(grunt, init, done) {
     init.copyAndProcess(files, props);
 
     // Only copy excluded files.
-    init.copy(excludedFiles);
+    for(var src in excludedFiles)
+    {
+        init.copy(src);
+    }
+    
 
     // Generate package.json file.
     init.writePackageJSON('package.json', props, function( pkg, props ){

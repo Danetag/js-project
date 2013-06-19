@@ -25,10 +25,10 @@ _(Windows users, see [the documentation][grunt-init] for the correct destination
 
 At the command-line, cd into an empty directory, run this command and follow the prompts.
 
-## Featuring
-
-This project is using grunt.js featuring [LESS](http://lesscss.org/), [Handlebars](http://handlebarsjs.com/), [Google Closure Tools](https://developers.google.com/closure/)
-
 ```
 grunt-init jsproject
 ```
+
+## Featuring
+
+This project is using grunt.js featuring [LESS](http://lesscss.org/), [Handlebars](http://handlebarsjs.com/), [Google Closure Tools](https://developers.google.com/closure/)

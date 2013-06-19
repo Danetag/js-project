@@ -34,7 +34,7 @@ exports.template = function(grunt, init, done) {
         name: 'namespace',
         message: 'Namespace of the project',
         default: 'NS', 
-        validator: /^[A-Z][a-z]{0,9}$/,
+        validator: /^[A-Za-z]{0,9}$/,
         warning: 'Must be only letters, max 9'
     },
     init.prompt('description'),

@@ -12,6 +12,24 @@ module.exports = function (grunt) {
         dist : 'dist'
     };
 
+    /* CSS/JS Files */
+    var gruntPck   = grunt.file.readJSON('package.json');
+
+    var configScripts = {
+        css : {
+            app  : config.app  + '/css/'+ gruntPck.namespace +'.css',
+            dist : config.dist + '/css/'+ gruntPck.namespace +'.min.css'
+        },
+        js : {
+            app  : config.app  + '/js/'+ gruntPck.namespace +'.js',
+            dist : config.dist + '/js/'+ gruntPck.namespace +'.min.js'
+        },
+        libjs : {
+            app  : config.app  + '/js/'+ gruntPck.namespace +'.lib.js',
+            dist : config.dist + '/js/'+ gruntPck.namespace +'.min.lib.js'
+        }
+    };
+
     /* Page for Handlebars */
 
     var Handlebars  = require('handlebars');
@@ -20,6 +38,16 @@ module.exports = function (grunt) {
     var tplFiles    = [];
     var htmlFiles   = [];
     var tplCommon   = dataPages.common;
+
+    /* Add CSS/JS Files with NS */
+
+    tplCommon.css.app.unshift(  '/css/'+ gruntPck.namespace +'.css' );
+    tplCommon.css.dist.unshift( '/css/'+ gruntPck.namespace +'.min.css' );
+
+    tplCommon.js.app.unshift( '/js/'+ gruntPck.namespace +'.lib.js' );
+
+    tplCommon.js.dist.unshift( '/js/'+ gruntPck.namespace +'.lib.min.js' );
+    tplCommon.js.dist.unshift( '/js/'+ gruntPck.namespace +'.min.js' );
 
     for (var i in dataPages.pages)
     {
@@ -53,7 +81,7 @@ module.exports = function (grunt) {
         less: {
             all: {
               src : config.app + '/css/less/*.less',
-              dest: config.app + '/css/app.css',
+              dest: configScripts.css.app, //config.app + '/css/app.css',
               options: {
                 compress: false
               }
@@ -70,15 +98,15 @@ module.exports = function (grunt) {
 
         cssmin: {
           base: {
-            src : config.app  + '/css/app.css',
-            dest: config.dist + '/css/app.min.css'
+            src : configScripts.css.app, //config.app  + '/css/app.css',
+            dest: configScripts.css.dist //config.dist + '/css/app.min.css'
           }
         },
 
         uglify: {
           base: {
-            src : config.app  + '/js/app.lib.js',
-            dest: config.dist + "/js/app.lib.min.js"
+            src : configScripts.libjs.app, //config.app  + '/js/app.lib.js',
+            dest: configScripts.libjs.dist //config.dist + "/js/app.lib.min.js"
           }
         },
 
@@ -116,8 +144,8 @@ module.exports = function (grunt) {
         'closure-compiler': {
           frontend: {
             closurePath: 'compiler/jar',
-            js: config.app + '/js/app.js',
-            jsOutputFile: config.dist + '/js/app.min.js',
+            js: configScripts.js.app, //config.app + '/js/app.js',
+            jsOutputFile: configScripts.js.dist, //config.dist + '/js/app.min.js',
             maxBuffer: 500,
             options: {
               compilation_level: 'SIMPLE_OPTIMIZATIONS',
@@ -137,13 +165,13 @@ module.exports = function (grunt) {
             src: [
                 config.app + '/js/app/**/*.js'
             ],
-            dest: config.app + '/js/app.js'
+            dest: configScripts.js.app //config.app + '/js/app.js'
           },
           libjs: {
             src: [
               config.app + '/js/lib/*.js'
             ],
-            dest: config.app + '/js/app.lib.js'
+            dest: configScripts.libjs.app //config.app + '/js/app.lib.js'
           }
         }
 

@@ -6,20 +6,18 @@
 		},
 		"css" : {
 			"app"  : [
-				{ "src" : "/css/app.css"}
+				
 			],
 			"dist" : [
-				{ "src" : "/css/app.min.css"}
+				
 			]
 		},
 		"js" : {
 			"app"  : [
-				{ "src" : "/js/app.lib.js"},
 				{ "src" : "/js/app/main.js"}
 			],
 			"dist" : [
-				{ "src" : "/js/app.lib.min.js"},
-				{ "src" : "/js/app.min.js"}
+
 			]
 		}
 	},

@@ -55,6 +55,11 @@ exports.template = function(grunt, init, done) {
     // Files to copy (and process).
     var files = init.filesToCopy(props);
 
+    //get excluded files.. And exclude them
+    console.log(files);
+
+    return;
+
     // Add properly-named license files.
     init.addLicenseFiles(files, props.licenses);
 

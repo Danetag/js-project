@@ -60,17 +60,17 @@ module.exports = function (grunt) {
             tplFolder : config.app + "/tpl/",
             partials  : page.partials || {},
             src       : config.app + "/tpl/" + page.tpl, 
-            dest      : {
-                app  : config.app  + "/" + page.html, 
-                dist : config.dist + "/" + page.html
-            },
+            //dest      : {
+             //   app  : config.app  + "/" + page.html, 
+              //  dist : config.dist + "/" + page.html
+            //},
             data      : page.data ,
             hasLayout : page.hasLayout || true
         });
 
         htmlFiles.push({
-            src  : config.dist + "/" + page.html,
-            dest : config.dist + "/" + page.html
+            src  : config.dist + "/" + page.data.output,
+            dest : config.dist + "/" + page.data.output
         })
 
         var route = page.data.route;
@@ -312,7 +312,7 @@ module.exports = function (grunt) {
             file.data.aJS  = tplCommon.js["app"];
 
             var output   = template( file.data );
-            grunt.file.write( file.dest.app, output);
+            grunt.file.write(config.app + "/"+ data.output, output);
 
             if( context == "dist" ) // Build
             {
@@ -320,12 +320,12 @@ module.exports = function (grunt) {
                 file.data.aJS    = tplCommon.js["dist"];
                 var outputDist   = template( file.data ); 
 
-                grunt.file.write( file.dest.dist, outputDist);
+                grunt.file.write( config.dist + "/"+ data.output, outputDist);
 
-                console.log( file.dest.dist + " generated");
+                console.log( config.dist + "/"+ data.output + " generated");
             }   
 
-            console.log( file.dest.app + " generated");
+            console.log( config.app + "/"+ data.output + " generated");
 
         }   
 

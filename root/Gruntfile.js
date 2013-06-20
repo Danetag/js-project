@@ -100,6 +100,11 @@ module.exports = function (grunt) {
             files: [
                 {expand: true, cwd: config.app  + '/js/vendor/', src: ['**'], dest: config.dist + '/js/vendor/', filter: 'isFile'}, // includes files in path
             ]
+          },
+          img : {
+            files: [
+                {expand: true, cwd: config.app  + '/img/', src: ['**'], dest: config.dist + '/img/', filter: 'isFile'}, // includes files in path
+            ]
           }
         },
 

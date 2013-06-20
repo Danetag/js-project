@@ -312,7 +312,7 @@ module.exports = function (grunt) {
             file.data.aJS  = tplCommon.js["app"];
 
             var output   = template( file.data );
-            grunt.file.write(config.app + "/"+ data.output, output);
+            grunt.file.write(config.app + "/"+ file.data.output, output);
 
             if( context == "dist" ) // Build
             {
@@ -320,12 +320,12 @@ module.exports = function (grunt) {
                 file.data.aJS    = tplCommon.js["dist"];
                 var outputDist   = template( file.data ); 
 
-                grunt.file.write( config.dist + "/"+ data.output, outputDist);
+                grunt.file.write( config.dist + "/"+ file.data.output, outputDist);
 
-                console.log( config.dist + "/"+ data.output + " generated");
+                console.log( config.dist + "/"+ file.data.output + " generated");
             }   
 
-            console.log( config.app + "/"+ data.output + " generated");
+            console.log( config.app + "/"+ file.data.output + " generated");
 
         }   
 

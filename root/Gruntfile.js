@@ -5,6 +5,7 @@ module.exports = function (grunt) {
 
     // load all grunt tasks
     var test = require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    var gruntPck   = grunt.file.readJSON('package.json');
 
     var config = {
         name : "js-project",
@@ -13,7 +14,6 @@ module.exports = function (grunt) {
     };
 
     /* CSS/JS Files */
-    var gruntPck   = grunt.file.readJSON('package.json');
 
     var configScripts = {
         css : {
@@ -29,6 +29,9 @@ module.exports = function (grunt) {
             dist : config.dist + '/js/'+ gruntPck.namespace +'.min.lib.js'
         }
     };
+
+    /* Routing */
+    var routes = { routes : {} };
 
     /* Page for Handlebars */
 
@@ -69,6 +72,10 @@ module.exports = function (grunt) {
             src  : config.dist + "/" + page.html,
             dest : config.dist + "/" + page.html
         })
+
+        var route = page.data.route;
+
+        routes.routes[page.name] = route;
 
     }
 
@@ -131,13 +138,20 @@ module.exports = function (grunt) {
             files: config.app + '/css/**/*.less',
             tasks: 'devUpdateCSS'
           },
-          
+          data : {
+            files : "data/pages.json",
+            tasks : ["devUpdateJSON", "devUpdateHTML"]
+          }
           html : {
             files : config.app + '/tpl/**/*.hbs',
             tasks : "devUpdateHTML",
             options: {
               nospawn: true
             }
+          },
+          sprite : {
+            files : config.app + '/img/sprites/*.png',
+            tasks : "devUpdateSprite"
           }
         },
 
@@ -186,6 +200,16 @@ module.exports = function (grunt) {
     grunt.event.on('watch', function(action, filepath) {
         changedFiles = {};
         changedFiles[action] = filepath;
+    });
+
+    grunt.registerTask( "updateRoutes", "Update/create routes from pages.json", function(){
+
+        var JSONroutes = JSON.stringify(routes, null, '\t');
+
+        grunt.file.write( config.app  + "/route/route.json", JSONroutes);
+        grunt.file.write( config.dist + "/route/route.json", JSONroutes);
+
+        console.log("Routes generated");
     });
 
     /* compile tempalte files to HTML ! */
@@ -252,6 +276,15 @@ module.exports = function (grunt) {
         }   
 
     });
+
+    grunt.registerTask( "devUpdateSprite",[
+        "sprite:all",
+        "devUpdateCSS"
+    ]); 
+
+    grunt.registerTask( "devUpdateJSON",[
+        "updateRoutes"
+    ]); 
     
     grunt.registerTask( "devUpdateHTML",[
         "compileHTML"
@@ -268,13 +301,19 @@ module.exports = function (grunt) {
 
     /* Build */
 
+    grunt.registerTask( "BuildUpdateSprite",[
+        "sprite:all"
+    ]);
+
     grunt.registerTask( "BuildUpdateCSS",[
         "devUpdateCSS", 
         "cssmin:base"
     ]);
 
     grunt.registerTask( "BuildUpdateHTML",[
+        "devUpdateJSON",
         "devUpdateHTML",
+        "copy:img",
         "htmlmin:dist"
     ]);
 
@@ -287,6 +326,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask("build", [
         "BuildUpdateHTML",
+        "BuildUpdateSprite",
         "BuildUpdateCSS", 
         "BuildUpdateJS",
     ]);

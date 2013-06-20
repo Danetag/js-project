@@ -25,11 +25,12 @@
 		{
 			"name"    : "index",
 			"tpl"     : "index.hbs",
-			"html"    : "index.html",
 			"partial" : {
 
 			},
 			"data" : {
+				"output"    : "index.html",
+				"route"     : "/",
 				"meta":{
 					"title":"JS Project - index",
 					"description" : "This is a basic JS Project"

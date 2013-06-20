@@ -94,6 +94,7 @@ exports.template = function(grunt, init, done) {
             "matchdep"   : "x",
             "handlebars" : "x",
             "grunt-css"  : "x",
+            "grunt-spritesmith"     : "x",
             "grunt-contrib-watch"   : "x", 
             "grunt-contrib-concat"  : "x", 
             "grunt-contrib-uglify"  : "x", 

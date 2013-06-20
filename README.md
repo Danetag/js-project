@@ -43,7 +43,16 @@ grunt
 
 ## Featuring
 
-This project is using grunt.js featuring [LESS](http://lesscss.org/), [Handlebars](http://handlebarsjs.com/), [Google Closure Tools](https://developers.google.com/closure/)
+This project uses grunt.js featuring [LESS](http://lesscss.org/), [Handlebars](http://handlebarsjs.com/), [Google Closure Tools](https://developers.google.com/closure/)
+
+## Requirements
+
+This project uses [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith), a Grunt library for using [spritesmith](https://github.com/Ensighten/spritesmith), a spritesheet and CSS pre-processor utility.
+
+Spritesmith supports multiple sprite engines however all of the current engines require external software to be installed.
+
+As a result, you must either have [PhantomJS][phantomjs], [Cairo](http://cairographics.org/), or [Graphics Magick](http://www.graphicsmagick.org/) installed for Spritesmith to run properly. 
+
 
 ## Handlebars
 

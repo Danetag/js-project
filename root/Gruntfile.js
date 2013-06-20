@@ -141,7 +141,7 @@ module.exports = function (grunt) {
           data : {
             files : "data/pages.json",
             tasks : ["devUpdateJSON", "devUpdateHTML"]
-          }
+          },
           html : {
             files : config.app + '/tpl/**/*.hbs',
             tasks : "devUpdateHTML",

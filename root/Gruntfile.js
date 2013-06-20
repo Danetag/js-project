@@ -379,8 +379,8 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask("build", [
-        "BuildUpdateHTML",
         "BuildUpdateSprite",
+        "BuildUpdateHTML",
         "BuildUpdateCSS", 
         "BuildUpdateJS",
     ]);

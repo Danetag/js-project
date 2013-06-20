@@ -132,6 +132,55 @@ module.exports = function (grunt) {
             }
         },
 
+        sprite : {
+            all : {
+
+                // Sprite files to read in
+                'src':     config.app + '/img/sprite/*.png',
+
+                // Location to output spritesheet
+                'destImg': config.app +'/img/sprite.png',
+
+                // Stylus with variables under sprite names
+                'destCSS': config.app +'/css/less/sprite.less',
+
+                // OPTIONAL: Manual override for imgPath specified in CSS
+                //'imgPath': '../sprite.png',
+
+                // OPTIONAL: Specify algorithm (top-down, left-right, diagonal [\ format],
+                // alt-diagonal [/ format], binary-tree [best packing])
+                'algorithm': 'binary-tree',
+
+                // OPTIONAL: Specify engine (auto, canvas, gm)
+                'engine': 'auto',
+
+                // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
+                // (stylus, scss, sass, less, json, css)
+                'cssFormat': 'less',
+
+                // OPTIONAL: Specify settings for engine
+                'engineOpts': {
+                    'imagemagick': true
+                },
+
+                // OPTIONAL: Specify img options
+                'imgOpts': {
+                    // Format of the image (inferred from destImg' extension by default) (jpg, png)
+                    'format': 'png',
+
+                    // Quality of image (gm only)
+                    //'quality': 90
+                },
+
+                // OPTIONAL: Specify css options
+                'cssOpts': {
+                    // Some templates allow for skipping of function declarations
+                    'functions': false
+                }
+
+            }
+        },
+
         /* WATCH */
 
         watch: {

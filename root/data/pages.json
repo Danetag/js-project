@@ -4,6 +4,9 @@
 			"header" : "partial/header.hbs",
 			"footer" : "partial/footer.hbs"
 		},
+		"assets" : [
+			{ "src" : "/img/sprite.png", "type" : "image" }
+		],
 		"css" : {
 			"app"  : [
 				
@@ -14,7 +17,37 @@
 		},
 		"js" : {
 			"app"  : [
+
+				{ "src" : "/js/app/com/project/conf/conf.js"},
+
+				{ "src" : "/js/app/com/project/route/route.class.js"},
+				{ "src" : "/js/app/com/project/route/routeManager.js"},
+
+				{ "src" : "/js/app/com/project/model/Model.class.js"},
+				{ "src" : "/js/app/com/project/model/dataManager.js"},
+
+				{ "src" : "/js/app/com/project/loader/view/Loader.view.class.js"},
+				{ "src" : "/js/app/com/project/loader/view/Loader.main.class.js"},
+
+				{ "src" : "/js/app/com/project/loader/type/Loader.type.class.js"},
+				{ "src" : "/js/app/com/project/loader/type/Loader.image.class.js"},
+				{ "src" : "/js/app/com/project/loader/type/Loader.data.class.js"},
+				{ "src" : "/js/app/com/project/loader/Loader.js"},
+
+				{ "src" : "/js/app/com/project/pages/Page.class.js"},
+				{ "src" : "/js/app/com/project/pages/View.class.js"},
+
+				{ "src" : "/js/app/com/project/pages/main/Page.main.js"},
+				{ "src" : "/js/app/com/project/pages/main/views/View.main.js"},
+
+				{ "src" : "/js/app/com/project/pages/index/Page.index.js"},
+				{ "src" : "/js/app/com/project/pages/index/views/View.index.js"},
+
+				{ "src" : "/js/app/com/project/pages/about/Page.about.js"},
+				{ "src" : "/js/app/com/project/pages/about/views/View.about.js"},
+
 				{ "src" : "/js/app/main.js"}
+				
 			],
 			"dist" : [
 
@@ -23,26 +56,128 @@
 	},
 	"pages" : [
 		{
+			"name"    : "homepage",
+			"tpl"     : "homepage.hbs",
+			"hasLayout" : false,
+			"partial" : {
+
+			},
+			"data" : {
+				"en": {
+						"output"    : "index.html",
+						"route"     : "/",
+						"label"		: "Homepage",
+						"meta":{
+							"title":"JS Project - homepage",
+							"description" : "This is a basic JS Project"
+						},
+						"content" : {
+							"header" : {
+								"title" : "JS Project"
+							},
+							"body" : "Homepage !"
+						}
+				}
+				
+			}
+			
+		},
+
+		{
 			"name"    : "index",
 			"tpl"     : "index.hbs",
 			"partial" : {
 
 			},
 			"data" : {
-				"output"    : "index.html",
-				"route"     : "/",
-				"meta":{
-					"title":"JS Project - index",
-					"description" : "This is a basic JS Project"
+				"en": {
+						"output"    : "en/index.html",
+						"route"     : "/en",
+						"assets"	: [
+							{ "src" : "/img/index/test.jpg", "type" : "image" }
+						],
+						"label"		: "Home",
+						"meta":{
+							"title":"JS Project - Index",
+							"description" : "This is the index of the en version"
+						},
+						"content" : {
+							"header" : {
+								"title" : "JS Project Index"
+							},
+							"body" : "This is a basic project"
+						}
 				},
-				"content" : {
-					"header" : {
-						"title" : "JS Project"
-					},
-					"body" : "This is a basic project"
+				"fr": {
+						"output"    : "fr/index.html",
+						"route"     : "/fr",
+						"assets"	: [
+							{ "src" : "/img/index/test.jpg", "type" : "image" }
+						],
+						"label"		: "Accueil",
+						"meta":{
+							"title":"Projet JS - Accueil",
+							"description" : "C'est un Projet JS basique !"
+						},
+						"content" : {
+							"header" : {
+								"title" : "Projet JS Accueil"
+							},
+							"body" : "C'est un projet basique"
+						}
 				}
+				
+			}
+			
+		},
+
+		{
+			"name"    : "about",
+			"tpl"     : "about.hbs",
+			"partial" : {
+
+			},
+			"data" : {
+				"en": {
+						"output"    : "en/about.html",
+						"route"     : "/en/about",
+						"assets"	: [
+							{ "src" : "/img/index/test.jpg", "type" : "image" }
+						],
+						"label"		: "About",
+						"meta":{
+							"title":"JS Project - about",
+							"description" : "About en"
+						},
+						"content" : {
+							"header" : {
+								"title" : "About the JS Project"
+							},
+							"body" : "About the JS Project"
+						}
+				},
+				"fr": {
+						"output"    : "fr/a-propos.html",
+						"route"     : "/fr/a-propos",
+						"assets"	: [
+							{ "src" : "/img/index/test.jpg", "type" : "image" }
+						],
+						"label"		: "À propos",
+						"meta":{
+							"title":"Projet JS - A propos",
+							"description" : "A propos de"
+						},
+						"content" : {
+							"header" : {
+								"title" : "À propos du Projet JS"
+							},
+							"body" : "À propos du Projet JS"
+						}
+				}
+				
 			}
 			
 		}
+
 	]
 }

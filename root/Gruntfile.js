@@ -8,14 +8,15 @@ module.exports = function (grunt) {
     var gruntPck   = grunt.file.readJSON('package.json');
 
     var config = {
-        name : "js-project",
+        name : gruntPck.name,
         app  : 'app',
         dist : 'dist'
     };
 
     /* CSS/JS Files */
 
-    var configScripts = {
+    var configScripts = 
+    {
         css : {
             app  : config.app  + '/css/'+ gruntPck.namespace +'.css',
             dist : config.dist + '/css/'+ gruntPck.namespace +'.min.css'
@@ -31,7 +32,8 @@ module.exports = function (grunt) {
     };
 
     /* Routing */
-    var routes = { routes : {} };
+    var pages = { pages : {} };
+    var menu   = {};
 
     /* Page for Handlebars */
 
@@ -41,6 +43,8 @@ module.exports = function (grunt) {
     var tplFiles    = [];
     var htmlFiles   = [];
     var tplCommon   = dataPages.common;
+
+    pages.primaryAssets = tplCommon.assets;
 
     /* Add CSS/JS Files with NS */
 
@@ -60,22 +64,37 @@ module.exports = function (grunt) {
             tplFolder : config.app + "/tpl/",
             partials  : page.partials || {},
             src       : config.app + "/tpl/" + page.tpl, 
-            //dest      : {
-             //   app  : config.app  + "/" + page.html, 
-              //  dist : config.dist + "/" + page.html
-            //},
+            /* // Dest are generated from datas !
+            dest      : {
+                app  : config.app  + "/" + page.html, 
+                dist : config.dist + "/" + page.html
+            },
+            */
             data      : page.data ,
             hasLayout : page.hasLayout || true
         });
 
-        htmlFiles.push({
-            src  : config.dist + "/" + page.data.output,
-            dest : config.dist + "/" + page.data.output
-        })
+        var pageJS = {};
 
-        var route = page.data.route;
+        for( var lang in page.data)
+        {
+            var content = page.data[lang];
 
-        routes.routes[page.name] = route;
+            htmlFiles.push({
+                src  : config.dist + "/" + content.output,
+                dest : config.dist + "/" + content.output
+            });
+
+            pageJS[lang] = { route : content.route, label : content.label, assets : content.assets };
+
+            if( menu[lang] == undefined)
+                menu[lang] = [];
+
+            menu[lang].push( { route : content.route, label : content.label } );
+
+        }
+
+        pages.pages[page.name] = pageJS;
 
     }
 
@@ -231,13 +250,15 @@ module.exports = function (grunt) {
         concat: {
           js: {
             src: [
+                config.app + '/js/app/main.js',
                 config.app + '/js/app/**/*.js'
             ],
             dest: configScripts.js.app
           },
           libjs: {
             src: [
-              config.app + '/js/lib/*.js'
+                //config.app + '/js/lib/history.js',
+                config.app + '/js/lib/*.js'
             ],
             dest: configScripts.libjs.app
           }
@@ -254,16 +275,6 @@ module.exports = function (grunt) {
     grunt.event.on('watch', function(action, filepath) {
         changedFiles = {};
         changedFiles[action] = filepath;
-    });
-
-    grunt.registerTask( "updateRoutes", "Update/create routes from pages.json", function(){
-
-        var JSONroutes = JSON.stringify(routes, null, '\t');
-
-        grunt.file.write( config.app  + "/route/route.json", JSONroutes);
-        grunt.file.write( config.dist + "/route/route.json", JSONroutes);
-
-        console.log("Routes generated");
     });
 
     /* compile tempalte files to HTML ! */
@@ -308,27 +319,64 @@ module.exports = function (grunt) {
                 Handlebars.registerPartial("partial." + key, grunt.file.read( file.tplFolder + file.partials[key]) );    
             }
 
-            file.data.aCSS = tplCommon.css["app"];
-            file.data.aJS  = tplCommon.js["app"];
+            /* End Partial */
 
-            var output   = template( file.data );
-            grunt.file.write(config.app + "/"+ file.data.output, output);
+            /* Datas */
 
-            if( context == "dist" ) // Build
+            //file.data.aCSS = tplCommon.css["app"];
+            //file.data.aJS  = tplCommon.js["app"];
+
+            /* End Datas */
+
+            /* output by Language */
+
+            for( var lang in file.data)
             {
-                file.data.aCSS   = tplCommon.css["dist"];
-                file.data.aJS    = tplCommon.js["dist"];
-                var outputDist   = template( file.data ); 
+                var data = file.data[lang];
 
-                grunt.file.write( config.dist + "/"+ file.data.output, outputDist);
+                /* CSS/JS */
+                data.aCSS    = tplCommon.css["app"];
+                data.aJS     = tplCommon.js["app"];
 
-                console.log( config.dist + "/"+ file.data.output + " generated");
-            }   
+                data.lang    = lang;
+                //data.routes  = routes.routes;
+                data.menu    = menu;
 
-            console.log( config.app + "/"+ file.data.output + " generated");
+                var output   = template( data );
+
+                //app
+                grunt.file.write( config.app + "/"+ data.output, output);
+
+                if( context == "dist" ) // Build
+                {
+                    /* CSS/JS */
+                    data.aCSS = tplCommon.css["dist"];
+                    data.aJS  = tplCommon.js["dist"];
+
+                    var outputDist   = template( data ); 
+
+                    grunt.file.write( config.dist + "/"+ data.output, outputDist);
+
+                    console.log( config.dist + "/"+ data.output + " generated");
+                }   
+
+                console.log( config.app + "/"+ data.output + " generated");
+
+
+            }
 
         }   
 
+    });
+
+    grunt.registerTask( "updateRoutes", "Update/create pages from pages.json", function(){
+
+        var JSONroutes = JSON.stringify(pages, null, '\t');
+
+        grunt.file.write( config.app  + "/data/pages.json", JSONroutes);
+        grunt.file.write( config.dist + "/data/pages.json", JSONroutes);
+
+        console.log("Pages generated");
     });
 
     grunt.registerTask( "devUpdateSprite",[
@@ -379,8 +427,8 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask("build", [
-        "BuildUpdateSprite",
         "BuildUpdateHTML",
+        "BuildUpdateSprite",
         "BuildUpdateCSS", 
         "BuildUpdateJS",
     ]);

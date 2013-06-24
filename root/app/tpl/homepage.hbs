@@ -12,32 +12,29 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <script type="text/javascript">
-            document.documentElement.className ="has-js " + document.documentElement.className; 
-        </script>
-
         <!-- CSS -->
         {{#each aCSS}}
             <link rel="stylesheet" href="{{src}}">
         {{/each}}
 
-        <script src="/js/vendor/modernizr.custom.14441.js"></script>
 
     </head>
     <body>
 
-    <div id="loader"></div>
+	    <header id="header">
 
-    <header id="header">
-        <nav>
-            <ul>
-                {{#each menu}}
-                    {{#each this}}
-                        <li><a href="{{route}}">{{label}}</a></li>
-                    {{/each}}
-                {{/each}}
-            </ul>
-        </nav>
-    </header>
+	    </header>
 
-    <div id="content">
+	    <div id="content">
+
+			<h1>{{content.header.title}}</h1>
+			<p>{{content.body}}</p>
+
+			<a href="/en">EN Version</a>
+			<a href="/fr">FR Version</a>
+
+		</div>
+
+	</body>
+</html>
+

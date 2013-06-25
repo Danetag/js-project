@@ -56,7 +56,6 @@ JSP.Page = (function(window){
 		},
 		load : function()
 		{
-
 			if(this.Loader == null)
 				this.Loader = new JSP.Loader();
 
@@ -88,8 +87,9 @@ JSP.Page = (function(window){
 		},
 		loaderHidden : function()
 		{
+			this.Loader.unbind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.loaderHidden.bind(this) );
 			this.Loader.destroy.call( this.Loader );
-			this.Loader == null;
+			this.Loader = null;
 		},
 		show : function()
 		{

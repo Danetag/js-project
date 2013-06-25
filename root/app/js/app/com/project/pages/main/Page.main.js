@@ -49,19 +49,20 @@ JSP.Pages.main = (function($){
 
 	MainPage.prototype.hidden = function()
 	{
-		JSP.Pages[ JSP.routeManager.current ].bind( JSP.Pages[ JSP.routeManager.current ].EVENT.SHOWN, this.viewShown );
+		this.Loader.unbind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.hidden.bind(this) );
+		this.Loader.destroy.call(this.Loader);
+		this.Loader = null;
+
+		JSP.Pages[ JSP.routeManager.current ].bind( JSP.Pages[ JSP.routeManager.current ].EVENT.SHOWN, this.viewShown.bind(this) );
 		JSP.Pages[ JSP.routeManager.current ].show();
 	}
 
 	MainPage.prototype.viewShown = function()
 	{
 		console.log("Main page displayed !");
+		
 	}
 
 	return new MainPage();
 
 })(jQuery);
-
-
-
-

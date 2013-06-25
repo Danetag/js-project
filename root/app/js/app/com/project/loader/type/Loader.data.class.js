@@ -14,8 +14,7 @@ JSP.LoaderTypes.Data = (function(window){
     	$.ajax({
 			url : this.src,
 			success: function(data) {
-
-				self.data = data;
+				self.data = $(data).filter("#content").html();
 				self.dispatch( self.EVENT.LOADED );
 			},
 			error: function (xhr, ajaxOptions, thrownError) {

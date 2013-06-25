@@ -27,6 +27,7 @@ JSP.Loader = (function(window){
 		init   : function()
 		{
 			this.$.garbage = $('#loader-garbage');
+			this.aItems = [];
 
 			if( this.$.garbage[0] == undefined) //Just once. But maybe useless.
 			{

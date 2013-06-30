@@ -46,6 +46,13 @@ module.exports = function (grunt) {
 
     pages.primaryAssets = tplCommon.assets;
 
+    // to concat
+    var JStoConcat = [];
+    for(var i in tplCommon.js.app)
+    {
+        JStoConcat.push( config.app + tplCommon.js.app[i].src );
+    }
+
     /* Add CSS/JS Files with NS */
 
     tplCommon.css.app.unshift(  { src : '/css/'+ gruntPck.namespace +'.css' } );
@@ -106,7 +113,13 @@ module.exports = function (grunt) {
 
         less: {
             all: {
-              src : config.app + '/css/less/*.less',
+              src : [
+                config.app + '/css/less/reset.less',
+                config.app + '/css/less/font.less',
+                config.app + '/css/less/utilities.less',
+                config.app + '/css/less/general.less',
+                config.app + '/css/less/*.less'
+              ],
               dest: configScripts.css.app,
               options: {
                 compress: false
@@ -249,10 +262,7 @@ module.exports = function (grunt) {
 
         concat: {
           js: {
-            src: [
-                config.app + '/js/app/main.js',
-                config.app + '/js/app/**/*.js'
-            ],
+            src: JStoConcat,
             dest: configScripts.js.app
           },
           libjs: {

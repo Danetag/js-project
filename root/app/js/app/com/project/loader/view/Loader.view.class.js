@@ -2,19 +2,20 @@ JSP.LoaderViews = {};
 
 JSP.LoaderView = (function(window){
 
-	function LoaderView(){};
+	function LoaderView(){
+		this.events   = {};
+		this.EVENT    = {
+			SHOWN    : "shown",
+			HIDDEN   : "hidden"
+		};
+		this.$ = {
+
+		};
+		this.html = "";
+	};
 
 	LoaderView.prototype = 
 	{
-		events   : {},
-		EVENT    : {
-			SHOWN    : "shown",
-			HIDDEN   : "hidden"
-		},
-		$ : {
-
-		},
-		html : "",
 		init : function()
 		{
 			this.el();

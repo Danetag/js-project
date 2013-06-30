@@ -7,17 +7,17 @@ JSP.Views.main = (function($){
 
     //Public override
 
-	MainView.prototype.$ = 
-	{
-		body    : null,
-		content : null,
-		header  : {
-			a : null
-		}
-	};
-
 	MainView.prototype.el = function()
 	{
+		this.$ = 
+		{
+			body    : null,
+			content : null,
+			header  : {
+				a : null
+			}
+		};
+
 		this.$.header.a = $("#header a");
 		this.$.body     = $("body");
 		this.$.content  = $("#content");

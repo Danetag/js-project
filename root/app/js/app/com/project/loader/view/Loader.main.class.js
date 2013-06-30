@@ -5,14 +5,13 @@ JSP.LoaderViews.Main = (function(window){
     LoaderViewMain.prototype = Object.create(JSP.LoaderView.prototype);
 	LoaderViewMain.prototype.constructor = LoaderViewMain;
 
-	LoaderViewMain.prototype.$ = {
-		loader : null
-	};
-
-	LoaderViewMain.prototype.html = '<div id="loader"></div>';
-
 	LoaderViewMain.prototype.el   = function()
 	{
+		this.html = '<div id="loader"></div>';
+		this.$ = {
+			loader : null
+		};
+
 		this.$.loader = $("#loader");
 
 		if( this.$.loader[0] == undefined )

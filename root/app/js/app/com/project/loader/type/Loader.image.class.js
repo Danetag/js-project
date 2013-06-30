@@ -16,6 +16,7 @@ JSP.LoaderTypes.Image = (function(window){
 
 		if (image.complete || image.naturalWidth > 0)
 		{
+			self.data = $(image);
 			this.dispatch( this.EVENT.LOADED );
 		}
 		else
@@ -24,8 +25,13 @@ JSP.LoaderTypes.Image = (function(window){
 
 			$img.load(function()
 			{
-				self.data = $img;
-				self.dispatch( self.EVENT.LOADED );
+				if(self.data == null)
+				{
+					self.data = $(this);
+					self.dispatch( self.EVENT.LOADED );
+				}
+				else
+					self.data = $(this);
 									
 			}).error(function()
 			{

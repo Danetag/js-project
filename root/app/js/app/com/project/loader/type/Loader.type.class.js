@@ -2,18 +2,20 @@ JSP.LoaderTypes = {};
 
 JSP.LoaderType = (function(window){
 
-	function LoaderType(){};
+	function LoaderType(){
+		this.src      = null;
+		this.$garbage = null;
+		this.events   = {};
+		this.data     = null;
+		this.EVENT    = {
+			STARTED   : "started",
+			LOADED    : "loaded"
+		}
+
+	};
 
 	LoaderType.prototype = 
 	{
-		src      : null,
-		$garbage : null,
-		events   : {},
-		data     : null,
-		EVENT    : {
-			STARTED   : "started",
-			LOADED    : "loaded"
-		},
 		init : function(src)
 		{
 			this.src = src;

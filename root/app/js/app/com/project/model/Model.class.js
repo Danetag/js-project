@@ -1,16 +1,17 @@
 JSP.Model = (function(window){
 
-	function Model(){};
+	function Model(){
+		this._data  = {};
+		this.length = 0;
+		this.events   = {};
+		this.EVENT    = {
+			RESET    : "reset"
+		};
+		this.url = "";
+		this.assets = [];
+	};
 
 	Model.prototype = {
-		_data  : {},
-		length : 0,
-		events   : {},
-		EVENT    : {
-			RESET    : "reset"
-		},
-		url : "",
-		assets : [],
 		init : function(url, assets)
 		{
 			this.reset();

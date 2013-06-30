@@ -1,28 +1,29 @@
 JSP.Loader = (function(window){
 
-	function Loader(){};
+	function Loader(){
+		this.aItems = [];
+		this.index  = 0;
 
-	Loader.prototype = {
-
-		aItems : [],
-		index  : 0,
-		$:{
+		this.$ = {
 			garbage : null
-		},
-		events : {},
+		};
+		this.events = {};
 
-        EVENT : {
+        this.EVENT = {
             STARTED : "started",
             ENDED   : "ended",
             HIDDEN  : "hidden"
-        },
+        };
 
-	    extensions : {
+	    this.extensions = {
 	        "image"   : ["jpg", "png"],
 	        "video"   : ["mp4", "ogg"]
 	    },
-	    loaderView : null,
-	    loaderViewInit : false,
+	    this.loaderView = null;
+	    this.loaderViewInit = false;
+	};
+
+	Loader.prototype = {
 
 		init   : function()
 		{

@@ -7,10 +7,6 @@ JSP.Views.example = (function($){
 
     //Public override
 
-	ExampleView.prototype.$ = 
-	{
-		
-	};
 
 	ExampleView.prototype.el = function()
 	{

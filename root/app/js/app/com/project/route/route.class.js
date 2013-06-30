@@ -1,10 +1,11 @@
 JSP.Route = (function(window){
 
-	function Route(){};
+	function Route(){
+		this.url  = null;
+		this.name = null;
+	};
 
 	Route.prototype = {
-		url  : null,
-		name : null,
 		init : function(route)
 		{
 			this.url   = route.url;

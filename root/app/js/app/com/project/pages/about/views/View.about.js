@@ -7,11 +7,6 @@ JSP.Views.about = (function($){
 
     //Public override
 
-	AboutView.prototype.$ = 
-	{
-		
-	};
-
 	AboutView.prototype.el = function()
 	{
 		

@@ -2,19 +2,20 @@ JSP.Pages = {};
 
 JSP.Page = (function(window){
 
-	function Page(){};
+	function Page(){
+		this.Model  = null;   //JSP.Model
+		this.Loader = null;   //JSP.Loader
+		this.View   = null;   //JSP.View
+		this.id     = "index";
+		this.events = {};
+		this.EVENT  = {
+			SHOWN : "shown",
+			HIDDEN: "hidden",
+		};
+	};
 
 	Page.prototype = 
 	{
-		Model  : null,   //JSP.Model
-		Loader : null,   //JSP.Loader
-		View   : null,   //JSP.View
-		id     : "index",
-		events   : {},
-		EVENT  : {
-			SHOWN : "shown",
-			HIDDEN: "hidden",
-		},
 		bind : function(name, f)
 		{
 			this.events[name] = new signals.Signal();

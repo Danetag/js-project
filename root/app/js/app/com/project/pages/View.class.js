@@ -2,18 +2,19 @@ JSP.Views = JSP.Views || {};
 
 JSP.View = (function($){
 
-	var View = function(){}
+	var View = function(){
+		this.$ = {
+
+		};
+		this.events   = {};
+		this.EVENT    = {
+			SHOWN    : "shown",
+			HIDDEN   : "hidden"
+		};
+	}
 
 	View.prototype = {
 
-		$ : {
-
-		},
-		events   : {},
-		EVENT    : {
-			SHOWN    : "shown",
-			HIDDEN   : "hidden"
-		},
 		bind : function(name, f)
 		{
 			this.events[name] = new signals.Signal();

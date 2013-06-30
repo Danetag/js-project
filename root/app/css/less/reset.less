@@ -4,6 +4,23 @@
 // --------------------------------------------------
 @import "mixins.less";
 
+/*** RESET ***/
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul, menu, dir {
+  display: block;
+  list-style-type: disc;
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0px;
+}
+
 // Display in IE6-9 and FF3
 // -------------------------
 
@@ -78,10 +95,7 @@ sub {
 
 img {
   /* Responsive images (ensure images don't scale beyond their parents) */
-  max-width: 100%; /* Part 1: Set a maxium relative to the parent */
-  width: auto\9; /* IE7-8 need help adjusting responsive images */
-  height: auto; /* Part 2: Scale the height according to the width, otherwise you get stretching */
-
+ 
   vertical-align: middle;
   border: 0;
   -ms-interpolation-mode: bicubic;
@@ -213,4 +227,41 @@ textarea {
   h3 {
     page-break-after: avoid;
   }
+}
+
+// Clearfix
+// --------
+// For clearing floats like a boss h5bp.com/q
+.clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+    // Fixes Opera/contenteditable bug:
+    // http://nicolasgallagher.com/micro-clearfix-hack/#comment-36952
+    line-height: 0;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// CSS image replacement
+// -------------------------
+// Source: https://github.com/h5bp/html5-boilerplate/commit/aa0396eae757
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+// Block level inputs
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: @inputHeight; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  .box-sizing(border-box); // Makes inputs behave like true block-level elements
 }

@@ -89,8 +89,9 @@ exports.template = function(grunt, init, done) {
     {
         var file = files[key];
 
-        
         if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
+
+            console.log("file", file);
 
             fs.readFile(file, 'utf8', function (err,data) {
 

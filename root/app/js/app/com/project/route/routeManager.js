@@ -1,4 +1,4 @@
-SNR.routeManager = {};
+JSP.routeManager = {};
 
 (function($){
 
@@ -73,7 +73,7 @@ SNR.routeManager = {};
 
 	    			//console.log("route", { url : pageLang.route, name : pageLang.label, id : id } )
 
-	    			var routeOject =  new SNR.Route();
+	    			var routeOject =  new JSP.Route();
 	    			routeOject.init.call( routeOject, { url : pageLang.route, name : pageLang.name, id : id }  );
 
 	    			this.routes[lang].push ( routeOject );
@@ -105,10 +105,10 @@ SNR.routeManager = {};
 	        		//console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
 					//ga('send', 'pageview', {'page': State.url,'title': State.title} );
 
-	        		//console.log("page to load", page, "hide it ", SNR.Pages[ this.current.id ])
-	        		SNR.Pages[ this.next.id ].init( this.next.id, this.next.name );
-	        		SNR.Pages[ this.next.id ].bind( SNR.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextLoaded.bind(this) );
-					SNR.Pages[ this.next.id ].load();
+	        		//console.log("page to load", page, "hide it ", JSP.Pages[ this.current.id ])
+	        		JSP.Pages[ this.next.id ].init( this.next.id, this.next.name );
+	        		JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextLoaded.bind(this) );
+					JSP.Pages[ this.next.id ].load();
 	        	}
 
 	    	}
@@ -120,25 +120,25 @@ SNR.routeManager = {};
 		},
 		nextLoaded : function()
 		{
-			SNR.Pages[ this.next.id ].unbind( SNR.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextLoaded.bind(this) );
+			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextLoaded.bind(this) );
 
 			//console.log("routemanager : hide the current one  " +this.current.id );
 
-			SNR.Pages[ this.current.id ].bind( SNR.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
-		    SNR.Pages[ this.current.id ].hide();
+			JSP.Pages[ this.current.id ].bind( JSP.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
+		    JSP.Pages[ this.current.id ].hide();
 		},
 		currentPageHidden : function()
 		{
-			SNR.Pages[ this.current.id ].unbind( SNR.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
-			SNR.Pages[ this.current.id ].unload();
+			JSP.Pages[ this.current.id ].unbind( JSP.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
+			JSP.Pages[ this.current.id ].unload();
 
 			//Show the next one
 			//console.log("routemanager : show " +this.next.id );
 
 
 
-			SNR.Pages[ this.next.id ].bind( SNR.Pages[ this.next.id ].EVENT.SHOWN, this.nextPageShow.bind(this) );
-			SNR.Pages[ this.next.id ].show();
+			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.SHOWN, this.nextPageShow.bind(this) );
+			JSP.Pages[ this.next.id ].show();
 
 		},
 		nextPageShow : function()
@@ -148,7 +148,7 @@ SNR.routeManager = {};
 		},
 	    getRoute : function(key, lang)
 	    {
-	    	var l = lang || SNR.conf.lang;
+	    	var l = lang || JSP.conf.lang;
 
 	    	for (var i in this.routes[l])
 	    	{
@@ -163,18 +163,18 @@ SNR.routeManager = {};
 	    getCurrentRoute : function(State)
 	    {
 
-	    	for(var i in this.routes[SNR.conf.lang] )
+	    	for(var i in this.routes[JSP.conf.lang] )
 	    	{
 	    		
-	    		if( State.url  == SNR.conf.baseUrl + this.routes[SNR.conf.lang][i].url )
+	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url )
 	    		{
-	    			return this.routes[SNR.conf.lang][i];
+	    			return this.routes[JSP.conf.lang][i];
 	    		}
 
 	    		//sec...
-	    		if( State.url  == SNR.conf.baseUrl + this.routes[SNR.conf.lang][i].url + "/")
+	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url + "/")
 	    		{
-	    			return this.routes[SNR.conf.lang][i];
+	    			return this.routes[JSP.conf.lang][i];
 	    		}
 	    	}
 
@@ -183,9 +183,9 @@ SNR.routeManager = {};
 	    getCurrentRouteObject : function()
 	    {
 
-	    	for(var i in this.routes[SNR.conf.lang] )
+	    	for(var i in this.routes[JSP.conf.lang] )
 	    	{
-	    		var route = this.routes[SNR.conf.lang][i];
+	    		var route = this.routes[JSP.conf.lang][i];
 
 	    		if( route.id  == this.current.id && route.name  == this.current.name  )
 	    		{
@@ -195,13 +195,13 @@ SNR.routeManager = {};
 	    },
 	    getCurrentPage : function()
 	    {
-	    	return SNR.pages[ this.current ];
+	    	return JSP.pages[ this.current ];
 	    },
 
 	    
 	};
 
-	SNR.routeManager = new RouteManager();
+	JSP.routeManager = new RouteManager();
 
 
 })(jQuery);

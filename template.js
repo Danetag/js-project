@@ -84,14 +84,15 @@ exports.template = function(grunt, init, done) {
     }
 
     //REPLACE NAMESPACE
-    var destPath = init.destpath();
-    var filesToReplace = fs.readdirSync(destPath + "/app/");
+    var destPath = init.destpath() + "/app/" ;
+    var filesToReplace = fs.readdirSync(destPath);
 
     //add the final path
     for(var i in filesToReplace)
     {
         var f = filesToReplace[i];
         f     = destPath + "/" + f;
+        console.log("f", f);
     }
 
     var _replaceNamespace = function(files)
@@ -118,7 +119,7 @@ exports.template = function(grunt, init, done) {
                     var f = filesToReplace[i];
                     f     = file + "/" + f;
                 }
-    
+
                 _replaceNamespace(filesToReplace);
             }
             else

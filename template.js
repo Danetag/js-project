@@ -69,7 +69,7 @@ exports.template = function(grunt, init, done) {
         }
 
         //REPLACE NAMESPACE
-        console.log("files", files)
+        console.log("file", file)
     }
 
     // Add properly-named license files.

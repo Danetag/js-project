@@ -102,20 +102,20 @@ exports.template = function(grunt, init, done) {
 
         for(var key in fls)
         {
-            var file = fls[key];
+            var fl = fls[key];
 
-            console.log("file to test", file);
+            console.log("file to test", fl);
 
-            if( fs.lstatSync(file).isDirectory() )
+            if( fs.lstatSync(fl).isDirectory() )
             {
-                console.log("file :: " +  file + " is a directory");
+                console.log("is dir :: " +  fl);
                 var filesToReplace = [], 
-                    fReadDirSync   = fs.readdirSync( file );
+                    fReadDirSync   = fs.readdirSync( fl );
 
                 for(var i in fReadDirSync)
                 {
                     var f = fReadDirSync[i];
-                    f     = file + "/" + f;
+                    f     = fl + "/" + f;
                     filesToReplace.push(f);
                 }
 
@@ -124,23 +124,24 @@ exports.template = function(grunt, init, done) {
             }
             else
             {
-                console.log("file :: " +  file + " is a file !");
-                
+               
                 //Isn't a directory
-                if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
+                if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
 
-                    fs.readFile(file, 'utf8', function (err,data) {
+                    console.log("is file to read :: " +  fl );
+
+                    fs.readFile(fl, 'utf8', function (err,data) {
 
                         if (err) {
-                            return console.log("error reading on " + file, err);
+                            return console.log("error reading on " + fl, err);
                         }
 
-                        console.log("replace JSP in", file);
+                        console.log("replace JSP in", fl);
 
                         var result = data.replace("/JSP/b", props.namespace);
 
-                        fs.writeFile(file, result, 'utf8', function (err) {
-                            if (err) return console.log("error writing on " + file, err);
+                        fs.writeFile(fl, result, 'utf8', function (err) {
+                            if (err) return console.log("error writing on " + fl, err);
                         });
                         
                     });

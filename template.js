@@ -67,6 +67,9 @@ exports.template = function(grunt, init, done) {
             excludedFiles[key] = file;
             delete files[key];
         }
+
+        //REPLACE NAMESPACE
+        console.log("files", files)
     }
 
     // Add properly-named license files.
@@ -109,6 +112,7 @@ exports.template = function(grunt, init, done) {
         return pkg;
     });
 
+    /*
     // Install all the npm modules necessary
     console.log("Installing npm modules...");
 
@@ -118,6 +122,8 @@ exports.template = function(grunt, init, done) {
         }
         done();
     });
+
+*/
 
   });
 

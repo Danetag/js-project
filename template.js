@@ -102,7 +102,7 @@ exports.template = function(grunt, init, done) {
 
         for(var key in fls)
         {
-            var file = path + fls[key];
+            var file = fls[key];
 
             console.log("file to test", file);
 

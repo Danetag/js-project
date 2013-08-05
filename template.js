@@ -194,23 +194,28 @@ exports.template = function(grunt, init, done) {
                 return console.log("error reading on " + fl, err);
             }
 
-            console.log("replacing ... ", props.namespace);
-
-            var result = data.replace("JSP", props.namespace);
-
-            fs.writeFile(fl, result, 'utf8', function (err) {
-
-                indexFinal++;
-
-                if( indexFinal < filesFinal.length)
-                   _readFile();
-
-                if (err) return console.log("error writing on " + fl, err);
-
-
-            });
-
             
+            var myRegex = /JSP/;
+
+            if (myRegex.test(data)) {
+
+                console.log("replacing ... ", props.namespace);
+                
+                var result = data.replace("/JSP/", props.namespace);
+
+                fs.writeFile(fl, result, 'utf8', function (err) {
+
+                    indexFinal++;
+
+                    if( indexFinal < filesFinal.length)
+                       _readFile();
+
+                    if (err) return console.log("error writing on " + fl, err);
+
+
+                });
+
+            }
 
         });
     }

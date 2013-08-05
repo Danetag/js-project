@@ -98,7 +98,7 @@ exports.template = function(grunt, init, done) {
 
     var _replaceNamespace = function(fls)
     {
-        console.log("files", fls);
+        //console.log("files", fls);
 
         for(var key in fls)
         {
@@ -108,7 +108,7 @@ exports.template = function(grunt, init, done) {
 
             if( fs.lstatSync(fl).isDirectory() )
             {
-                console.log("is dir :: " +  fl);
+                //console.log("is dir :: " +  fl);
                 var filesToReplace = [], 
                     fReadDirSync   = fs.readdirSync( fl );
 

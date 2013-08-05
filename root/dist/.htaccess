@@ -1,11 +1,6 @@
 # ----------------------------------------------------------------------
 # Password
 # ----------------------------------------------------------------------
-#AuthUserFile /opt/data/soniaby/.htpasswd
-#AuthGroupFile /dev/null
-#AuthName "Acces Restreint"
-#AuthType Basic
-#require valid-user
 
 # ----------------------------------------------------------------------
 # Rewriting

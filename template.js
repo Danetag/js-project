@@ -170,10 +170,39 @@ exports.template = function(grunt, init, done) {
     }
 
     
-     _replaceNamespace(filesToReplace);
-
-     console.log("filesFinal", filesFinal)
+    _replaceNamespace(filesToReplace);
     
+    console.log("filesFinal", filesFinal)
+    
+    for(var i in filesFinal)
+    {
+        var f  = filesFinal[i];
+        var fl = f.path;
+
+        fs.readFile(fl, 'utf8', function (err,data) {
+
+            console.log("reading :: " , fl);
+
+            if( f.explored )
+                return;
+
+            f.explored = true;
+
+            if (err) {
+                //return console.log("error reading on " + fl, err);
+            }
+
+            var result = data.replace("/JSP/g", props.namespace);
+
+            fs.writeFile(fl, result, 'utf8', function (err) {
+                if (err) return console.log("error writing on " + fl, err);
+            });
+
+            
+
+        });
+
+    }
     
     
 

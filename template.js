@@ -91,42 +91,39 @@ exports.template = function(grunt, init, done) {
     var _replaceNamespace = function(files)
     {
         console.log("files", files);
-        
-        if( fs.lstatSync(files).isDirectory() )
-        {
-            var filesToReplace = fs.readdirSync( files );
-            _replaceNamespace(filesToReplace);
-            return;
-        }
-
-
-
-        //Isn't a directory
 
         for(var key in files)
         {
             var file = files[key];
 
-            if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
-
-                console.log("file", file);
-
-                fs.readFile(file, 'utf8', function (err,data) {
-
-                    if (err) {
-                        return console.log("error reading on " + file, err);
-                    }
-
-                    var result = data.replace(/JSP/g, props.namespace);
-
-                    fs.writeFile(file, result, 'utf8', function (err) {
-                        if (err) return console.log("error writing on " + file, err);
-                    });
-                    
-                });
-
+            if( fs.lstatSync(file).isDirectory() )
+            {
+                var filesToReplace = fs.readdirSync( file );
+                _replaceNamespace(filesToReplace);
             }
+            else
+            {
+                 //Isn't a directory
+                if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
 
+                    console.log("file", file);
+
+                    fs.readFile(file, 'utf8', function (err,data) {
+
+                        if (err) {
+                            return console.log("error reading on " + file, err);
+                        }
+
+                        var result = data.replace(/JSP/g, props.namespace);
+
+                        fs.writeFile(file, result, 'utf8', function (err) {
+                            if (err) return console.log("error writing on " + file, err);
+                        });
+                        
+                    });
+
+                }
+            }
             
         }
 

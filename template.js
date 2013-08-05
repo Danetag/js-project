@@ -96,14 +96,18 @@ exports.template = function(grunt, init, done) {
         {
             var file = files[key];
 
+            console.log("file to test", file);
+
             if( fs.lstatSync(file).isDirectory() )
             {
+                console.log("file :: " +  file + " is a directory");
                 var filesToReplace = fs.readdirSync( file );
                 _replaceNamespace(filesToReplace);
             }
             else
             {
-                 //Isn't a directory
+                console.log("file :: " +  file + " is a file !");
+                //Isn't a directory
                 if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
 
                     console.log("file", file);

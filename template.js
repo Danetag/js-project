@@ -81,7 +81,7 @@ exports.template = function(grunt, init, done) {
                 var result = data.replace(/JSP/g, props.namespace);
 
                 fs.writeFile(file, result, 'utf8', function (err) {
-                    if (err) return console.log(err);
+                    if (err) return console.log("error on " + file, err);
                 });
                 
             });

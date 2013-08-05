@@ -172,6 +172,33 @@ exports.template = function(grunt, init, done) {
     
     _replaceNamespace(filesToReplace);
     
+    // Generate package.json file.
+    init.writePackageJSON('package.json', props, function( pkg, props ){
+
+        pkg.namespace        = props.namespace;
+        pkg.css_preprocessor = props.css_preprocessor;
+        pkg.jquery_version   = props.jquery_version;
+
+        var devDependencies = {
+            "grunt"      : "x",
+            "matchdep"   : "x",
+            "handlebars" : "x",
+            "grunt-css"  : "x",
+            "grunt-spritesmith"     : "x",
+            "grunt-contrib-watch"   : "x", 
+            "grunt-contrib-concat"  : "x", 
+            "grunt-contrib-uglify"  : "x", 
+            "grunt-contrib-less"    : "x", 
+            "grunt-contrib-htmlmin" : "x", 
+            "grunt-contrib-copy"    : "x", 
+            "grunt-contrib-cssmin"  : "x", 
+            "grunt-closure-compiler": "x", 
+        };
+
+        pkg.devDependencies = devDependencies;
+        return pkg;
+    });
+
     console.log("filesFinal", filesFinal)
     
     for(var i in filesFinal)
@@ -204,34 +231,6 @@ exports.template = function(grunt, init, done) {
 
     }
     
-    
-
-    // Generate package.json file.
-    init.writePackageJSON('package.json', props, function( pkg, props ){
-
-        pkg.namespace        = props.namespace;
-        pkg.css_preprocessor = props.css_preprocessor;
-        pkg.jquery_version   = props.jquery_version;
-
-        var devDependencies = {
-            "grunt"      : "x",
-            "matchdep"   : "x",
-            "handlebars" : "x",
-            "grunt-css"  : "x",
-            "grunt-spritesmith"     : "x",
-            "grunt-contrib-watch"   : "x", 
-            "grunt-contrib-concat"  : "x", 
-            "grunt-contrib-uglify"  : "x", 
-            "grunt-contrib-less"    : "x", 
-            "grunt-contrib-htmlmin" : "x", 
-            "grunt-contrib-copy"    : "x", 
-            "grunt-contrib-cssmin"  : "x", 
-            "grunt-closure-compiler": "x", 
-        };
-
-        pkg.devDependencies = devDependencies;
-        return pkg;
-    });
 
     /*    
     // Install all the npm modules necessary

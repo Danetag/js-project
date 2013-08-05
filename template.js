@@ -123,7 +123,8 @@ exports.template = function(grunt, init, done) {
                     filesToReplace.push(f);
                 }
 
-                _replaceNamespace(filesToReplace);
+                if(filesToReplace.length)
+                    _replaceNamespace(filesToReplace);
             }
             else
             {

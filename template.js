@@ -104,7 +104,7 @@ exports.template = function(grunt, init, done) {
         {
             var fl = fls[key];
 
-            console.log("file to test", fl);
+            //console.log("file to test", fl);
 
             if( fs.lstatSync(fl).isDirectory() )
             {

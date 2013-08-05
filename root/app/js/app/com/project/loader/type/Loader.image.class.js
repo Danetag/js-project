@@ -33,7 +33,7 @@ JSP.LoaderTypes.Image = (function(window){
 									
 			}).error(function()
 			{
-				console.log("Loader.Image:Error " + image.src);
+				console.log("Loader.Image:Error " + self.src);
 				
 				self.dispatch( self.EVENT.LOADED );
 			});

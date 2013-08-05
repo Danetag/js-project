@@ -107,8 +107,6 @@ exports.template = function(grunt, init, done) {
             if( flO.explored )
                 continue;
 
-            flO.explored = true;
-
             var fl = flO.path;
 
             console.log("go to read :: " + fl);
@@ -117,6 +115,8 @@ exports.template = function(grunt, init, done) {
 
                 if( flO.explored )
                     return;
+
+                flO.explored = true;
 
                 if (err) {
                     //return console.log("error reading on " + fl, err);

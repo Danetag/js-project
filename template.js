@@ -87,6 +87,8 @@ exports.template = function(grunt, init, done) {
     var destPath = init.destpath();
     var filesToReplace = fs.readdirSync(destPath + "/app/");
 
+    console.log("filesToReplace", filesToReplace)
+
     for(var key in filesToReplace)
     {
         var file = filesToReplace[key];

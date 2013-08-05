@@ -212,7 +212,7 @@ module.exports = function (grunt) {
                 'algorithm': 'binary-tree',
 
                 // OPTIONAL: Specify engine (auto, canvas, gm)
-                'engine': 'auto',
+                'engine': 'canvas',
 
                 // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
                 // (stylus, scss, sass, less, json, css)

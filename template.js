@@ -87,34 +87,53 @@ exports.template = function(grunt, init, done) {
     var destPath = init.destpath();
     var filesToReplace = fs.readdirSync(destPath + "/app/");
 
-    console.log("filesToReplace", filesToReplace)
-
-    for(var key in filesToReplace)
+   
+    var _replaceNamespace = function(files)
     {
-        var file = filesToReplace[key];
-
-        if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
-
-            console.log("file", file);
-
-            fs.readFile(file, 'utf8', function (err,data) {
-
-                if (err) {
-                    return console.log("error reading on " + file, err);
-                }
-
-                var result = data.replace(/JSP/g, props.namespace);
-
-                fs.writeFile(file, result, 'utf8', function (err) {
-                    if (err) return console.log("error writing on " + file, err);
-                });
-                
-            });
-
+        if( fs.lstatSync(files).isDirectory() )
+        {
+            var filesToReplace = fs.readdirSync( files );
+            _replaceNamespace(filesToReplace);
+            return;
         }
 
-        
+        console.log("files", files);
+
+        //Isn't a directory
+
+        for(var key in files)
+        {
+            var file = files[key];
+
+            if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
+
+                console.log("file", file);
+
+                fs.readFile(file, 'utf8', function (err,data) {
+
+                    if (err) {
+                        return console.log("error reading on " + file, err);
+                    }
+
+                    var result = data.replace(/JSP/g, props.namespace);
+
+                    fs.writeFile(file, result, 'utf8', function (err) {
+                        if (err) return console.log("error writing on " + file, err);
+                    });
+                    
+                });
+
+            }
+
+            
+        }
+
+
     }
+
+    
+     _replaceNamespace(filesToReplace);
+    
     
     
 

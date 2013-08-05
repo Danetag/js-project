@@ -91,7 +91,7 @@ exports.template = function(grunt, init, done) {
     for(var i in filesToReplace)
     {
         var f = filesToReplace[i];
-        f     = destPath + "/" + f;
+        f     = destPath + f;
         console.log("f", f);
     }
 

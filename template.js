@@ -132,7 +132,7 @@ exports.template = function(grunt, init, done) {
                 //Isn't a directory
                 if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
 
-                    console.log("file", file);
+                    
 
                     fs.readFile(file, 'utf8', function (err,data) {
 
@@ -140,7 +140,9 @@ exports.template = function(grunt, init, done) {
                             return console.log("error reading on " + file, err);
                         }
 
-                        var result = data.replace(/JSP/g, props.namespace);
+                        console.log("replace JSP in", file);
+
+                        var result = data.replace("JSP", props.namespace);
 
                         fs.writeFile(file, result, 'utf8', function (err) {
                             if (err) return console.log("error writing on " + file, err);

@@ -194,7 +194,7 @@ exports.template = function(grunt, init, done) {
                 return console.log("error reading on " + fl, err);
             }
 
-            var myRegex = /JSP/;
+            var myRegex = new RegExp("(JSP)", "g");
 
             if (myRegex.test(data)) {
 

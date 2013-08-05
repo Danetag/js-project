@@ -88,13 +88,13 @@ exports.template = function(grunt, init, done) {
     var filesToReplace = fs.readdirSync(destPath + "/app/");
 
    
-    var _replaceNamespace = function(files)
+    var _replaceNamespace = function(files, path)
     {
         console.log("files", files);
 
         for(var key in files)
         {
-            var file = files[key];
+            var file = path + files[key];
 
             console.log("file to test", file);
 
@@ -139,7 +139,7 @@ exports.template = function(grunt, init, done) {
     }
 
     
-     _replaceNamespace(filesToReplace);
+     _replaceNamespace(filesToReplace, destPath);
     
     
     

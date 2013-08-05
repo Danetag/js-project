@@ -90,6 +90,8 @@ exports.template = function(grunt, init, done) {
    
     var _replaceNamespace = function(files)
     {
+        console.log("files", files);
+        
         if( fs.lstatSync(files).isDirectory() )
         {
             var filesToReplace = fs.readdirSync( files );
@@ -97,7 +99,7 @@ exports.template = function(grunt, init, done) {
             return;
         }
 
-        console.log("files", files);
+
 
         //Isn't a directory
 

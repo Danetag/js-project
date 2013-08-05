@@ -104,10 +104,12 @@ exports.template = function(grunt, init, done) {
         {
             var fl = fls[key];
 
+            console.log("go to read :: " + fl);
+            
             fs.readFile(fl, 'utf8', function (err,data) {
 
                 if (err) {
-                    return console.log("error reading on " + fl, err);
+                    //return console.log("error reading on " + fl, err);
                 }
 
                 if( fs.lstatSync(fl).isDirectory() )
@@ -138,7 +140,7 @@ exports.template = function(grunt, init, done) {
                     
                     console.log("replace JSP in", fl);
 
-                    var result = data.replace("/JSP/b", props.namespace);
+                    var result = data.replace("/JSP/g", props.namespace);
 
                     fs.writeFile(fl, result, 'utf8', function (err) {
                         if (err) return console.log("error writing on " + fl, err);

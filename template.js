@@ -86,6 +86,7 @@ exports.template = function(grunt, init, done) {
     //REPLACE NAMESPACE
     var destPath = init.destpath() + "/app/" ;
     var filesToReplace = [], 
+        indexFinal     = 0,
         filesFinal     = [],
         fReadDirSync   = fs.readdirSync(destPath);
 
@@ -172,6 +173,48 @@ exports.template = function(grunt, init, done) {
     
     _replaceNamespace(filesToReplace);
     
+
+    console.log("filesFinal", filesFinal)
+
+    var _readFile = function()
+    {
+        var f  = filesFinal[indexFinal];
+        var fl = f.path;
+
+        fs.readFile(fl, 'utf8', function (err,data) {
+
+            console.log("reading :: " , fl);
+
+            if( f.explored )
+                return;
+
+            f.explored = true;
+
+            if (err) {
+                return console.log("error reading on " + fl, err);
+            }
+
+            var result = data.replace("/JSP/g", props.namespace);
+
+            fs.writeFile(fl, result, 'utf8', function (err) {
+
+                indexFinal++;
+
+                if( indexFinal < filesFinal.length)
+                   _readFile();
+
+                if (err) return console.log("error writing on " + fl, err);
+
+
+            });
+
+            
+
+        });
+    }
+    
+
+
     // Generate package.json file.
     init.writePackageJSON('package.json', props, function( pkg, props ){
 
@@ -199,38 +242,7 @@ exports.template = function(grunt, init, done) {
         return pkg;
     });
 
-    console.log("filesFinal", filesFinal)
-    
-    for(var i in filesFinal)
-    {
-        var f  = filesFinal[i];
-        var fl = f.path;
-
-        fs.readFile(fl, 'utf8', function (err,data) {
-
-            console.log("reading :: " , fl);
-
-            if( f.explored )
-                return;
-
-            f.explored = true;
-
-            if (err) {
-                //return console.log("error reading on " + fl, err);
-            }
-
-            var result = data.replace("/JSP/g", props.namespace);
-
-            fs.writeFile(fl, result, 'utf8', function (err) {
-                if (err) return console.log("error writing on " + fl, err);
-            });
-
-            
-
-        });
-
-    }
-    
+   
 
     /*    
     // Install all the npm modules necessary

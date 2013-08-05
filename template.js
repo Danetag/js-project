@@ -68,8 +68,28 @@ exports.template = function(grunt, init, done) {
             excludedFiles[key] = file;
             delete files[key];
         }
+        
+    }
 
-        //REPLACE NAMESPACE
+    // Add properly-named license files.
+    init.addLicenseFiles(files, props.licenses);
+
+    // Actually copy (and process) files.
+    init.copyAndProcess(files, props);
+
+    // Only copy excluded files.
+    for(var src in excludedFiles)
+    {
+        init.copy(src);
+    }
+
+    //REPLACE NAMESPACE
+
+    for(var key in files)
+    {
+        var file = files[key];
+
+        
         if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
 
             fs.readFile(file, 'utf8', function (err,data) {
@@ -86,23 +106,9 @@ exports.template = function(grunt, init, done) {
                 
             });
 
-            
-            //console.log("file", grunt.file.read(file))
         }
 
         
-    }
-
-    // Add properly-named license files.
-    init.addLicenseFiles(files, props.licenses);
-
-    // Actually copy (and process) files.
-    init.copyAndProcess(files, props);
-
-    // Only copy excluded files.
-    for(var src in excludedFiles)
-    {
-        init.copy(src);
     }
     
 

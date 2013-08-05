@@ -84,7 +84,7 @@ exports.template = function(grunt, init, done) {
     }
 
     //REPLACE NAMESPACE
-
+    console.log("init.destpath()", init.destpath())
     for(var key in files)
     {
         var file = files[key];
@@ -140,7 +140,7 @@ exports.template = function(grunt, init, done) {
         return pkg;
     });
 
-    /*
+    
     // Install all the npm modules necessary
     console.log("Installing npm modules...");
 
@@ -148,10 +148,12 @@ exports.template = function(grunt, init, done) {
         if (error !== null) {
             console.log('exec error: ' + error);
         }
+
+        _rename
         done();
     });
 
-*/
+
 
   });
 

@@ -1,8 +1,8 @@
-SNR.LoaderTypes.Audio = (function(window){
+JSP.LoaderTypes.Audio = (function(window){
 
-    function LoaderAudio(){ SNR.LoaderType.call(this); }
+    function LoaderAudio(){ JSP.LoaderType.call(this); }
 
-    LoaderAudio.prototype = Object.create(SNR.LoaderType.prototype);
+    LoaderAudio.prototype = Object.create(JSP.LoaderType.prototype);
 	LoaderAudio.prototype.constructor = LoaderAudio;
 
     //Public override
@@ -19,7 +19,7 @@ SNR.LoaderTypes.Audio = (function(window){
 
     	var self = this;
 
-    	var context = SNR.soundManager.context;
+    	var context = JSP.soundManager.context;
 
 		if(context == null)
 		{

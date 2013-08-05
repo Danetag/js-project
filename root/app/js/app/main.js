@@ -69,7 +69,7 @@ JSP.main = {};
 })(jQuery);
 
 
-//SNR["main"] = JSP.main;
+//JSP["main"] = JSP.main;
 //JSP.main["onReady"] = JSP.main.onReady;
 
 

@@ -1,4 +1,4 @@
-SNR.dataManager = {};
+JSP.dataManager = {};
 
 (function($){
 
@@ -32,11 +32,11 @@ SNR.dataManager = {};
                 if( name == "homepage")
                     continue;
 
-                var name   = page[ SNR.conf.lang ].name;
-                var url    = page[ SNR.conf.lang ].route;
-                var assets = page[ SNR.conf.lang ].assets;
+                var name   = page[ JSP.conf.lang ].name;
+                var url    = page[ JSP.conf.lang ].route;
+                var assets = page[ JSP.conf.lang ].assets;
 
-                var Model =  new SNR.Model();
+                var Model =  new JSP.Model();
                 Model.init.call( Model, name, url, assets );
 
                 this.add(page.id, Model);
@@ -68,6 +68,6 @@ SNR.dataManager = {};
 	    
 	};
 
-    SNR.dataManager = new dataManager();
+    JSP.dataManager = new dataManager();
 
 })(jQuery);

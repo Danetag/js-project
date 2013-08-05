@@ -41,7 +41,7 @@ JSP.Pages.main = (function($){
 		var currentPage = JSP.Pages[ JSP.routeManager.current.id ];
 
 		//init View of current Page. No need to Load
-		currentPage.init( JSP.routeManager.current.id, SNR.routeManager.current.name );
+		currentPage.init( JSP.routeManager.current.id, JSP.routeManager.current.name );
 		currentPage.initView();
 
 		this.Loader.bind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.hidden.bind(this) );

@@ -1,8 +1,8 @@
-SNR.LoaderTypes.Data = (function(window){
+JSP.LoaderTypes.Data = (function(window){
 
-    function LoaderData(){ SNR.LoaderType.call(this); }
+    function LoaderData(){ JSP.LoaderType.call(this); }
 
-    LoaderData.prototype = Object.create(SNR.LoaderType.prototype);
+    LoaderData.prototype = Object.create(JSP.LoaderType.prototype);
 	LoaderData.prototype.constructor = LoaderData;
 
     //Public override

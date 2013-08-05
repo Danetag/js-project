@@ -1,4 +1,4 @@
-SNR.Loader = (function(window){
+JSP.Loader = (function(window){
 
 	function Loader(){
 
@@ -85,7 +85,7 @@ SNR.Loader = (function(window){
 		add    : function(aItems) //{src : "/img/test.jpg", type : "image"}
 		{
 
-			//Convert Objects to SNR.LoaderType
+			//Convert Objects to JSP.LoaderType
 
 			for(var i in aItems)
             {
@@ -101,9 +101,9 @@ SNR.Loader = (function(window){
 
                 switch(oToLoad.type)
                 {
-                    case "image" : loadObject = new SNR.LoaderTypes.Image();  break;
-                    case "audio" : loadObject = new SNR.LoaderTypes.Audio();  break;
-                    case "data"  : loadObject = new SNR.LoaderTypes.Data();  break;
+                    case "image" : loadObject = new JSP.LoaderTypes.Image();  break;
+                    case "audio" : loadObject = new JSP.LoaderTypes.Audio();  break;
+                    case "data"  : loadObject = new JSP.LoaderTypes.Data();  break;
                 }
 
                 loadObject.init.call(loadObject, oToLoad);
@@ -149,7 +149,7 @@ SNR.Loader = (function(window){
 	    	this.dispatch( this.EVENT.STARTED );
 
 	    	if( this.loaderView == null )
-	    		this.loaderView = new SNR.LoaderViews.Main(); //basic
+	    		this.loaderView = new JSP.LoaderViews.Main(); //basic
 
 	    	this.initLoaderView();
 	    	

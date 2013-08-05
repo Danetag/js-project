@@ -13,7 +13,7 @@ JSP.conf = {
 
 	//init
 	Modernizr.Detectizr.detect();
-	SNR.conf.device = Modernizr.Detectizr.device;
+	JSP.conf.device = Modernizr.Detectizr.device;
 
 })(window);
 

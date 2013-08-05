@@ -1,4 +1,4 @@
-SNR.Route = (function(window){
+JSP.Route = (function(window){
 
 	function Route(){
 		this.url  = null;

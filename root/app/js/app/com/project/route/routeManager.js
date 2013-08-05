@@ -103,7 +103,7 @@ SNR.routeManager = {};
 
 	        		//GA
 	        		//console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
-					ga('send', 'pageview', {'page': State.url,'title': State.title} );
+					//ga('send', 'pageview', {'page': State.url,'title': State.title} );
 
 	        		//console.log("page to load", page, "hide it ", SNR.Pages[ this.current.id ])
 	        		SNR.Pages[ this.next.id ].init( this.next.id, this.next.name );

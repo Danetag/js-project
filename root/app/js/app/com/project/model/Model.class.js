@@ -1,4 +1,4 @@
-SNR.Model = (function(window){
+JSP.Model = (function(window){
 
 	function Model(){
 		this._data  = {};

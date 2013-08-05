@@ -1,6 +1,6 @@
-SNR.LoaderTypes = {};
+JSP.LoaderTypes = {};
 
-SNR.LoaderType = (function(window){
+JSP.LoaderType = (function(window){
 
 	function LoaderType(){
 		this.src      = null;

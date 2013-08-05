@@ -1,8 +1,8 @@
-SNR.LoaderTypes.Image = (function(window){
+JSP.LoaderTypes.Image = (function(window){
 
-    function LoaderImage(){ SNR.LoaderType.call(this); }
+    function LoaderImage(){ JSP.LoaderType.call(this); }
 
-    LoaderImage.prototype = Object.create(SNR.LoaderType.prototype);
+    LoaderImage.prototype = Object.create(JSP.LoaderType.prototype);
 	LoaderImage.prototype.constructor = LoaderImage;
 
     //Public override

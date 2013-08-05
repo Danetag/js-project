@@ -35,6 +35,17 @@ module.exports = function (grunt) {
     var pages = { pages : {} };
     var menu   = {};
 
+    var getPageInJSON = function(name)
+    {
+        for(var i in dataPages.pages)
+        {
+            var p = dataPages.pages[i];
+
+            if(p.name == name)
+                return p;
+        }
+    }
+
     /* Page for Handlebars */
 
     var Handlebars  = require('handlebars');
@@ -72,13 +83,7 @@ module.exports = function (grunt) {
             name      : page.name,
             tplFolder : config.app + "/tpl/",
             partials  : page.partials || {},
-            src       : config.app + "/tpl/" + page.tpl, 
-            /* // Dest are generated from datas !
-            dest      : {
-                app  : config.app  + "/" + page.html, 
-                dist : config.dist + "/" + page.html
-            },
-            */
+            src       : config.app + "/tpl/" + page.tpl,
             data      : page.data ,
             hasLayout : page.hasLayout || true
         });
@@ -103,6 +108,7 @@ module.exports = function (grunt) {
 
         }
 
+        pageJS.id = page.id;
         pages.pages[page.name] = pageJS;
 
     }

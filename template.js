@@ -8,6 +8,7 @@
 'use strict';
 
 var exec = require('child_process').exec, 
+    fs = require('fs'),
     child;
 
 // Basic template description.
@@ -62,18 +63,31 @@ exports.template = function(grunt, init, done) {
     {
         var file = files[key];
 
-        if(file.indexOf(".gitignore") != -1 
-            || file.indexOf(".jar") != -1 
-            || file.indexOf(".png") != -1 
-            || file.indexOf(".jpg") != -1 
-            || file.indexOf(".gif") != -1 )
+        if( file.indexOf(".jar") != -1 || file.indexOf(".png") != -1 || file.indexOf(".jpg") != -1 || file.indexOf(".gif") != -1 )
         {
             excludedFiles[key] = file;
             delete files[key];
         }
-        else{
-            //REPLACE NAMESPACE
-            console.log("file", grunt.file.read(file))
+
+        //REPLACE NAMESPACE
+        if ( file.indexOf(".hbs") || file.indexOf(".js") ) {
+
+            fs.readFile(file, 'utf8', function (err,data) {
+
+                if (err) {
+                    return console.log(err);
+                }
+
+                var result = data.replace(/JSP/g, props.namespace);
+
+                fs.writeFile(file, result, 'utf8', function (err) {
+                    if (err) return console.log(err);
+                });
+                
+            });
+
+            
+            //console.log("file", grunt.file.read(file))
         }
 
         

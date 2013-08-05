@@ -98,14 +98,14 @@ exports.template = function(grunt, init, done) {
 
     var _replaceNamespace = function(fls)
     {
-        //console.log("files", fls);
+        console.log("files", fls);
 
         for(var key in fls)
         {
             var fl = fls[key];
 
             console.log("go to read :: " + fl);
-            
+
             fs.readFile(fl, 'utf8', function (err,data) {
 
                 if (err) {

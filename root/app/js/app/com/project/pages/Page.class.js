@@ -75,7 +75,7 @@ JSP.Page = (function(window){
 			
 			this.View.bind( this.View.EVENT.INIT, this.onViewInit.bind(this));
 
-			this.View.init();
+			this.View.init( { id : this.id, name : this.name, Model : this.Model} );
 		},
 		onViewInit : function()
 		{

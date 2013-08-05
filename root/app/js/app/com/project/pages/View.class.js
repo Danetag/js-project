@@ -4,7 +4,7 @@ JSP.View = (function($){
 
 	var View = function(){
 		this.$ = {
-
+			page   : null
 		};
 		this.events   = {};
 		this.EVENT    = {
@@ -13,6 +13,11 @@ JSP.View = (function($){
 			HIDDEN   : "hidden",
 			INIT_TABLET : "InitTablet"
 		};
+
+
+		this.id    = null;
+		this.name  = null;
+		this.Model = null;
 	}
 
 	View.prototype = {
@@ -51,8 +56,12 @@ JSP.View = (function($){
 
 		},
 
-		init : function()
+		init : function(o)
 		{
+			this.id    = o.id;
+			this.name  = o.name;
+			this.Model = o.Model;
+
 			this.el();
 			this.bindEvents();
 			this.dispatch(this.EVENT.INIT);
@@ -60,6 +69,16 @@ JSP.View = (function($){
 		el : function()
 		{
 
+			this.$.page = $("#page-" + this.name );
+
+			if( this.$.page[0] == undefined) //no fiche
+			{
+				//inject HTML
+				$("#content").append( this.Model.get("html") );
+				
+				this.$.page = $("#page-" + this.name);
+
+			}
 		},
 		bindEvents : function()
 		{
@@ -76,10 +95,14 @@ JSP.View = (function($){
 		hide : function()
 		{
 			this.dispatch( this.EVENT.HIDDEN );
+			this.destroy();
 		},
-		update : function()
+		destroy : function() 
 		{
-			
+			this.unbindEvents();
+
+			this.$.page.remove();
+			this.$ = {};
 		}
 
 	};

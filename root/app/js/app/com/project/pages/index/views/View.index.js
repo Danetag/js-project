@@ -7,13 +7,6 @@ JSP.Views.index = (function($){
 
     //Public override
 
-	IndexView.prototype.el = function()
-	{
-		this.$ = {
-			
-		}
-	}
-
 	IndexView.prototype.bindEvents = function()
 	{
 		

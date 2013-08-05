@@ -62,7 +62,7 @@ exports.template = function(grunt, init, done) {
     {
         var file = files[key];
 
-        if(file.indexOf(".jar") != -1)
+        if(file.indexOf(".jar") != -1 || file.indexOf(".png") != -1 || file.indexOf(".jpg") != -1 || file.indexOf(".gif") != -1 )
         {
             excludedFiles[key] = file;
             delete files[key];

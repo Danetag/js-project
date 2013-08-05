@@ -369,10 +369,12 @@ module.exports = function (grunt) {
                 /* CSS/JS */
                 data.aCSS    = tplCommon.css["app"];
                 data.aJS     = tplCommon.js["app"];
-                data.translate       = tplCommon.translate[lang];
-                data.translateByKey  = tplCommon.translateByKey[lang];
-                data.nbItemtranslate = tplCommon.translate[lang].length - 1;
-                data.nbScripts       = data.aJS.length - 1;
+
+                data.translateJS       = tplCommon.translateJS[lang];
+                data.nbItemtranslateJS = tplCommon.translateJS[lang].length - 1;
+
+                data.translate   = tplCommon.translate[lang];
+                data.nbScripts   = data.aJS.length - 1;
 
                 data.lang    = lang;
                 data.menu    = menu;

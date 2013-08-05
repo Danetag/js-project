@@ -16,8 +16,8 @@
 
 		JSP.conf.lang = "{{lang}}";
 		JSP.conf.translate = {
-			{{#each translate}}
-				"{{key}}" : "{{value}}" {{#ifCond @index "<" ../nbItemtranslate}} , {{/ifCond}}
+			{{#each translateJS}}
+				"{{key}}" : "{{value}}" {{#ifCond @index "<" ../nbItemtranslateJS}} , {{/ifCond}}
 			{{/each}}
 		};
 

@@ -1,8 +1,8 @@
-JSP.LoaderTypes.Data = (function(window){
+SNR.LoaderTypes.Data = (function(window){
 
-    function LoaderData(){ JSP.LoaderType.call(this); }
+    function LoaderData(){ SNR.LoaderType.call(this); }
 
-    LoaderData.prototype = Object.create(JSP.LoaderType.prototype);
+    LoaderData.prototype = Object.create(SNR.LoaderType.prototype);
 	LoaderData.prototype.constructor = LoaderData;
 
     //Public override
@@ -14,7 +14,15 @@ JSP.LoaderTypes.Data = (function(window){
     	$.ajax({
 			url : this.src,
 			success: function(data) {
-				self.data = $(data).filter("#content").html();
+
+				var $data = $(data).filter(self.filter);
+
+				if(self.find)
+				{
+					$data = $data.find(self.find);
+				}
+
+				self.data = $data.html();
 				self.dispatch( self.EVENT.LOADED );
 			},
 			error: function (xhr, ajaxOptions, thrownError) {

@@ -8,8 +8,10 @@ JSP.View = (function($){
 		};
 		this.events   = {};
 		this.EVENT    = {
+			INIT     : "init",
 			SHOWN    : "shown",
-			HIDDEN   : "hidden"
+			HIDDEN   : "hidden",
+			INIT_TABLET : "InitTablet"
 		};
 	}
 
@@ -23,9 +25,15 @@ JSP.View = (function($){
 		unbind : function(name, f)
 		{
 			if(f != undefined)
+			{
 				this.events[name].remove(f);
+				delete this.events[name];
+			}	
 			else if( name != undefined)
+			{
 				this.events[name].removeAll();
+				delete this.events[name];
+			}	
 			else
 			{
 				for(var name in this.events)
@@ -47,6 +55,7 @@ JSP.View = (function($){
 		{
 			this.el();
 			this.bindEvents();
+			this.dispatch(this.EVENT.INIT);
 		},
 		el : function()
 		{

@@ -52,11 +52,32 @@
 			"dist" : [
 
 			]
+		},
+		"translateJS" : {
+			"en" :[
+				{ "key" : "skipIntro", "value" : "Skip Intro" }
+			],
+			"fr" :[
+				{ "key" : "skipIntro", "value" : "Passer l'intro" }
+			]
+		},
+		"translate" : {
+			"en" :{
+				"legals" : "Legals" ,
+				"stores" : "Stores",
+				"sound" : "Sound"
+			},
+			"fr" :{
+				"legals" : "Mentions légales" ,
+				"stores" : "Boutiques",
+				"sound" : "Son"
+			}
 		}
 	},
 	"pages" : [
 		{
 			"name"    : "homepage",
+			"id"      : "homepage",
 			"tpl"     : "homepage.hbs",
 			"hasLayout" : false,
 			"partial" : {
@@ -85,6 +106,7 @@
 
 		{
 			"name"    : "index",
+			"id"      : "index",
 			"tpl"     : "index.hbs",
 			"partial" : {
 
@@ -133,6 +155,7 @@
 
 		{
 			"name"    : "about",
+			"id"      : "about",
 			"tpl"     : "about.hbs",
 			"partial" : {
 

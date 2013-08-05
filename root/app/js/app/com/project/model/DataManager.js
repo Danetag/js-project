@@ -1,4 +1,4 @@
-JSP.dataManager = {};
+SNR.dataManager = {};
 
 (function($){
 
@@ -27,19 +27,26 @@ JSP.dataManager = {};
         {
             for(var name in data.pages)
             {
-                var url    = data.pages[name][ JSP.conf.lang ].route;
-                var assets = data.pages[name][ JSP.conf.lang ].assets;
+                var page = data.pages[name];
 
-                var Model =  new JSP.Model();
-                Model.init.call( Model, url, assets );
+                if( name == "homepage")
+                    continue;
 
-                this.add(name, Model);
+                var name   = page[ SNR.conf.lang ].name;
+                var url    = page[ SNR.conf.lang ].route;
+                var assets = page[ SNR.conf.lang ].assets;
+
+                var Model =  new SNR.Model();
+                Model.init.call( Model, name, url, assets );
+
+                this.add(page.id, Model);
             }
+
         },
-        find : function(key)
+        find : function(key, name)
         {
             if( this.collections.hasOwnProperty(key) )
-                return this.collections[key];
+                return this.collections[key][name];
             else
                 return null;
         },
@@ -47,8 +54,11 @@ JSP.dataManager = {};
         {
             if( !this.collections.hasOwnProperty(key) )
             {
-                this.collections[key] = Model;
-            }   
+                this.collections[key] = [];
+                
+            }
+            this.collections[key][Model.name] = Model;
+
         },
         remove : function(key)
         {
@@ -58,6 +68,6 @@ JSP.dataManager = {};
 	    
 	};
 
-    JSP.dataManager = new dataManager();
+    SNR.dataManager = new dataManager();
 
 })(jQuery);

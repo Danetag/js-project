@@ -22,7 +22,7 @@ JSP.Pages.main = (function($){
 		this.Loader.init.call(this.Loader);
 
 		//data : get from DOM
-		var currentModel = JSP.dataManager.find( JSP.routeManager.current );
+		var currentModel = JSP.dataManager.find( JSP.routeManager.current.id, JSP.routeManager.current.name );
 		currentModel.set("html", JSP.Views.main.$.content.html() );
 
 		//assets
@@ -38,9 +38,11 @@ JSP.Pages.main = (function($){
 	{
 		this.Loader.unbind.call(this.Loader, this.Loader.EVENT.ENDED, this.loaded.bind(this) );
 
+		var currentPage = JSP.Pages[ JSP.routeManager.current.id ];
+
 		//init View of current Page. No need to Load
-		JSP.Pages[ JSP.routeManager.current ].init( JSP.routeManager.current );
-		JSP.Pages[ JSP.routeManager.current ].initView();
+		currentPage.init( JSP.routeManager.current.id, SNR.routeManager.current.name );
+		currentPage.initView();
 
 		this.Loader.bind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.hidden.bind(this) );
 		this.Loader.hide.call(this.Loader);
@@ -53,8 +55,8 @@ JSP.Pages.main = (function($){
 		this.Loader.destroy.call(this.Loader);
 		this.Loader = null;
 
-		JSP.Pages[ JSP.routeManager.current ].bind( JSP.Pages[ JSP.routeManager.current ].EVENT.SHOWN, this.viewShown.bind(this) );
-		JSP.Pages[ JSP.routeManager.current ].show();
+		JSP.Pages[ JSP.routeManager.current.id ].bind( JSP.Pages[ JSP.routeManager.current.id ].EVENT.SHOWN, this.viewShown.bind(this) );
+		JSP.Pages[ JSP.routeManager.current.id ].show();
 	}
 
 	MainPage.prototype.viewShown = function()

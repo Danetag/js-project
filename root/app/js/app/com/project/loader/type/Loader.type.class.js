@@ -1,6 +1,6 @@
-JSP.LoaderTypes = {};
+SNR.LoaderTypes = {};
 
-JSP.LoaderType = (function(window){
+SNR.LoaderType = (function(window){
 
 	function LoaderType(){
 		this.src      = null;
@@ -11,14 +11,16 @@ JSP.LoaderType = (function(window){
 			STARTED   : "started",
 			LOADED    : "loaded"
 		}
+		this.filter   = "#content";
+		this.find     = "";
 
 	};
 
 	LoaderType.prototype = 
 	{
-		init : function(src)
+		init : function(o)
 		{
-			this.src = src;
+			this.src = o.src;
 		},
 		bind : function(name, f)
 		{

@@ -1,8 +1,8 @@
-JSP.LoaderTypes.Image = (function(window){
+SNR.LoaderTypes.Image = (function(window){
 
-    function LoaderImage(){ JSP.LoaderType.call(this); }
+    function LoaderImage(){ SNR.LoaderType.call(this); }
 
-    LoaderImage.prototype = Object.create(JSP.LoaderType.prototype);
+    LoaderImage.prototype = Object.create(SNR.LoaderType.prototype);
 	LoaderImage.prototype.constructor = LoaderImage;
 
     //Public override
@@ -10,18 +10,16 @@ JSP.LoaderTypes.Image = (function(window){
     LoaderImage.prototype.load = function(){   
 
     	var self = this;
-		var image = new Image();
 
-		image.src = this.src;	
+		var $img = $('<img>').attr('src', this.src);
 
-		if (image.complete || image.naturalWidth > 0)
+		if ($img[0].complete || $img[0].naturalWidth > 0)
 		{
-			self.data = $(image);
+			self.data = $img;
 			this.dispatch( this.EVENT.LOADED );
 		}
 		else
 		{
-			$img = $(image)
 
 			$img.load(function()
 			{
@@ -40,7 +38,7 @@ JSP.LoaderTypes.Image = (function(window){
 				self.dispatch( self.EVENT.LOADED );
 			});
 
-			$img.attr("src", image.src);
+			$img.attr("src", this.src);
 		}
 
 	};

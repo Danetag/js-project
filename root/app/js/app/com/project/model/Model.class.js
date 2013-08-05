@@ -1,4 +1,4 @@
-JSP.Model = (function(window){
+SNR.Model = (function(window){
 
 	function Model(){
 		this._data  = {};
@@ -8,14 +8,16 @@ JSP.Model = (function(window){
 			RESET    : "reset"
 		};
 		this.url = "";
+		this.name = "",
 		this.assets = [];
 	};
 
 	Model.prototype = {
-		init : function(url, assets)
+		init : function(name, url, assets)
 		{
 			this.reset();
 			this.url    = url;
+			this.name   = name;
 			this.assets = assets;
 		},
 		bind : function(name, f)

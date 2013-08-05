@@ -1,6 +1,7 @@
-JSP.Loader = (function(window){
+SNR.Loader = (function(window){
 
 	function Loader(){
+
 		this.aItems = [];
 		this.index  = 0;
 
@@ -10,17 +11,21 @@ JSP.Loader = (function(window){
 		this.events = {};
 
         this.EVENT = {
-            STARTED : "started",
-            ENDED   : "ended",
-            HIDDEN  : "hidden"
+            STARTED    : "started",
+            ENDED      : "ended",
+            HIDDEN     : "hidden",
+            DISPLAY    : "display",
+            UNDISPLAY  : "undisplay"
         };
 
 	    this.extensions = {
 	        "image"   : ["jpg", "png"],
 	        "video"   : ["mp4", "ogg"]
 	    },
-	    this.loaderView = null;
+	    this.loaderView     = null;
 	    this.loaderViewInit = false;
+
+	    this.aKeyToItems = [];
 	};
 
 	Loader.prototype = {
@@ -33,7 +38,7 @@ JSP.Loader = (function(window){
 			if( this.$.garbage[0] == undefined) //Just once. But maybe useless.
 			{
 				var div = document.createElement('div');
-				div.setAttribute("id", "image-garbage");
+				div.setAttribute("id", "loader-garbage");
 				div.style.position = "absolute";
 				div.style.left = "-9999px";
 				document.body.appendChild(div);
@@ -47,7 +52,23 @@ JSP.Loader = (function(window){
 		},
 		unbind : function(name, f)
 		{
-			this.events[name].remove(f);
+			if(f != undefined)
+			{
+				this.events[name].remove(f);
+				delete this.events[name];
+			}	
+			else if( name != undefined)
+			{
+				this.events[name].removeAll();
+				delete this.events[name];
+			}	
+			else
+			{
+				for(var name in this.events)
+				{
+					this.unbind(name);
+				}
+			}
 		},
 		dispatch : function(name)
 		{
@@ -64,7 +85,7 @@ JSP.Loader = (function(window){
 		add    : function(aItems) //{src : "/img/test.jpg", type : "image"}
 		{
 
-			//Convert Objects to JSP.LoaderType
+			//Convert Objects to SNR.LoaderType
 
 			for(var i in aItems)
             {
@@ -80,13 +101,23 @@ JSP.Loader = (function(window){
 
                 switch(oToLoad.type)
                 {
-                    case "image" : loadObject = new JSP.LoaderTypes.Image();  break;
-                    case "data"  : loadObject = new JSP.LoaderTypes.Data();  break;
+                    case "image" : loadObject = new SNR.LoaderTypes.Image();  break;
+                    case "audio" : loadObject = new SNR.LoaderTypes.Audio();  break;
+                    case "data"  : loadObject = new SNR.LoaderTypes.Data();  break;
                 }
 
-                loadObject.init.call(loadObject, oToLoad.src);
+                loadObject.init.call(loadObject, oToLoad);
 
                 this.aItems.push(loadObject);
+
+                if(oToLoad.find != undefined)
+                	loadObject.find = oToLoad.find;
+
+                if(oToLoad.name != undefined)
+                	this.aKeyToItems[oToLoad.name] = this.aItems.length - 1;
+                else
+                	this.aKeyToItems[oToLoad.src] = this.aItems.length - 1;
+
                 
             }
 
@@ -100,13 +131,25 @@ JSP.Loader = (function(window){
 			this.loaderView.init.call( this.loaderView );
 		},
 
+		getData : function(key)
+		{
+			//get index
+			var index = this.aKeyToItems[key];
+
+			if( index != undefined)
+				return this.aItems[index].data;
+
+			return null;
+		},
+
 		/* BEGIN */
+		
 		start: function() 
 	    { 
 	    	this.dispatch( this.EVENT.STARTED );
 
 	    	if( this.loaderView == null )
-	    		this.loaderView = new JSP.LoaderViews.Main(); //basic
+	    		this.loaderView = new SNR.LoaderViews.Main(); //basic
 
 	    	this.initLoaderView();
 	    	
@@ -120,7 +163,7 @@ JSP.Loader = (function(window){
 		    {
 		    	this.loaderView.unbind.call( this.loaderView, this.loaderView.EVENT.SHOWN, this.loaderViewShown.bind(this) );
 
-		    	if( !this.aItems )
+		    	if( !this.aItems.length )
 				{
 					this.end();
 					return;
@@ -164,10 +207,39 @@ JSP.Loader = (function(window){
 	    {
 	    	this.dispatch( this.EVENT.ENDED );
 	    },
+
+
+	    undisplay : function()
+	    {
+
+	    	//undisplay LoaderView
+	    	this.loaderView.bind.call( this.loaderView, this.loaderView.EVENT.UNDISPLAY, this.loaderViewUndisplayed.bind(this) );
+	    	this.loaderView.undisplay.call( this.loaderView ) ;
+	    },
+	    	loaderViewUndisplayed : function()
+	    	{
+	    		this.loaderView.unbind.call( this.loaderView, this.loaderView.EVENT.UNDISPLAY, this.loaderViewUndisplayed.bind(this) );
+	    		
+	    		this.dispatch( this.EVENT.UNDISPLAY );
+	    	},
+
+	    display : function()
+	    {
+	    	//display LoaderView
+	    	this.loaderView.bind.call( this.loaderView, this.loaderView.EVENT.DISPLAY, this.loaderViewdisplayed.bind(this) );
+	    	this.loaderView.display.call( this.loaderView ) ;
+	    },
+	    	loaderViewdisplayed : function()
+	    	{
+	    		this.loaderView.unbind.call( this.loaderView, this.loaderView.EVENT.DISPLAY, this.loaderViewdisplayed.bind(this) );
+
+	    		this.dispatch( this.EVENT.DISPLAY );
+	    	},
+
+
 	    hide : function()
 	    {
 	    	this.loaderView.bind.call( this.loaderView, this.loaderView.EVENT.HIDDEN, this.loaderViewHidden.bind(this) );
-
 	    	//hide LoaderView
 	    	this.loaderView.hide.call( this.loaderView ) ;
 	    },

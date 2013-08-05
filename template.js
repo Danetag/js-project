@@ -194,6 +194,8 @@ exports.template = function(grunt, init, done) {
                 return console.log("error reading on " + fl, err);
             }
 
+            console.log("replacing ... ");
+
             var result = data.replace("/JSP/g", props.namespace);
 
             fs.writeFile(fl, result, 'utf8', function (err) {

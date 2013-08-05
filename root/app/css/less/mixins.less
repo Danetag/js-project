@@ -37,6 +37,27 @@
   height: @height;
 }
 
+.sprite2x(@arg){
+
+  //setting up your argument definition string
+  @def: ~`"@{arguments}".replace(/[\[\]]/g,"")`;
+
+  @offsetX: extract(@arguments,3);
+  @offsetY: extract(@arguments,4);
+  @height : extract(@arguments,6);
+  @width  : extract(@arguments,5);
+
+  background-image    : url(@sprite2xImg);
+  background-position : @offsetX/2 @offsetY/2;
+  background-repeat   : no-repeat;
+  background-size     : @sprite2xW/2px @sprite2xH/2px;
+  width :  @width/2;
+  height:  @height/2;
+
+ // .transform-origin(0%, 0%);
+  //.scale(0.5);
+}
+
 // Webkit-style focus
 // ------------------
 .tab-focus() {

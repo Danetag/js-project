@@ -72,6 +72,10 @@
 				"stores" : "Boutiques",
 				"sound" : "Son"
 			}
+		},
+		"menu" : {
+			"en" : ["index", "about"],
+			"fr" : ["index", "about"]
 		}
 	},
 	"pages" : [

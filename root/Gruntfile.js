@@ -32,9 +32,8 @@ module.exports = function (grunt) {
     };
 
     /* Routing */
-    var pages = { pages : {} };
-    var menu   = {};
-
+    var pages  = { pages : {} };
+    
     var getPageInJSON = function(name)
     {
         for(var i in dataPages.pages)
@@ -54,6 +53,7 @@ module.exports = function (grunt) {
     var tplFiles    = [];
     var htmlFiles   = [];
     var tplCommon   = dataPages.common;
+    var menu        = {};
 
     pages.primaryAssets = tplCommon.assets;
 
@@ -83,7 +83,7 @@ module.exports = function (grunt) {
             name      : page.name,
             tplFolder : config.app + "/tpl/",
             partials  : page.partials || {},
-            src       : config.app + "/tpl/" + page.tpl,
+            src       : config.app + "/tpl/" + page.tpl, 
             data      : page.data ,
             hasLayout : page.hasLayout || true
         });
@@ -104,13 +104,33 @@ module.exports = function (grunt) {
             if( menu[lang] == undefined)
                 menu[lang] = [];
 
-            menu[lang].push( { route : content.route, label : content.label } );
+            //menu[lang].push( { route : content.route, label : content.label } );
 
         }
 
         pageJS.id = page.id;
         pages.pages[page.name] = pageJS;
 
+    }
+
+    /* Menu */
+    for(var lang in tplCommon.menu)
+    {   
+        var names = tplCommon.menu[lang];
+
+        for(var j in names)
+        {
+            var name  = names[j];
+            var data = getPageInJSON(name).data[lang];
+
+            if(data == undefined)
+                continue;
+
+            if(menu[lang] === undefined)
+                menu[lang] = [];
+
+            menu[lang].push( { route : data.route, label : data.label } )
+        }
     }
 
     /* Configuration */
@@ -383,7 +403,7 @@ module.exports = function (grunt) {
                 data.nbScripts   = data.aJS.length - 1;
 
                 data.lang    = lang;
-                data.menu    = menu;
+                data.menu    = menu[lang];
 
                 var output   = template( data );
 
@@ -414,6 +434,8 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask( "updateRoutes", "Update/create pages from pages.json", function(){
+
+        //console.log(pages);
 
         var JSONroutes = JSON.stringify(pages, null, '\t');
 

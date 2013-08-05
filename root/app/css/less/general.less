@@ -1,6 +1,7 @@
 /* here comes the general CSS */
 
 @import "variables.less";
+@import "sprite.less";
 @import "mixins.less";
 
 body {
@@ -21,10 +22,86 @@ body {
 	width:100%;
 }
 
+#content {
+	-webkit-backface-visibility: hidden;
+}
+
 .has-js #content{
 	display: none;
 }
 
 .has-js #loader{
 	display: block;
+}
+
+/***** Class ****/
+
+.lt-ie10{
+
+	#old-browser{
+		display: block;
+	}
+
+	#content, #loader, #footer, h1{
+		display: none;
+	}
+}
+
+
+/****** CSS Animation ***/
+
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes rotating {
+    from{
+        -moz-transform: rotate(0deg);
+    }
+    to{
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-ms-keyframes rotating {
+    from{
+        -ms-transform: rotate(0deg);
+    }
+    to{
+        -ms-transform: rotate(360deg);
+    }
+}
+
+@-sand-keyframes rotating {
+    from{
+        -sand-transform: rotate(0deg);
+    }
+    to{
+        -sand-transform: rotate(360deg);
+    }
+}
+
+
+@-o-keyframes rotating {
+    from{
+        -o-transform: rotate(0deg);
+    }
+    to{
+        -o-transform: rotate(360deg);
+    }
+}
+
+
+keyframes rotating {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
 }

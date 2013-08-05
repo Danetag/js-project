@@ -106,10 +106,6 @@ exports.template = function(grunt, init, done) {
 
             console.log("file to test", file);
 
-            //exclude
-            if( file == ".htaccess")
-                continue;
-
             if( fs.lstatSync(file).isDirectory() )
             {
                 console.log("file :: " +  file + " is a directory");
@@ -129,10 +125,9 @@ exports.template = function(grunt, init, done) {
             else
             {
                 console.log("file :: " +  file + " is a file !");
+                
                 //Isn't a directory
                 if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
-
-                    
 
                     fs.readFile(file, 'utf8', function (err,data) {
 
@@ -142,7 +137,7 @@ exports.template = function(grunt, init, done) {
 
                         console.log("replace JSP in", file);
 
-                        var result = data.replace("JSP", props.namespace);
+                        var result = data.replace("/JSP/b", props.namespace);
 
                         fs.writeFile(file, result, 'utf8', function (err) {
                             if (err) return console.log("error writing on " + file, err);

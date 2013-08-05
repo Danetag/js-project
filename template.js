@@ -98,6 +98,10 @@ exports.template = function(grunt, init, done) {
 
             console.log("file to test", file);
 
+            //exclude
+            if( file == ".htaccess")
+                continue;
+
             if( fs.lstatSync(file).isDirectory() )
             {
                 console.log("file :: " +  file + " is a directory");

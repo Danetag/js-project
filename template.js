@@ -194,14 +194,13 @@ exports.template = function(grunt, init, done) {
                 return console.log("error reading on " + fl, err);
             }
 
-            
             var myRegex = /JSP/;
 
             if (myRegex.test(data)) {
 
-                console.log("replacing ... ", props.namespace);
+                console.log("replacing ... ");
 
-                var result = data.replace("/JSP/", props.namespace);
+                var result = data.replace(myRegex, props.namespace);
 
                 fs.writeFile(fl, result, 'utf8', function (err) {
 

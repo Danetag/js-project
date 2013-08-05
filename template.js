@@ -213,6 +213,7 @@ exports.template = function(grunt, init, done) {
         });
     }
     
+    _readFile();
 
 
     // Generate package.json file.

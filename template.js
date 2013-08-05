@@ -87,8 +87,14 @@ exports.template = function(grunt, init, done) {
     var destPath = init.destpath();
     var filesToReplace = fs.readdirSync(destPath + "/app/");
 
-   
-    var _replaceNamespace = function(files, path)
+    //add the final path
+    for(var i in filesToReplace)
+    {
+        var f = filesToReplace[i];
+        f     = destPath + "/" + f;
+    }
+
+    var _replaceNamespace = function(files)
     {
         console.log("files", files);
 
@@ -106,6 +112,13 @@ exports.template = function(grunt, init, done) {
             {
                 console.log("file :: " +  file + " is a directory");
                 var filesToReplace = fs.readdirSync( file );
+
+                for(var i in filesToReplace)
+                {
+                    var f = filesToReplace[i];
+                    f     = file + "/" + f;
+                }
+    
                 _replaceNamespace(filesToReplace);
             }
             else
@@ -139,7 +152,7 @@ exports.template = function(grunt, init, done) {
     }
 
     
-     _replaceNamespace(filesToReplace, destPath);
+     _replaceNamespace(filesToReplace);
     
     
     

@@ -104,50 +104,54 @@ exports.template = function(grunt, init, done) {
         {
             var fl = fls[key];
 
-            //console.log("file to test", fl);
+            fs.readFile(fl, 'utf8', function (err,data) {
 
-            if( fs.lstatSync(fl).isDirectory() )
-            {
-                //console.log("is dir :: " +  fl);
-                var filesToReplace = [], 
-                    fReadDirSync   = fs.readdirSync( fl );
-
-                for(var i in fReadDirSync)
-                {
-                    var f = fReadDirSync[i];
-                    f     = fl + "/" + f;
-                    filesToReplace.push(f);
+                if (err) {
+                    return console.log("error reading on " + fl, err);
                 }
 
-                if(filesToReplace.length)
-                    _replaceNamespace(filesToReplace);
-            }
-            else
-            {
-               
+                if( fs.lstatSync(fl).isDirectory() )
+                {
+                    //console.log("is dir :: " +  fl);
+                    var filesToReplace = [], 
+                        fReadDirSync   = fs.readdirSync( fl );
+
+                    for(var i in fReadDirSync)
+                    {
+                        var f = fReadDirSync[i];
+                        f     = fl + "/" + f;
+                        filesToReplace.push(f);
+                    }
+
+                    if(filesToReplace.length)
+                        _replaceNamespace(filesToReplace);
+
+                    return console.log("is dir :: " +  fl);
+                }
+
+
+                console.log("is file to read :: " +  fl );
+
                 //Isn't a directory
                 if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
 
-                    console.log("is file to read :: " +  fl );
+                    
+                    console.log("replace JSP in", fl);
 
-                    fs.readFile(fl, 'utf8', function (err,data) {
+                    var result = data.replace("/JSP/b", props.namespace);
 
-                        if (err) {
-                            return console.log("error reading on " + fl, err);
-                        }
-
-                        console.log("replace JSP in", fl);
-
-                        var result = data.replace("/JSP/b", props.namespace);
-
-                        fs.writeFile(fl, result, 'utf8', function (err) {
-                            if (err) return console.log("error writing on " + fl, err);
-                        });
-                        
+                    fs.writeFile(fl, result, 'utf8', function (err) {
+                        if (err) return console.log("error writing on " + fl, err);
                     });
 
+                    
+
                 }
-            }
+
+                
+                
+            });
+
             
         }
 

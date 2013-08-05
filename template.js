@@ -70,18 +70,18 @@ exports.template = function(grunt, init, done) {
         }
 
         //REPLACE NAMESPACE
-        if ( file.indexOf(".hbs") || file.indexOf(".js") ) {
+        if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
 
             fs.readFile(file, 'utf8', function (err,data) {
 
                 if (err) {
-                    return console.log(err);
+                    return console.log("error reading on " + file, err);
                 }
 
                 var result = data.replace(/JSP/g, props.namespace);
 
                 fs.writeFile(file, result, 'utf8', function (err) {
-                    if (err) return console.log("error on " + file, err);
+                    if (err) return console.log("error writing on " + file, err);
                 });
                 
             });

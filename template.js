@@ -130,29 +130,27 @@ exports.template = function(grunt, init, done) {
                     if(filesToReplace.length)
                         _replaceNamespace(filesToReplace);
 
-                    return;
                 }
+                else
+                {
+                    console.log("is file to read :: " +  fl );
 
+                    //Isn't a directory
+                    if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
 
-                console.log("is file to read :: " +  fl );
+                        
+                        console.log("replace JSP in", fl);
 
-                //Isn't a directory
-                if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
+                        var result = data.replace("/JSP/g", props.namespace);
 
-                    
-                    console.log("replace JSP in", fl);
+                        fs.writeFile(fl, result, 'utf8', function (err) {
+                            if (err) return console.log("error writing on " + fl, err);
+                        });
 
-                    var result = data.replace("/JSP/g", props.namespace);
+                        
 
-                    fs.writeFile(fl, result, 'utf8', function (err) {
-                        if (err) return console.log("error writing on " + fl, err);
-                    });
-
-                    
-
+                    }
                 }
-
-                
                 
             });
 

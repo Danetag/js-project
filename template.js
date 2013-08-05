@@ -62,14 +62,21 @@ exports.template = function(grunt, init, done) {
     {
         var file = files[key];
 
-        if(file.indexOf(".jar") != -1 || file.indexOf(".png") != -1 || file.indexOf(".jpg") != -1 || file.indexOf(".gif") != -1 )
+        if(file.indexOf(".gitignore") != -1 
+            || file.indexOf(".jar") != -1 
+            || file.indexOf(".png") != -1 
+            || file.indexOf(".jpg") != -1 
+            || file.indexOf(".gif") != -1 )
         {
             excludedFiles[key] = file;
             delete files[key];
         }
+        else{
+            //REPLACE NAMESPACE
+            console.log("file", grunt.file.read(file))
+        }
 
-        //REPLACE NAMESPACE
-        console.log("file", grunt.file.read(file))
+        
     }
 
     // Add properly-named license files.

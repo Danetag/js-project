@@ -102,21 +102,21 @@ exports.template = function(grunt, init, done) {
 
         for(var key in fls)
         {
-            var fl = fls[key];
+            var flO = fls[key];
 
-            if( fl.explored )
+            if( flO.explored )
                 continue;
 
-            fl = fl.path;
+            flO.explored = true;
+
+            var fl = flO.path;
 
             console.log("go to read :: " + fl);
 
             fs.readFile(fl, 'utf8', function (err,data) {
 
-                if( fl.explored )
+                if( flO.explored )
                     return;
-
-                fl.explored = true;
 
                 if (err) {
                     //return console.log("error reading on " + fl, err);

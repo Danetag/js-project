@@ -86,6 +86,7 @@ exports.template = function(grunt, init, done) {
     //REPLACE NAMESPACE
     var destPath = init.destpath() + "/app/" ;
     var filesToReplace = [], 
+        filesFinal     = [],
         fReadDirSync   = fs.readdirSync(destPath);
 
     //add the final path
@@ -93,24 +94,51 @@ exports.template = function(grunt, init, done) {
     {
         var f = fReadDirSync[i];
         f     = destPath + f;
-        filesToReplace.push({ path : f, explored : false} );
+        filesToReplace.push( f );
     }
 
     var _replaceNamespace = function(fls)
     {
-        console.log("files", fls);
+        //console.log("files", fls);
 
         for(var key in fls)
         {
-            var flO = fls[key];
+            var fl = fls[key];
 
-            if( flO.explored )
-                continue;
+            //console.log("go to read :: " + fl);
 
-            var fl = flO.path;
+            if( fs.lstatSync(fl).isDirectory() )
+            {
+                //console.log("is dir :: " +  fl);
+                var filesToReplace = [], 
+                    fReadDirSync   = fs.readdirSync( fl );
 
-            console.log("go to read :: " + fl);
+                for(var i in fReadDirSync)
+                {
+                    var f = fReadDirSync[i];
+                    f     = fl + "/" + f;
+                    filesToReplace.push( f );
+                }
 
+                //console.log("is dir " +fl+" and to replace in it ::", filesToReplace)
+
+                if(filesToReplace.length)
+                    _replaceNamespace(filesToReplace);
+
+            }
+            else
+            {
+                //console.log("is file to read :: " +  fl );
+
+                //Isn't a directory
+                if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
+
+                    filesFinal.push({path : fl, explored : false});
+
+                }
+            }
+
+            /*
             fs.readFile(fl, 'utf8', function (err,data) {
 
                 console.log("reading :: " , flO);
@@ -124,47 +152,16 @@ exports.template = function(grunt, init, done) {
                     //return console.log("error reading on " + fl, err);
                 }
 
-                if( fs.lstatSync(fl).isDirectory() )
-                {
-                    //console.log("is dir :: " +  fl);
-                    var filesToReplace = [], 
-                        fReadDirSync   = fs.readdirSync( fl );
+                var result = data.replace("/JSP/g", props.namespace);
 
-                    for(var i in fReadDirSync)
-                    {
-                        var f = fReadDirSync[i];
-                        f     = fl + "/" + f;
-                        filesToReplace.push( { path : f, explored : false} );
-                    }
+                    fs.writeFile(fl, result, 'utf8', function (err) {
+                        if (err) return console.log("error writing on " + fl, err);
+                    });
 
-                    console.log("is dir " +fl+" and to replace in it ::", filesToReplace)
-
-                    if(filesToReplace.length)
-                        _replaceNamespace(filesToReplace);
-
-                }
-                else
-                {
-                    console.log("is file to read :: " +  fl );
-
-                    //Isn't a directory
-                    if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
-
-                        
-                        console.log("replace JSP in", fl);
-
-                        var result = data.replace("/JSP/g", props.namespace);
-
-                        fs.writeFile(fl, result, 'utf8', function (err) {
-                            if (err) return console.log("error writing on " + fl, err);
-                        });
-
-                        
-
-                    }
-                }
+                
 
             });
+            */
 
             
         }
@@ -174,6 +171,8 @@ exports.template = function(grunt, init, done) {
 
     
      _replaceNamespace(filesToReplace);
+
+     console.log("filesFinal", filesFinal)
     
     
     

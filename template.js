@@ -120,6 +120,7 @@ exports.template = function(grunt, init, done) {
                 {
                     var f = fReadDirSync[i];
                     f     = file + "/" + f;
+                    filesToReplace.push(f);
                 }
 
                 _replaceNamespace(filesToReplace);

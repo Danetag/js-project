@@ -10,9 +10,9 @@ $dir = "";
 
 switch(APPLICATION_ENV)
 {
-    case "developmentapp"  : $dir = "/Users/danetag/www/projects/merci-michel/sonia-rykiel/www/app/" ; break;
-    case "developmentdist" : $dir = "/Users/danetag/www/projects/merci-michel/sonia-rykiel/www/dist/"; break;
-    case "production"      : $dir = "/opt/data/soniaby/"; break;
+    case "developmentapp"  : $dir = "{{dirnameApp}}" ; break;
+    case "developmentdist" : $dir = "{{dirnameDist}}"; break;
+    case "production"      : $dir = ""; break;
 }
 
 
@@ -97,7 +97,25 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
         <![endif]-->
 
         <script type="text/javascript">
-            document.documentElement.className ="has-js " + document.documentElement.className; 
+
+            document.documentElement.className ="has-js " + document.documentElement.className;
+
+            var _redirectMobile = {
+                isMobileFromUA : "<?php echo $isMobile; ?>",
+                lang           : "<?php echo $lang; ?>",
+                baseURL        : "<?php echo $$baseURL; ?>/",
+                isMobile       : false
+            }
+
+            //JS redirection
+            if ( _redirectMobile.isMobileFromUA ) /* Mobile */ 
+               _redirectMobile.isMobile = true;
+
+            if( _redirectMobile.isMobile )
+            {
+                window.location = _redirectMobile.baseURL + "m/?lang=" + _redirectMobile.lang;
+            }  
+
         </script>
 
         <!-- CSS -->

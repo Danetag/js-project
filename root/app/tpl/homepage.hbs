@@ -10,11 +10,10 @@ $dir = "";
 
 switch(APPLICATION_ENV)
 {
-    case "developmentapp"  : $dir = "/Users/danetag/www/projects/merci-michel/sonia-rykiel/www/app/" ; break;
-    case "developmentdist" : $dir = "/Users/danetag/www/projects/merci-michel/sonia-rykiel/www/dist/"; break;
-    case "production"      : $dir = "/opt/data/soniaby/"; break;
+    case "developmentapp"  : $dir = "{{dirnameApp}}" ; break;
+    case "developmentdist" : $dir = "{{dirnameDist}}"; break;
+    case "production"      : $dir = ""; break;
 }
-
 
 require_once $dir.'include_php/Mobile_Detect.php';
 $detect = new Mobile_Detect;

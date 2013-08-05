@@ -401,6 +401,9 @@ module.exports = function (grunt) {
                 data.aCSS    = tplCommon.css["app"];
                 data.aJS     = tplCommon.js["app"];
 
+                data.dirnameApp  = __dirname + "/app/";
+                data.dirnameDist = __dirname + "/dist/";
+
                 data.translateJS       = tplCommon.translateJS[lang];
                 data.nbItemtranslateJS = tplCommon.translateJS[lang].length - 1;
 

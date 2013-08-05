@@ -85,7 +85,7 @@ exports.template = function(grunt, init, done) {
 
     //REPLACE NAMESPACE
     var destPath = init.destpath();
-    var filesToReplace = fs.readdirSync(destPath + "app/");
+    var filesToReplace = fs.readdirSync(destPath + "/app/");
 
     for(var key in filesToReplace)
     {

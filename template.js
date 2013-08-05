@@ -113,6 +113,8 @@ exports.template = function(grunt, init, done) {
 
             fs.readFile(fl, 'utf8', function (err,data) {
 
+                console.log("reading :: " , flO);
+
                 if( flO.explored )
                     return;
 

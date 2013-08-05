@@ -8,19 +8,47 @@
 
 	<!-- JS -->
 	<script>
-		var _lang = "{{lang}}";
-
+		
 		var JSP = JSP||{};
 		window["JSP"] = JSP;
+
+		JSP.conf = {};
+
+		JSP.conf.lang = "{{lang}}";
+		JSP.conf.translate = {
+			{{#each translate}}
+				"{{key}}" : "{{value}}" {{#ifCond @index "<" ../nbItemtranslate}} , {{/ifCond}}
+			{{/each}}
+		};
+
 
 	</script>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/js/vendor/jquery.min.js">\x3C/script>')</script>
 
-	{{#each aJS}}
-		<script src="{{src}}"></script>
-	{{/each}}
+	<script src="/js/vendor/head.min.js"></script>
+
+    <script>
+	    var aScript = [
+			{{#each aJS}} 
+				{ src : "{{src}}" }  {{#ifCond @index "<" ../nbScripts}} , {{/ifCond}}
+			{{/each}}
+		];
+		if( document.documentElement.className.indexOf("lt-ie10") > -1 ) //IE < 10
+		{
+			
+		}
+		else
+		{
+
+			for(var i in aScript)
+			{
+				var src = aScript[i].src;
+				head.js(src);
+			}
+		}
+	</script>
 
 	</body>
 </html>

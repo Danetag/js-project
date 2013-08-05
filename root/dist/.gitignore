@@ -1,1 +1,5 @@
 *.html
+*.php
+/css
+/img
+/js

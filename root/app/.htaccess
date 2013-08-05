@@ -1,17 +1,12 @@
 # ----------------------------------------------------------------------
 # Password
 # ----------------------------------------------------------------------
-#AuthUserFile /opt/data/soniaby/.htpasswd
-#AuthGroupFile /dev/null
-#AuthName "Acces Restreint"
-#AuthType Basic
-#require valid-user
 
 # ----------------------------------------------------------------------
 # Rewriting
 # ----------------------------------------------------------------------
 
-SetEnv APPLICATION_ENV developmentdist
+SetEnv APPLICATION_ENV developmentapp
 
 # Follow symbols links
 Options +FollowSymlinks

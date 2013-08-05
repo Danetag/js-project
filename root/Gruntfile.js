@@ -27,7 +27,7 @@ module.exports = function (grunt) {
         },
         libjs : {
             app  : config.app  + '/js/'+ gruntPck.namespace +'.lib.js',
-            dist : config.dist + '/js/'+ gruntPck.namespace +'.min.lib.js'
+            dist : config.dist + '/js/'+ gruntPck.namespace +'.lib.min.js'
         }
     };
 
@@ -60,14 +60,16 @@ module.exports = function (grunt) {
 
     tplCommon.js.app.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.js'} );
 
-    tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.min.js'} );
     tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.min.js'} );
+    tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.js'} );
 
     for (var i in dataPages.pages)
     {
         var page = dataPages.pages[i];
 
         tplFiles.push( { 
+            id        : page.id,
+            name      : page.name,
             tplFolder : config.app + "/tpl/",
             partials  : page.partials || {},
             src       : config.app + "/tpl/" + page.tpl, 
@@ -92,7 +94,7 @@ module.exports = function (grunt) {
                 dest : config.dist + "/" + content.output
             });
 
-            pageJS[lang] = { route : content.route, label : content.label, assets : content.assets };
+            pageJS[lang] = { route : content.route, label : content.label, assets : content.assets, title:content.meta.title, name : page.name };
 
             if( menu[lang] == undefined)
                 menu[lang] = [];
@@ -135,6 +137,11 @@ module.exports = function (grunt) {
           },
           img : {
             files: [
+                {expand: true, cwd: config.app  + '/include_php/', src: ['**'], dest: config.dist + '/include_php/', filter: 'isFile'}, // includes files in path
+            ]
+          },
+          phpInclude : {
+            files: [
                 {expand: true, cwd: config.app  + '/img/', src: ['**'], dest: config.dist + '/img/', filter: 'isFile'}, // includes files in path
             ]
           }
@@ -152,16 +159,6 @@ module.exports = function (grunt) {
             src : configScripts.libjs.app,
             dest: configScripts.libjs.dist
           }
-        },
-
-        htmlmin: {                                    
-            dist: {                                     
-              options: {                                
-                removeComments: true,
-                collapseWhitespace: true
-              },
-              files: htmlFiles
-            }
         },
 
         sprite : {
@@ -331,13 +328,38 @@ module.exports = function (grunt) {
 
             /* End Partial */
 
-            /* Datas */
+            /* Helpers */
 
-            //file.data.aCSS = tplCommon.css["app"];
-            //file.data.aJS  = tplCommon.js["app"];
+            Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
-            /* End Datas */
+                //console.log( v1, operator, v2 )
+                switch (operator) {
+                    case '==':
+                        return (v1 == v2) ? options.fn(this) : options.inverse(this);
+                        break;
+                    case '===':
+                        return (v1 === v2) ? options.fn(this) : options.inverse(this);
+                        break;
+                    case '<':
+                        return (v1 < v2) ? options.fn(this) : options.inverse(this);
+                        break;
+                    case '<=':
+                        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+                        break;
+                    case '>':
+                        return (v1 > v2) ? options.fn(this) : options.inverse(this);
+                        break;
+                    case '>=':
+                        return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+                        break;
+                    default:
+                        return options.inverse(this)
+                        break;
+                }
+               
+            });
 
+         
             /* output by Language */
 
             for( var lang in file.data)
@@ -347,9 +369,12 @@ module.exports = function (grunt) {
                 /* CSS/JS */
                 data.aCSS    = tplCommon.css["app"];
                 data.aJS     = tplCommon.js["app"];
+                data.translate       = tplCommon.translate[lang];
+                data.translateByKey  = tplCommon.translateByKey[lang];
+                data.nbItemtranslate = tplCommon.translate[lang].length - 1;
+                data.nbScripts       = data.aJS.length - 1;
 
                 data.lang    = lang;
-                //data.routes  = routes.routes;
                 data.menu    = menu;
 
                 var output   = template( data );
@@ -360,8 +385,9 @@ module.exports = function (grunt) {
                 if( context == "dist" ) // Build
                 {
                     /* CSS/JS */
-                    data.aCSS = tplCommon.css["dist"];
-                    data.aJS  = tplCommon.js["dist"];
+                    data.aCSS            = tplCommon.css["dist"];
+                    data.aJS             = tplCommon.js["dist"];
+                    data.nbScripts       = data.aJS.length - 1;
 
                     var outputDist   = template( data ); 
 
@@ -425,8 +451,7 @@ module.exports = function (grunt) {
     grunt.registerTask( "BuildUpdateHTML",[
         "devUpdateJSON",
         "devUpdateHTML",
-        "copy:img",
-        "htmlmin:dist"
+        "copy:img"
     ]);
 
     grunt.registerTask( "BuildUpdateJS", [

@@ -118,10 +118,9 @@ JSP.routeManager = {};
 	    {
 	    	for(var i in this.routes[JSP.conf.lang] )
 	    	{
-	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url.route )
+	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url )
 	    		{
 	    			return this.routes[JSP.conf.lang][i].name ;
-	    			return ;
 	    		}
 	    	}
 

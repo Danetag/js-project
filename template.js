@@ -93,7 +93,7 @@ exports.template = function(grunt, init, done) {
     {
         var f = fReadDirSync[i];
         f     = destPath + f;
-        filesToReplace.push(f);
+        filesToReplace.push({ path : f, explored : false} );
     }
 
     var _replaceNamespace = function(fls)
@@ -104,9 +104,19 @@ exports.template = function(grunt, init, done) {
         {
             var fl = fls[key];
 
+            if( fl.explored )
+                continue;
+
+            fl = fl.path;
+
             console.log("go to read :: " + fl);
 
             fs.readFile(fl, 'utf8', function (err,data) {
+
+                if( fl.explored )
+                    return;
+
+                fl.explored = true;
 
                 if (err) {
                     //return console.log("error reading on " + fl, err);
@@ -122,7 +132,7 @@ exports.template = function(grunt, init, done) {
                     {
                         var f = fReadDirSync[i];
                         f     = fl + "/" + f;
-                        filesToReplace.push(f);
+                        filesToReplace.push( { path : f, explored : false} );
                     }
 
                     console.log("is dir " +fl+" and to replace in it ::", filesToReplace)
@@ -151,7 +161,7 @@ exports.template = function(grunt, init, done) {
 
                     }
                 }
-                
+
             });
 
             

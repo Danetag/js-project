@@ -170,6 +170,11 @@ module.exports = function (grunt) {
             files: [
                 {expand: true, cwd: config.app  + '/img/', src: ['**'], dest: config.dist + '/img/', filter: 'isFile'}, // includes files in path
             ]
+          },
+          mobile : {
+            files: [
+                {expand: true, cwd: config.app  + '/m/', src: ['**'], dest: config.dist + '/m/', filter: 'isFile'}, // includes files in path
+            ]
           }
         },
 

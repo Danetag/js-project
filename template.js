@@ -84,12 +84,12 @@ exports.template = function(grunt, init, done) {
     }
 
     //REPLACE NAMESPACE
-    console.log("init.destpath()", init.destpath())
+    var destPath = init.destpath();
+    var filesToReplace = fs.readdirSync(destPath + "app/");
 
-    /*
-    for(var key in files)
+    for(var key in filesToReplace)
     {
-        var file = files[key];
+        var file = filesToReplace[key];
 
         if ( file.indexOf(".hbs") != -1 || file.indexOf(".js") != -1 ) {
 
@@ -113,7 +113,7 @@ exports.template = function(grunt, init, done) {
 
         
     }
-    */
+    
     
 
     // Generate package.json file.

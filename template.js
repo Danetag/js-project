@@ -125,12 +125,12 @@ exports.template = function(grunt, init, done) {
                         filesToReplace.push(f);
                     }
 
-                    console.log("dir and to replace in it ::", filesToReplace)
+                    console.log("is dir " +fl+" and to replace in it ::", filesToReplace)
 
                     if(filesToReplace.length)
                         _replaceNamespace(filesToReplace);
 
-                    return console.log("is dir :: " +  fl);
+                    return;
                 }
 
 

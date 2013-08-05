@@ -200,7 +200,7 @@ exports.template = function(grunt, init, done) {
             if (myRegex.test(data)) {
 
                 console.log("replacing ... ", props.namespace);
-                
+
                 var result = data.replace("/JSP/", props.namespace);
 
                 fs.writeFile(fl, result, 'utf8', function (err) {
@@ -215,6 +215,13 @@ exports.template = function(grunt, init, done) {
 
                 });
 
+            }
+            else
+            {
+                indexFinal++;
+
+                if( indexFinal < filesFinal.length)
+                   _readFile();
             }
 
         });

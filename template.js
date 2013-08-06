@@ -121,19 +121,14 @@ exports.template = function(grunt, init, done) {
                     _replaceNamespace(filesToReplace);
 
             }
-            else if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
-
-                    filesFinal.push({path : fl, explored : false});
-
-                }
+            else if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) 
+            {
+                filesFinal.push({path : fl, explored : false});
             }
-            
         }
-
-
+            
     }
 
-    
     _replaceNamespace(filesToReplace);
     
 

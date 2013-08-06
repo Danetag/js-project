@@ -84,7 +84,8 @@ exports.template = function(grunt, init, done) {
     }
 
     //REPLACE NAMESPACE
-    var destPath = init.destpath() + "/app/" ;
+
+    var destPath       = init.destpath() + "/app/" ;
     var filesToReplace = [], 
         indexFinal     = 0,
         filesFinal     = [],
@@ -100,17 +101,12 @@ exports.template = function(grunt, init, done) {
 
     var _replaceNamespace = function(fls)
     {
-        //console.log("files", fls);
-
         for(var key in fls)
         {
             var fl = fls[key];
 
-            //console.log("go to read :: " + fl);
-
             if( fs.lstatSync(fl).isDirectory() )
             {
-                //console.log("is dir :: " +  fl);
                 var filesToReplace = [], 
                     fReadDirSync   = fs.readdirSync( fl );
 
@@ -121,49 +117,16 @@ exports.template = function(grunt, init, done) {
                     filesToReplace.push( f );
                 }
 
-                //console.log("is dir " +fl+" and to replace in it ::", filesToReplace)
-
                 if(filesToReplace.length)
                     _replaceNamespace(filesToReplace);
 
             }
-            else
-            {
-                //console.log("is file to read :: " +  fl );
-
-                //Isn't a directory
-                if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
+            else if ( fl.indexOf(".hbs") != -1 || fl.indexOf(".js") != -1 ) {
 
                     filesFinal.push({path : fl, explored : false});
 
                 }
             }
-
-            /*
-            fs.readFile(fl, 'utf8', function (err,data) {
-
-                console.log("reading :: " , flO);
-
-                if( flO.explored )
-                    return;
-
-                flO.explored = true;
-
-                if (err) {
-                    //return console.log("error reading on " + fl, err);
-                }
-
-                var result = data.replace("/JSP/g", props.namespace);
-
-                    fs.writeFile(fl, result, 'utf8', function (err) {
-                        if (err) return console.log("error writing on " + fl, err);
-                    });
-
-                
-
-            });
-            */
-
             
         }
 
@@ -174,8 +137,6 @@ exports.template = function(grunt, init, done) {
     _replaceNamespace(filesToReplace);
     
 
-    console.log("filesFinal", filesFinal)
-
     var _readFile = function()
     {
         var f  = filesFinal[indexFinal];
@@ -183,7 +144,7 @@ exports.template = function(grunt, init, done) {
 
         fs.readFile(fl, 'utf8', function (err,data) {
 
-            console.log("reading :: " , fl);
+            //console.log("reading :: " , fl);
 
             if( f.explored )
                 return;
@@ -198,7 +159,7 @@ exports.template = function(grunt, init, done) {
 
             if (myRegex.test(data)) {
 
-                console.log("replacing ... ");
+               
 
                 var result = data.replace(myRegex, props.namespace);
 
@@ -226,6 +187,7 @@ exports.template = function(grunt, init, done) {
         });
     }
     
+    console.log("replacing Namespace... ");
     _readFile();
 
 
@@ -258,7 +220,7 @@ exports.template = function(grunt, init, done) {
 
    
 
-    /*    
+    
     // Install all the npm modules necessary
     console.log("Installing npm modules...");
 
@@ -268,7 +230,7 @@ exports.template = function(grunt, init, done) {
         }
         done();
     });
-    */
+    
 
 
   });

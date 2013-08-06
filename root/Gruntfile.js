@@ -570,7 +570,7 @@ module.exports = function (grunt) {
     /* Build */
 
     grunt.registerTask( "BuildUpdateSprite",[
-        "sprite:all"
+        "sprite"
     ]);
 
     grunt.registerTask( "BuildUpdateCSS",[

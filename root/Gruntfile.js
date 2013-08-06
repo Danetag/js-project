@@ -31,6 +31,7 @@ module.exports = function (grunt) {
         }
     };
 
+
     /* Routing */
     var pages  = { pages : {} };
     
@@ -56,6 +57,16 @@ module.exports = function (grunt) {
     var menu        = {};
 
     pages.primaryAssets = tplCommon.assets;
+
+    /*** Card ***/
+    var nbCards = 0;
+    for(var i in dataPages.pages)
+    {
+        var p = dataPages.pages[i];
+
+        if(p.id == "card")
+            nbCards++;
+    }
 
     // to concat
     var JStoConcat = [];
@@ -238,7 +249,53 @@ module.exports = function (grunt) {
                     'functions': false
                 }
 
-            }
+            },
+            at2x : {
+
+                // Sprite files to read in
+                'src':     config.app + '/img/sprite@2x/*.png',
+
+                // Location to output spritesheet
+                'destImg': config.app +'/img/sprite@2x.png',
+
+                // Stylus with variables under sprite names
+                'destCSS': config.app +'/css/less/sprite@2x.less',
+
+                // OPTIONAL: Manual override for imgPath specified in CSS
+                //'imgPath': '../sprite.png',
+
+                // OPTIONAL: Specify algorithm (top-down, left-right, diagonal [\ format],
+                // alt-diagonal [/ format], binary-tree [best packing])
+                'algorithm': 'binary-tree',
+
+                // OPTIONAL: Specify engine (auto, canvas, gm)
+                'engine': 'canvas',
+
+                // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
+                // (stylus, scss, sass, less, json, css)
+                'cssFormat': 'less',
+
+                // OPTIONAL: Specify settings for engine
+                'engineOpts': {
+                    'imagemagick': true
+                },
+
+                // OPTIONAL: Specify img options
+                'imgOpts': {
+                    // Format of the image (inferred from destImg' extension by default) (jpg, png)
+                    'format': 'png',
+
+                    // Quality of image (gm only)
+                    //'quality': 90
+                },
+
+                // OPTIONAL: Specify css options
+                'cssOpts': {
+                    // Some templates allow for skipping of function declarations
+                    'functions': false
+                }
+
+            } 
         },
 
         /* WATCH */
@@ -413,6 +470,41 @@ module.exports = function (grunt) {
                 data.lang    = lang;
                 data.menu    = menu[lang];
 
+
+                if( file.id == "card" )
+                {
+                    //get current
+                    var nameCard = file.name;
+                    var idxCard  = parseInt( nameCard.replace("card", ''), 10 );
+
+                    data.idxCard = idxCard;
+                    data.nbCards = nbCards;
+                    data.name    = nameCard;
+
+                    //prev
+                    var idxPrev  =  idxCard-1;
+
+                    if( idxPrev <= 0)
+                    {
+                        idxPrev = nbCards;
+                    }  
+
+                    var prevCard = getPageInJSON("card" + idxPrev);
+                    data.prevCard = prevCard.data[lang];
+
+                    //next
+                    var idxNext  =  idxCard+1;
+
+                    if( idxNext > nbCards)
+                    {
+                        idxNext = 1;
+                    }  
+
+                    var nextCard = getPageInJSON("card" + idxNext);
+                    data.nextCard = nextCard.data[lang];
+
+                }
+
                 var output   = template( data );
 
                 //app
@@ -454,7 +546,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask( "devUpdateSprite",[
-        "sprite:all",
+        "sprite",
         "devUpdateCSS"
     ]); 
 

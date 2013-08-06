@@ -2,6 +2,7 @@
 
 @import "variables.less";
 @import "sprite.less";
+@import "sprite@2x.less";
 @import "mixins.less";
 
 body {
@@ -10,6 +11,7 @@ body {
     line-height:1.125em;
 
     background-color: #FFF;
+    overflow: hidden;
 }
 
 #loader {
@@ -20,9 +22,11 @@ body {
 	position: absolute;
 	top:0;
 	width:100%;
+    z-index: 100;
 }
 
 #content {
+     padding:30px;
 	-webkit-backface-visibility: hidden;
 }
 
@@ -99,5 +103,24 @@ keyframes rotating {
     }
     to{
         transform: rotate(360deg);
+    }
+}
+
+.icon-spinner{
+    //.sprite(@loupe);
+    .sprite2x(@spinner_blue);
+    display: block;
+}
+
+
+/*** Menu ***/
+
+#header{
+
+    padding:30px;
+
+    li {
+        display: inline-block;
+        margin:0 30px 0 0;
     }
 }

@@ -1,0 +1,52 @@
+/* here comes the CSS for the card page */
+@import "sprite@2x.less";
+@import "mixins.less";
+
+#loader-card{
+
+	background-color: transparent;
+	opacity: 0;
+	height:100%;
+	left:0;
+	position: absolute;
+	top:0;
+	width:100%;
+	z-index: 100;
+
+	.icon-spinner{
+
+		position: absolute;
+		top:75px;
+		left:245px;
+
+		.sprite2x(@spinner_blue);
+
+		-webkit-animation: rotating .5s infinite linear;
+    	  -sand-transform: rotating .5s infinite linear;
+    	   -moz-animation: rotating .5s infinite linear;
+    	    -ms-animation: rotating .5s infinite linear;
+    	     -o-animation: rotating .5s infinite linear;
+    	        animation: rotating .5s infinite linear;
+
+	}
+
+}
+
+.page-card {
+
+	background: #000;
+	color:#FFF;
+	height: 350px;
+	left:50%;
+	padding:30px;
+	margin:-175px 0 0 -275px;
+	position:absolute;
+	top:50%;
+	width:550px;
+
+	.box-sizing(border-box);
+
+	&.staging {
+		opacity: 0;
+	}
+}

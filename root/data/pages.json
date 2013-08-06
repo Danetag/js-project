@@ -5,7 +5,7 @@
 			"footer" : "partial/footer.hbs"
 		},
 		"assets" : [
-			{ "src" : "/img/sprite.png", "type" : "image" }
+			{ "src" : "/img/sprite@2x.png", "type" : "image" }
 		],
 		"css" : {
 			"app"  : [
@@ -28,6 +28,7 @@
 
 				{ "src" : "/js/app/com/project/loader/view/Loader.view.class.js"},
 				{ "src" : "/js/app/com/project/loader/view/Loader.main.class.js"},
+				{ "src" : "/js/app/com/project/loader/view/Loader.card.class.js"},
 
 				{ "src" : "/js/app/com/project/loader/type/Loader.type.class.js"},
 				{ "src" : "/js/app/com/project/loader/type/Loader.image.class.js"},
@@ -42,6 +43,10 @@
 
 				{ "src" : "/js/app/com/project/pages/index/Page.index.js"},
 				{ "src" : "/js/app/com/project/pages/index/views/View.index.js"},
+
+				{ "src" : "/js/app/com/project/pages/card/Page.card.js"},
+				{ "src" : "/js/app/com/project/pages/card/Card.class.js"},
+				{ "src" : "/js/app/com/project/pages/card/views/View.card.js"},
 
 				{ "src" : "/js/app/com/project/pages/about/Page.about.js"},
 				{ "src" : "/js/app/com/project/pages/about/views/View.about.js"},
@@ -74,8 +79,8 @@
 			}
 		},
 		"menu" : {
-			"en" : ["index", "about"],
-			"fr" : ["index", "about"]
+			"en" : ["index", "about", "card1", "card2", "card3"],
+			"fr" : ["index", "about", "card1", "card2", "card3"]
 		}
 	},
 	"pages" : [
@@ -155,6 +160,150 @@
 				
 			}
 			
+		},
+
+		{
+			  "name"    : "card1",
+			  "id"      : "card",
+			  "tpl"     : "card.hbs",
+			  "partial" : {
+
+			  },
+			  "data" : {
+
+				    "en": {
+						"output"    : "en/cards/card1.php",
+						"route"     : "/en/cards/card1",
+						"assets"    : [
+
+						],
+						"label"     : "Card01",
+						"bodyClass" : "display-card card1",
+						"meta":{
+						  "title":"JS Project - Card#01",
+						  "description" : "JS Project description - Card#01"
+						},
+						"content" : {
+						  "title" : "Card#01",
+						  "description" : "This is the first card !"
+						}
+				    },
+				    "fr": {
+						"output"    : "fr/fiches/fiche1.php",
+						"route"     : "/fr/fiches/fiche1",
+						"assets"    : [
+
+						],
+						"label"     : "Fiche01",
+						"bodyClass" : "display-card card1",
+						"meta":{
+						  "title":"Projet JS - Fiche#01",
+						  "description" : "Projet JS description - Fiche#01"
+						},
+						"content" : {
+						  "title" : "Fiche#01",
+						  "description" : "C'est la 1ère fiche !"
+						}
+				    }
+			      
+			  }
+		            
+		},
+
+		{
+			  "name"    : "card2",
+			  "id"      : "card",
+			  "tpl"     : "card.hbs",
+			  "partial" : {
+
+			  },
+			  "data" : {
+
+				    "en": {
+						"output"    : "en/cards/card2.php",
+						"route"     : "/en/cards/card2",
+						"assets"    : [
+
+						],
+						"label"     : "Card02",
+						"bodyClass" : "display-card card2",
+						"meta":{
+						  "title":"JS Project - Card#02",
+						  "description" : "JS Project description - Card#02"
+						},
+						"content" : {
+						  "title" : "Card#02",
+						  "description" : "This is the second card !"
+						}
+				    },
+				    "fr": {
+						"output"    : "fr/fiches/fiche2.php",
+						"route"     : "/fr/fiches/fiche2",
+						"assets"    : [
+
+						],
+						"label"     : "Fiche02",
+						"bodyClass" : "display-card card2",
+						"meta":{
+						  "title":"Projet JS - Fiche#02",
+						  "description" : "Projet JS description - Fiche#02"
+						},
+						"content" : {
+						  "title" : "Fiche#02",
+						  "description" : "C'est la 2ème fiche !"
+						}
+				    }
+			      
+			  }
+		            
+		},
+
+		{
+			  "name"    : "card3",
+			  "id"      : "card",
+			  "tpl"     : "card.hbs",
+			  "partial" : {
+
+			  },
+			  "data" : {
+
+				    "en": {
+						"output"    : "en/cards/card3.php",
+						"route"     : "/en/cards/card3",
+						"assets"    : [
+
+						],
+						"label"     : "Card03",
+						"bodyClass" : "display-card card3",
+						"meta":{
+						  "title":"JS Project - Card#03",
+						  "description" : "JS Project description - Card#03"
+						},
+						"content" : {
+						  "title" : "Card#03",
+						  "description" : "This is the third card !"
+						}
+				    },
+				    "fr": {
+						"output"    : "fr/fiches/fiche3.php",
+						"route"     : "/fr/fiches/fiche3",
+						"assets"    : [
+
+						],
+						"label"     : "Fiche03",
+						"bodyClass" : "display-card card3",
+						"meta":{
+						  "title":"Projet JS - Fiche#03",
+						  "description" : "Projet JS description - Fiche#03"
+						},
+						"content" : {
+						  "title" : "Fiche#03",
+						  "description" : "C'est la 3ème fiche !"
+						}
+				    }
+			      
+			  }
+		            
 		},
 
 		{

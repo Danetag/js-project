@@ -1,0 +1,25 @@
+{{> partial.header}}
+  
+  <div class="page-card {{name}}" data-card="{{name}}" data-idxCard="{{idxCard}}" data-nbCards="{{nbCards}}" >
+
+      <div class="info">
+
+        <a href="/{{lang}}/" class="close"><span class="icon-round"></span><span class="icon-close"></span></a>
+
+        <div class="info-content">
+
+          <h2>{{content.title}}</h2>
+          <p class="description">{{content.description}}</p>
+
+          <ul class="nav">
+            <li><a href="{{prevCard.route}}" class="fiche-prev">prev</a></li><!--
+            --><li><a href="{{nextCard.route}}" class="fiche-next">next</a></li>
+          </ul>
+
+        </div>
+      </div>
+
+      
+  </div>
+  	
+{{> partial.footer}}

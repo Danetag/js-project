@@ -1,12 +1,12 @@
-NS.Pages.card = (function($){
+JSP.Pages.card = (function($){
 
 	function CardPage(){ 
-		NS.Page.call(this); 
+		JSP.Page.call(this); 
 		this.cards = []; 
 		this.block = false;
 	}
 
-    CardPage.prototype = Object.create(NS.Page.prototype);
+    CardPage.prototype = Object.create(JSP.Page.prototype);
 	CardPage.prototype.constructor = CardPage;
 
     //Public override
@@ -20,7 +20,7 @@ NS.Pages.card = (function($){
 			return;
 		}
 
-		var Card = new NS.Card(id, name);
+		var Card = new JSP.Card(id, name);
 		Card.init();
 
 		//if there's one, display the new one and delete the old one
@@ -98,7 +98,7 @@ NS.Pages.card = (function($){
 
 		var Card = this.cards[ this.cards.length - 1 ];
 
-		if( NS.routeManager.current.id == "card" && this.cards.length > 1) // from a card to a card
+		if( JSP.routeManager.current.id == "card" && this.cards.length > 1) // from a card to a card
 		{
 			var firstCard = this.cards[0];
 			firstCard.hideInterCard.call(firstCard);
@@ -117,7 +117,7 @@ NS.Pages.card = (function($){
 		Card.unbind.call( Card, Card.EVENT.SHOWN, this.shown.bind(this) );
 
 		//show the main view obviously
-		//NS.Pages.main.View.show();
+		//JSP.Pages.main.View.show();
 
 		//destroy old one
 
@@ -136,7 +136,7 @@ NS.Pages.card = (function($){
 	{
 
 		//get current route. If we are from a card, not hide it now. ('Cause we are going to destroy it. Simply.')
-		if( NS.routeManager.next.id == "card")
+		if( JSP.routeManager.next.id == "card")
 		{
 			this.dispatch( this.EVENT.HIDDEN );
 		}

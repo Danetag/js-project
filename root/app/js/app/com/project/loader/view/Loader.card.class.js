@@ -1,8 +1,8 @@
-NS.LoaderViews.Card = (function(window){
+JSP.LoaderViews.Card = (function(window){
 
-	function LoaderViewCard(){ NS.LoaderView.call(this); }
+	function LoaderViewCard(){ JSP.LoaderView.call(this); }
 
-    LoaderViewCard.prototype = Object.create(NS.LoaderView.prototype);
+    LoaderViewCard.prototype = Object.create(JSP.LoaderView.prototype);
 	LoaderViewCard.prototype.constructor = LoaderViewCard;
 
 	LoaderViewCard.prototype.el   = function()

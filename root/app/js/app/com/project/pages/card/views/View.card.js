@@ -1,4 +1,4 @@
-NS.CardView = (function($){
+JSP.CardView = (function($){
 
 	function CardView()
 	{

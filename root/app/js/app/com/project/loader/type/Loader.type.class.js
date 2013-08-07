@@ -1,6 +1,6 @@
-NS.LoaderTypes = {};
+JSP.LoaderTypes = {};
 
-NS.LoaderType = (function(window){
+JSP.LoaderType = (function(window){
 
 	function LoaderType(){
 		this.src      = null;
@@ -20,7 +20,7 @@ NS.LoaderType = (function(window){
 	{
 		init : function(o)
 		{
-			this.src = NS.conf.baseUrl + o.src;
+			this.src = JSP.conf.baseUrl + o.src;
 		},
 		bind : function(name, f)
 		{

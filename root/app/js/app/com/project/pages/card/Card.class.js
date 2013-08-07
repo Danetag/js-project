@@ -1,4 +1,4 @@
-NS.Card = (function(window){
+JSP.Card = (function(window){
 
 	function Card(id, name){
 
@@ -31,11 +31,11 @@ NS.Card = (function(window){
 		},
 		initModel : function()
 		{
-			this.Model = NS.dataManager.find(this.id, this.name);
+			this.Model = JSP.dataManager.find(this.id, this.name);
 		},
 		initView : function()
 		{
-			this.View = new NS.CardView();
+			this.View = new JSP.CardView();
 
 			this.View.bind.call(this.View, this.View.EVENT.INIT, this.onViewInit.bind(this));
 			this.View.init.call(this.View , this.Model, this.name, this.idxCard );
@@ -69,8 +69,8 @@ NS.Card = (function(window){
 		},
 		load : function()
 		{
-			this.Loader = new NS.Loader();
-			this.Loader.loaderView  = new NS.LoaderViews.Card(); //basic
+			this.Loader = new JSP.Loader();
+			this.Loader.loaderView  = new JSP.LoaderViews.Card(); //basic
 
 			this.Loader.init.call(this.Loader);
 

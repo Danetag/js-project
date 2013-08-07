@@ -1,7 +1,7 @@
 
 /* OK Let's go */
 
-NS.main = {};
+JSP.main = {};
 
 (function($){
 
@@ -17,12 +17,12 @@ NS.main = {};
 
 			var self = this;
 
-			_Loader = new NS.Loader();
-			_Loader.loaderView = new NS.LoaderViews.Main();
+			_Loader = new JSP.Loader();
+			_Loader.loaderView = new JSP.LoaderViews.Main();
 			
 			_Loader.initLoaderView();
 
-			$.getJSON( NS.conf.baseUrl + "/data/pages.json", null, function(data, textStatus, jqXHR){
+			$.getJSON( JSP.conf.baseUrl + "/data/pages.json", null, function(data, textStatus, jqXHR){
 				self.loaded(data);
 			});
 
@@ -31,29 +31,29 @@ NS.main = {};
 		loaded : function(data)
 		{
 			//Data Manager
-			NS.dataManager.init(data);
+			JSP.dataManager.init(data);
 
 			//Route
-			NS.routeManager.init(data);
+			JSP.routeManager.init(data);
 
 			//Start
-			NS.Pages.main.init();
+			JSP.Pages.main.init();
 		},
 
 		start : function()
 		{
 
-			NS.routeManager.unbind( NS.routeManager.EVENT.LOADED, this.start.bind(this) );
+			JSP.routeManager.unbind( JSP.routeManager.EVENT.LOADED, this.start.bind(this) );
 
-			NS.pages.main.init();
+			JSP.pages.main.init();
 
 			//test
 			/*
-			var loader = new NS.Loader();
+			var loader = new JSP.Loader();
 			
 			loader.init.call(loader);
 			loader.add.call(loader, [{ src: "/img/sprite.png", type:"image" }]);
-			loader.bind.call(loader, loader.EVENT.ENDED, NS.main.loaded);
+			loader.bind.call(loader, loader.EVENT.ENDED, JSP.main.loaded);
 
 			loader.start.call(loader);
 			*/
@@ -62,19 +62,19 @@ NS.main = {};
 		}
 	}
 
-	NS.main = new Main();
+	JSP.main = new Main();
 
 	//return new Main();	
 
 })(jQuery);
 
 
-//NS["main"] = NS.main;
-//NS.main["onReady"] = NS.main.onReady;
+//JSP["main"] = JSP.main;
+//JSP.main["onReady"] = JSP.main.onReady;
 
 
 //LET GO
-$(document).ready( NS.main.onReady.bind(NS.main) );
+$(document).ready( JSP.main.onReady.bind(JSP.main) );
 		
 
 

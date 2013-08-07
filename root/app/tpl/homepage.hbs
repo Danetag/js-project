@@ -1,52 +1,4 @@
-<?php
-
-/* Mobile redirect */
-
-// Define application environment
-defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
-
-$dir = "";
-
-switch(APPLICATION_ENV)
-{
-    case "developmentapp"  : $dir = "{{dirnameApp}}" ; break;
-    case "developmentdist" : $dir = "{{dirnameDist}}"; break;
-    case "production"      : $dir = ""; break;
-}
-
-require_once $dir.'include_php/Mobile_Detect.php';
-$detect = new Mobile_Detect;
-
-$isMobile = $detect->isMobile();
-$isTablet = $detect->isTablet();
-
-if( $isTablet )
-{
-
-    $isMobile = false;
-
-    if( $detect->isAndroidOS() )
-        $isMobile = true;
-
-}
-
-/* LANG */
-
-$lang = "en";
-
-$browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-
-switch ($browserLanguage){
-    case "fr":
-        //echo "PAGE FR";
-        $lang = "fr";
-        break;        
-}
-
-$baseURL = "http://" . $_SERVER['HTTP_HOST'];
-
-?>
+{{> partial.headerPHP}}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
@@ -72,8 +24,8 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
         <meta name="apple-mobile-web-app-capable" content="yes"/>
 
         <!-- FB OPENGRAPH -->
-        <meta property="og:title" content="" />
-        <meta property="og:url" content="" />
+        <meta property="og:title" content="{{meta.title}}" />
+        <meta property="og:url" content="<?php echo $baseURL; ?>" />
         <meta property="og:description" content="" />
         <meta property="og:image" content="" />
         <meta property="og:site_name" content="" />
@@ -83,15 +35,15 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
         <meta itemprop="description" content="" />
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="shortcut icon" type="image/gif" href="/img/favicon.gif" />
-        <link rel="icon" type="image/gif" href="/img/favicon.gif" />
+        <link rel="shortcut icon" type="image/gif" href="<?php echo $baseURL; ?>/img/favicon.gif" />
+        <link rel="icon" type="image/gif" href="<?php echo $baseURL; ?>/img/favicon.gif" />
 
         <script type="text/javascript">
 
             //JS redirection for SEO
             var isMobileFromUA = "<?php echo $isMobile; ?>";
             var lang           = "<?php echo $lang; ?>";
-            var baseURL        = "<?php echo $$baseURL; ?>/";
+            var baseURL        = "<?php echo $baseURL; ?>";
 
             var isMobile = false;
 
@@ -100,17 +52,17 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
 
             if( isMobile )
             {
-                window.location = baseURL + "m/?lang=" + lang;
+                window.location = baseURL + "/m/?lang=" + lang;
             }   
             else
-               window.location = baseURL + lang;
+               window.location = baseURL + "/" + lang;
 
         </script>
 
 
         <!-- CSS -->
         {{#each aCSS}}
-            <link rel="stylesheet" href="{{src}}">
+            <link rel="stylesheet" href="<?php echo $baseURL; ?>{{src}}">
         {{/each}}
 
 

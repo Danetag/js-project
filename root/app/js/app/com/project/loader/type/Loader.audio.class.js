@@ -1,8 +1,8 @@
-JSP.LoaderTypes.Audio = (function(window){
+NS.LoaderTypes.Audio = (function(window){
 
-    function LoaderAudio(){ JSP.LoaderType.call(this); }
+    function LoaderAudio(){ NS.LoaderType.call(this); }
 
-    LoaderAudio.prototype = Object.create(JSP.LoaderType.prototype);
+    LoaderAudio.prototype = Object.create(NS.LoaderType.prototype);
 	LoaderAudio.prototype.constructor = LoaderAudio;
 
     //Public override
@@ -19,7 +19,7 @@ JSP.LoaderTypes.Audio = (function(window){
 
     	var self = this;
 
-    	var context = JSP.soundManager.context;
+    	var context = NS.soundManager.context;
 
 		if(context == null)
 		{

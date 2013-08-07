@@ -1,8 +1,8 @@
-JSP.LoaderTypes.Data = (function(window){
+NS.LoaderTypes.Data = (function(window){
 
-    function LoaderData(){ JSP.LoaderType.call(this); }
+    function LoaderData(){ NS.LoaderType.call(this); }
 
-    LoaderData.prototype = Object.create(JSP.LoaderType.prototype);
+    LoaderData.prototype = Object.create(NS.LoaderType.prototype);
 	LoaderData.prototype.constructor = LoaderData;
 
     //Public override

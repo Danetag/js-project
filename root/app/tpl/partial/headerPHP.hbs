@@ -1,0 +1,49 @@
+<?php
+
+/* Mobile redirect */
+
+// Define application environment
+defined('APPLICATION_ENV')
+    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+
+$dir = "";
+$baseURL = "{{baseURL.production}}";
+
+switch(APPLICATION_ENV)
+{
+    case "developmentapp"  : $dir = "{{dirnameApp}}" ; $baseURL = "{{baseURL.developmentapp}}" ; break;
+    case "developmentdist" : $dir = "{{dirnameDist}}"; $baseURL = "{{baseURL.developmentdist}}"; break;
+    case "production"      : $dir = "";                $baseURL = "{{baseURL.production}}"; break;
+}
+
+
+require_once $dir.'include_php/Mobile_Detect.php';
+$detect = new Mobile_Detect;
+
+$isMobile = $detect->isMobile();
+$isTablet = $detect->isTablet();
+
+if( $isTablet )
+{
+
+    $isMobile = false;
+
+    if( $detect->isAndroidOS() )
+        $isMobile = true;
+
+}
+
+/* LANG */
+
+$lang = "en";
+
+$browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+switch ($browserLanguage){
+    case "fr":
+        //echo "PAGE FR";
+        $lang = "fr";
+        break;        
+}
+
+?>

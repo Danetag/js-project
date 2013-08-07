@@ -1,0 +1,30 @@
+<?php
+
+defined('APPLICATION_ENV')
+    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+
+$baseURL = "{{baseURL.production}}";
+
+switch(APPLICATION_ENV)
+{
+    case "developmentapp"  : $baseURL = "{{baseURL.developmentapp}}" ; break;
+    case "developmentdist" : $baseURL = "{{baseURL.developmentdist}}"; break;
+    case "production"      : $baseURL = "{{baseURL.production}}"; break;
+}
+
+header ("Content-Type:text/xml");  
+
+?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL; ?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+{{#each urls}}
+	<url>
+	  <loc><?php echo $baseURL;?>{{loc}}</loc>
+	  <priority>{{priority}}</priority>
+	</url>
+{{/each}}
+</urlset>

@@ -1,53 +1,4 @@
-<?php
-
-/* Mobile redirect */
-
-// Define application environment
-defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
-
-$dir = "";
-
-switch(APPLICATION_ENV)
-{
-    case "developmentapp"  : $dir = "{{dirnameApp}}" ; break;
-    case "developmentdist" : $dir = "{{dirnameDist}}"; break;
-    case "production"      : $dir = ""; break;
-}
-
-
-require_once $dir.'include_php/Mobile_Detect.php';
-$detect = new Mobile_Detect;
-
-$isMobile = $detect->isMobile();
-$isTablet = $detect->isTablet();
-
-if( $isTablet )
-{
-
-    $isMobile = false;
-
-    if( $detect->isAndroidOS() )
-        $isMobile = true;
-
-}
-
-/* LANG */
-
-$lang = "en";
-
-$browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-
-switch ($browserLanguage){
-    case "fr":
-        //echo "PAGE FR";
-        $lang = "fr";
-        break;        
-}
-
-$baseURL = "http://" . $_SERVER['HTTP_HOST'];
-
-?>
+{{> partial.headerPHP}}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
@@ -73,8 +24,8 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
         <meta name="apple-mobile-web-app-capable" content="yes"/>
 
         <!-- FB OPENGRAPH -->
-        <meta property="og:title" content="" />
-        <meta property="og:url" content="" />
+        <meta property="og:title" content="{{meta.title}}" />
+        <meta property="og:url" content="<?php echo $baseURL; ?>" />
         <meta property="og:description" content="" />
         <meta property="og:image" content="" />
         <meta property="og:site_name" content="" />
@@ -84,8 +35,8 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
         <meta itemprop="description" content="" />
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="shortcut icon" type="image/gif" href="/img/favicon.gif" />
-        <link rel="icon" type="image/gif" href="/img/favicon.gif" />
+        <link rel="shortcut icon" type="image/gif" href="<?php echo $baseURL; ?>/img/favicon.gif" />
+        <link rel="icon" type="image/gif" href="<?php echo $baseURL; ?>/img/favicon.gif" />
 
         <!--[if lte IE 10]>
             <script src="/img/ie6/warning.js"></script>
@@ -103,7 +54,7 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
             var _redirectMobile = {
                 isMobileFromUA : "<?php echo $isMobile; ?>",
                 lang           : "<?php echo $lang; ?>",
-                baseURL        : "<?php echo $$baseURL; ?>/",
+                baseURL        : "<?php echo $baseURL; ?>",
                 isMobile       : false
             }
 
@@ -113,18 +64,18 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
 
             if( _redirectMobile.isMobile )
             {
-                window.location = _redirectMobile.baseURL + "m/?lang=" + _redirectMobile.lang;
+                window.location = _redirectMobile.baseURL + "/m/?lang=" + _redirectMobile.lang;
             }  
 
         </script>
 
         <!-- CSS -->
         {{#each aCSS}}
-            <link rel="stylesheet" href="{{src}}">
+            <link rel="stylesheet" href="<?php echo $baseURL; ?>{{src}}">
         {{/each}}
 
-        <script src="/js/vendor/modernizr.custom.14441.js"></script>
-        <script src="/js/vendor/detectizr.min.js"></script>
+        <script src="<?php echo $baseURL; ?>/js/vendor/modernizr.custom.14441.js"></script>
+        <script src="<?php echo $baseURL; ?>/js/vendor/detectizr.min.js"></script>
 
     </head>
     <body>
@@ -135,7 +86,7 @@ $baseURL = "http://" . $_SERVER['HTTP_HOST'];
         <nav>
             <ul>
                 {{#each menu}}
-                     <li><a href="{{route}}">{{label}}</a></li>
+                     <li><a href="<?php echo $baseURL; ?>{{route}}">{{label}}</a></li>
                 {{/each}}
             </ul>
         </nav>

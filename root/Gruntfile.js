@@ -55,6 +55,8 @@ module.exports = function (grunt) {
     var htmlFiles   = [];
     var tplCommon   = dataPages.common;
     var menu        = {};
+    var sitemap     = [];
+    var baseURL     = tplCommon.baseURL;
 
     pages.primaryAssets = tplCommon.assets;
 
@@ -101,6 +103,8 @@ module.exports = function (grunt) {
 
         var pageJS = {};
 
+        var priority = page.priority || 0.5;
+
         for( var lang in page.data)
         {
             var content = page.data[lang];
@@ -109,6 +113,11 @@ module.exports = function (grunt) {
                 src  : config.dist + "/" + content.output,
                 dest : config.dist + "/" + content.output
             });
+
+            sitemap.push({
+                loc : content.route,
+                priority : priority
+            })
 
             pageJS[lang] = { route : content.route, label : content.label, assets : content.assets, title:content.meta.title, name : page.name };
 
@@ -457,6 +466,7 @@ module.exports = function (grunt) {
                 /* CSS/JS */
                 data.aCSS    = tplCommon.css["app"];
                 data.aJS     = tplCommon.js["app"];
+                data.baseURL = baseURL;
 
                 data.dirnameApp  = __dirname + "/app/";
                 data.dirnameDist = __dirname + "/dist/";
@@ -545,6 +555,17 @@ module.exports = function (grunt) {
         console.log("Pages generated");
     });
 
+    grunt.registerTask( "sitemap", "Generation of the sitemap", function(){
+
+        var template = Handlebars.compile( grunt.file.read( config.app + "/tpl/sitemap.hbs"  ) );
+        var output   = template( { urls : sitemap, baseURL : baseURL } );
+
+        //app
+        grunt.file.write( config.app  + "/sitemap.php", output);
+        grunt.file.write( config.dist + "/sitemap.php", output);
+
+    });
+
     grunt.registerTask( "devUpdateSprite",[
         "sprite",
         "devUpdateCSS"
@@ -581,6 +602,7 @@ module.exports = function (grunt) {
     grunt.registerTask( "BuildUpdateHTML",[
         "devUpdateJSON",
         "devUpdateHTML",
+        "sitemap",
         "copy:img"
     ]);
 

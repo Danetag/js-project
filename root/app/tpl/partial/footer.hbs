@@ -9,14 +9,14 @@
 	<!-- JS -->
 	<script>
 		
-		var NS = NS||{};
-		window["NS"] = NS;
+		var JSP = JSP||{};
+		window["JSP"] = JSP;
 
-		NS.conf = {};
+		JSP.conf = {};
 
-		NS.conf.lang      = "{{lang}}";
-		NS.conf.baseUrl   = "<?php echo $baseURL; ?>";
-		NS.conf.translate = {
+		JSP.conf.lang      = "{{lang}}";
+		JSP.conf.baseUrl   = "<?php echo $baseURL; ?>";
+		JSP.conf.translate = {
 			{{#each translateJS}}
 				"{{key}}" : "{{value}}" {{#ifCond @index "<" ../nbItemtranslateJS}} , {{/ifCond}}
 			{{/each}}

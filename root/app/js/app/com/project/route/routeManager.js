@@ -59,7 +59,7 @@ JSP.routeManager = {};
 	    		var page = data.pages[name];
 	    		var id = page.id;
 
-	    		//console.log("id", id)
+	    		//console.log("page", page)
 
 	    		for(var lang in page)
 	    		{
@@ -74,7 +74,7 @@ JSP.routeManager = {};
 	    			//console.log("route", { url : pageLang.route, name : pageLang.label, id : id } )
 
 	    			var routeOject =  new JSP.Route();
-	    			routeOject.init.call( routeOject, { url : pageLang.route, name : pageLang.name, id : id }  );
+	    			routeOject.init.call( routeOject, { url : pageLang.route, name : pageLang.name, id : id, title : pageLang.title }  );
 
 	    			this.routes[lang].push ( routeOject );
 	    		}
@@ -89,7 +89,7 @@ JSP.routeManager = {};
 	        //History.log(State.data, State.title, State.url);
 
 	        var page  = this.getCurrentRoute(State);
-	        this.next = { id : page.id, name : page.name };
+	        this.next = { id : page.id, name : page.name, title : page.title };
 
 	        //hide if not new
 	        if(this.current != null )
@@ -104,6 +104,9 @@ JSP.routeManager = {};
 	        		//GA
 	        		//console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
 					//ga('send', 'pageview', {'page': State.url,'title': State.title} );
+
+					//title
+					document.title = this.next.title;
 
 	        		//console.log("page to load", page, "hide it ", JSP.Pages[ this.current.id ])
 	        		JSP.Pages[ this.next.id ].init( this.next.id, this.next.name );

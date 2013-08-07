@@ -591,7 +591,8 @@ module.exports = function (grunt) {
     /* Build */
 
     grunt.registerTask( "BuildUpdateSprite",[
-        "sprite"
+        "sprite",
+        "copy"
     ]);
 
     grunt.registerTask( "BuildUpdateCSS",[
@@ -603,7 +604,6 @@ module.exports = function (grunt) {
         "devUpdateJSON",
         "devUpdateHTML",
         "sitemap",
-        "copy"
     ]);
 
     grunt.registerTask( "BuildUpdateJS", [

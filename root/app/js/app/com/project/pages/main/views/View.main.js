@@ -25,20 +25,19 @@ JSP.Views.main = (function($){
 
 	MainView.prototype.bindEvents = function()
 	{
-		this.$.header.a.on("click", _clicked );
+		this.$.header.a.on("click", function(e){
+
+			e.preventDefault();
+
+			History.pushState(null, null, $(this).attr("href") );
+
+		} );
 	}
 
 	MainView.prototype.unbindEvents = function()
 	{
-		this.$.header.a.off("click", _clicked );
+		this.$.header.a.off("click" );
 	}
-
-	_clicked = function(e)
-	{
-		e.preventDefault();
-
-		History.pushState(null, null, $(this).attr("href") );
-	};
 
 
 	return new MainView();	

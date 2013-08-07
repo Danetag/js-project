@@ -1,7 +1,7 @@
 {
 	"common": {
 		"baseURL" : {
-			"developmentapp"  : "http://js-project.app/app",
+			"developmentapp"  : "http://js-project.app",
 			"developmentdist" : "http://js-project.dist",
 			"production"      : "http://js-project.com"
 		},

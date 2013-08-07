@@ -84,8 +84,8 @@ module.exports = function (grunt) {
 
     tplCommon.js.app.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.js'} );
 
+    tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.min.js'} );
     tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.min.js'} );
-    tplCommon.js.dist.unshift( { src : '/js/'+ gruntPck.namespace +'.lib.js'} );
 
     for (var i in dataPages.pages)
     {
@@ -181,12 +181,12 @@ module.exports = function (grunt) {
                 {expand: true, cwd: config.app  + '/js/vendor/', src: ['**'], dest: config.dist + '/js/vendor/', filter: 'isFile'}, // includes files in path
             ]
           },
-          img : {
+          phpInclude : {
             files: [
                 {expand: true, cwd: config.app  + '/include_php/', src: ['**'], dest: config.dist + '/include_php/', filter: 'isFile'}, // includes files in path
             ]
           },
-          phpInclude : {
+          img: {
             files: [
                 {expand: true, cwd: config.app  + '/img/', src: ['**'], dest: config.dist + '/img/', filter: 'isFile'}, // includes files in path
             ]
@@ -603,7 +603,7 @@ module.exports = function (grunt) {
         "devUpdateJSON",
         "devUpdateHTML",
         "sitemap",
-        "copy:img"
+        "copy"
     ]);
 
     grunt.registerTask( "BuildUpdateJS", [

@@ -201,7 +201,7 @@ exports.template = function(grunt, init, done) {
             "grunt-contrib-watch"   : "x", 
             "grunt-contrib-concat"  : "x", 
             "grunt-contrib-uglify"  : "x", 
-            "grunt-contrib-sass"    : "x", 
+            "grunt-contrib-less"    : "x", 
             "grunt-contrib-htmlmin" : "x", 
             "grunt-contrib-copy"    : "x", 
             "grunt-contrib-cssmin"  : "x", 

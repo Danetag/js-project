@@ -1,0 +1,18 @@
+{
+	"common": {
+		"baseURL" : {
+			"developmentapp"  : "http://js-project.app",
+			"developmentdist" : "http://js-project.dist",
+			"production"      : "http://js-project.com"
+		},
+		"partial" : {
+			"headerPHP" : "partial/headerPHP.hbs",
+			"header"    : "partial/header.hbs",
+			"footer"    : "partial/footer.hbs"
+		},
+		"assets" : [
+			{ "src" : "/img/sprite@2x.png", "type" : "image" }
+		],
+		"tplSrc" : "app/tpl/"
+	}
+}

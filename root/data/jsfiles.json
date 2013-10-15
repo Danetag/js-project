@@ -1,0 +1,45 @@
+{
+	"js" : {
+		"app"  : [
+
+			{ "src" : "/js/app/com/project/conf/conf.js"},
+
+			{ "src" : "/js/app/com/project/route/route.class.js"},
+			{ "src" : "/js/app/com/project/route/routeManager.js"},
+
+			{ "src" : "/js/app/com/project/model/Model.class.js"},
+			{ "src" : "/js/app/com/project/model/dataManager.js"},
+
+			{ "src" : "/js/app/com/project/loader/view/Loader.view.class.js"},
+			{ "src" : "/js/app/com/project/loader/view/Loader.main.class.js"},
+			{ "src" : "/js/app/com/project/loader/view/Loader.card.class.js"},
+
+			{ "src" : "/js/app/com/project/loader/type/Loader.type.class.js"},
+			{ "src" : "/js/app/com/project/loader/type/Loader.image.class.js"},
+			{ "src" : "/js/app/com/project/loader/type/Loader.data.class.js"},
+			{ "src" : "/js/app/com/project/loader/Loader.js"},
+
+			{ "src" : "/js/app/com/project/pages/Page.class.js"},
+			{ "src" : "/js/app/com/project/pages/View.class.js"},
+
+			{ "src" : "/js/app/com/project/pages/main/Page.main.js"},
+			{ "src" : "/js/app/com/project/pages/main/views/View.main.js"},
+
+			{ "src" : "/js/app/com/project/pages/index/Page.index.js"},
+			{ "src" : "/js/app/com/project/pages/index/views/View.index.js"},
+
+			{ "src" : "/js/app/com/project/pages/card/Page.card.js"},
+			{ "src" : "/js/app/com/project/pages/card/Card.class.js"},
+			{ "src" : "/js/app/com/project/pages/card/views/View.card.js"},
+
+			{ "src" : "/js/app/com/project/pages/about/Page.about.js"},
+			{ "src" : "/js/app/com/project/pages/about/views/View.about.js"},
+
+			{ "src" : "/js/app/main.js"}
+			
+		],
+		"dist" : [
+
+		]
+	}
+}

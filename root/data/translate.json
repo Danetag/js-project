@@ -1,0 +1,22 @@
+{
+	"translateJS" : {
+		"en" :[
+			{ "key" : "skipIntro", "value" : "Skip Intro" }
+		],
+		"fr" :[
+			{ "key" : "skipIntro", "value" : "Passer l'intro" }
+		]
+	},
+	"translateHTML" : {
+		"en" :{
+			"legals" : "Legals" ,
+			"stores" : "Stores",
+			"sound"  : "Sound"
+		},
+		"fr" :{
+			"legals" : "Mentions légales" ,
+			"stores" : "Boutiques",
+			"sound"  : "Son"
+		}
+	}
+}

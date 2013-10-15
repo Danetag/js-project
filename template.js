@@ -154,8 +154,6 @@ exports.template = function(grunt, init, done) {
 
             if (myRegex.test(data)) {
 
-               
-
                 var result = data.replace(myRegex, props.namespace);
 
                 fs.writeFile(fl, result, 'utf8', function (err) {
@@ -195,6 +193,7 @@ exports.template = function(grunt, init, done) {
 
         var devDependencies = {
             "grunt"      : "x",
+            "glob"       : "x",
             "matchdep"   : "x",
             "handlebars" : "x",
             "grunt-css"  : "x",
@@ -202,7 +201,7 @@ exports.template = function(grunt, init, done) {
             "grunt-contrib-watch"   : "x", 
             "grunt-contrib-concat"  : "x", 
             "grunt-contrib-uglify"  : "x", 
-            "grunt-contrib-less"    : "x", 
+            "grunt-contrib-sass"    : "x", 
             "grunt-contrib-htmlmin" : "x", 
             "grunt-contrib-copy"    : "x", 
             "grunt-contrib-cssmin"  : "x", 

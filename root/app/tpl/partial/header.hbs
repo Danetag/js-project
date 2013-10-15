@@ -25,10 +25,10 @@
 
         <!-- FB OPENGRAPH -->
         <meta property="og:title" content="{{meta.title}}" />
-        <meta property="og:url" content="<?php echo $baseURL; ?>" />
-        <meta property="og:description" content="" />
-        <meta property="og:image" content="" />
-        <meta property="og:site_name" content="" />
+        <meta property="og:url" content="<?php echo $baseURL.$_SERVER["REQUEST_URI"]; ?>" />
+        <meta property="og:description" content="{{meta.description}}" />
+        <meta property="og:image" content="<?php echo $baseURL; ?>/img/share_fb.jpg" />
+        <meta property="og:site_name" content="{{meta.title}}" />
 
         <!-- GOOGLE PLUS -->
         <meta itemprop="name" content="" />

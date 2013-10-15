@@ -1,370 +1,118 @@
 {
-	"common": {
-		"baseURL" : {
-			"developmentapp"  : "http://js-project.app",
-			"developmentdist" : "http://js-project.dist",
-			"production"      : "http://js-project.com"
-		},
-		"partial" : {
-			"headerPHP" : "partial/headerPHP.hbs",
-			"header"    : "partial/header.hbs",
-			"footer"    : "partial/footer.hbs"
-		},
-		"assets" : [
-			{ "src" : "/img/sprite@2x.png", "type" : "image" }
-		],
-		"css" : {
-			"app"  : [
-				
-			],
-			"dist" : [
-				
-			]
-		},
-		"js" : {
-			"app"  : [
-
-				{ "src" : "/js/app/com/project/conf/conf.js"},
-
-				{ "src" : "/js/app/com/project/route/route.class.js"},
-				{ "src" : "/js/app/com/project/route/routeManager.js"},
-
-				{ "src" : "/js/app/com/project/model/Model.class.js"},
-				{ "src" : "/js/app/com/project/model/dataManager.js"},
-
-				{ "src" : "/js/app/com/project/loader/view/Loader.view.class.js"},
-				{ "src" : "/js/app/com/project/loader/view/Loader.main.class.js"},
-				{ "src" : "/js/app/com/project/loader/view/Loader.card.class.js"},
-
-				{ "src" : "/js/app/com/project/loader/type/Loader.type.class.js"},
-				{ "src" : "/js/app/com/project/loader/type/Loader.image.class.js"},
-				{ "src" : "/js/app/com/project/loader/type/Loader.data.class.js"},
-				{ "src" : "/js/app/com/project/loader/Loader.js"},
-
-				{ "src" : "/js/app/com/project/pages/Page.class.js"},
-				{ "src" : "/js/app/com/project/pages/View.class.js"},
-
-				{ "src" : "/js/app/com/project/pages/main/Page.main.js"},
-				{ "src" : "/js/app/com/project/pages/main/views/View.main.js"},
-
-				{ "src" : "/js/app/com/project/pages/index/Page.index.js"},
-				{ "src" : "/js/app/com/project/pages/index/views/View.index.js"},
-
-				{ "src" : "/js/app/com/project/pages/card/Page.card.js"},
-				{ "src" : "/js/app/com/project/pages/card/Card.class.js"},
-				{ "src" : "/js/app/com/project/pages/card/views/View.card.js"},
-
-				{ "src" : "/js/app/com/project/pages/about/Page.about.js"},
-				{ "src" : "/js/app/com/project/pages/about/views/View.about.js"},
-
-				{ "src" : "/js/app/main.js"}
-				
-			],
-			"dist" : [
-
-			]
-		},
-		"translateJS" : {
-			"en" :[
-				{ "key" : "skipIntro", "value" : "Skip Intro" }
-			],
-			"fr" :[
-				{ "key" : "skipIntro", "value" : "Passer l'intro" }
-			]
-		},
-		"translate" : {
-			"en" :{
-				"legals" : "Legals" ,
-				"stores" : "Stores",
-				"sound" : "Sound"
-			},
-			"fr" :{
-				"legals" : "Mentions légales" ,
-				"stores" : "Boutiques",
-				"sound" : "Son"
-			}
-		},
-		"menu" : {
-			"en" : ["index", "about", "card1", "card2", "card3"],
-			"fr" : ["index", "about", "card1", "card2", "card3"]
-		}
-	},
 	"pages" : [
 		{
 			"name"    : "homepage",
 			"id"      : "homepage",
 			"tpl"     : "homepage.hbs",
+			"output"   : {
+				"en"  : "index.php"
+			},
+			"route"   : {
+				"en"  : "/"
+			},
 			"priority": 1,
 			"hasLayout" : false,
 			"partial" : {
 				"headerPHP" : "partial/headerPHP.hbs"
-			},
-			"data" : {
-				"en": {
-						"output"    : "index.php",
-						"route"     : "/",
-						"label"		: "Homepage",
-						"meta":{
-							"title":"JS Project - homepage",
-							"description" : "This is a basic JS Project"
-						},
-						"content" : {
-							"header" : {
-								"title" : "JS Project"
-							},
-							"body" : "Homepage !"
-						}
-				}
-				
 			}
-			
 		},
 
 		{
 			"name"    : "index",
 			"id"      : "index",
 			"tpl"     : "index.hbs",
+			"output"   : {
+				"en"  : "en/index.php",
+				"fr"  : "fr/index.php"
+			},
+			"route"   : {
+				"en"  : "/en",
+				"fr"  : "/fr"
+			},
 			"priority": 0.80,
 			"partial" : {
 
 			},
-			"data" : {
-				"en": {
-						"output"    : "en/index.php",
-						"route"     : "/en",
-						"assets"	: [
-							
-						],
-						"label"		: "Home",
-						"meta":{
-							"title":"JS Project - Index",
-							"description" : "This is the index of the en version"
-						},
-						"content" : {
-							"header" : {
-								"title" : "JS Project Index"
-							},
-							"body" : "This is a basic project"
-						}
-				},
-				"fr": {
-						"output"    : "fr/index.php",
-						"route"     : "/fr",
-						"assets"	: [
-							
-						],
-						"label"		: "Accueil",
-						"meta":{
-							"title":"Projet JS - Accueil",
-							"description" : "C'est un Projet JS basique !"
-						},
-						"content" : {
-							"header" : {
-								"title" : "Projet JS Accueil"
-							},
-							"body" : "C'est un projet basique"
-						}
-				}
-				
-			}
-			
+			"assets"    : []
 		},
 
 		{
-			  "name"    : "card1",
-			  "id"      : "card",
-			  "tpl"     : "card.hbs",
-			  "priority": 0.50,
-			  "partial" : {
+			"name"    : "card1",
+			"id"      : "card",
+			"tpl"     : "card.hbs",
+			"output"   : {
+				"en"  : "en/cards/card1.php",
+				"fr"  : "fr/cards/card1.php"
+			},
+			"route"   : {
+				"en"  : "/en/cards/card1",
+				"fr"  : "/fr/cards/card1"
+			},
+			"priority": 0.50,
+			"partial" : {
 
-			  },
-			  "data" : {
-
-				    "en": {
-						"output"    : "en/cards/card1.php",
-						"route"     : "/en/cards/card1",
-						"assets"    : [
-
-						],
-						"label"     : "Card01",
-						"bodyClass" : "display-card card1",
-						"meta":{
-						  "title":"JS Project - Card#01",
-						  "description" : "JS Project description - Card#01"
-						},
-						"content" : {
-						  "title" : "Card#01",
-						  "description" : "This is the first card !"
-						}
-				    },
-				    "fr": {
-						"output"    : "fr/fiches/fiche1.php",
-						"route"     : "/fr/fiches/fiche1",
-						"assets"    : [
-
-						],
-						"label"     : "Fiche01",
-						"bodyClass" : "display-card card1",
-						"meta":{
-						  "title":"Projet JS - Fiche#01",
-						  "description" : "Projet JS description - Fiche#01"
-						},
-						"content" : {
-						  "title" : "Fiche#01",
-						  "description" : "C'est la 1ère fiche !"
-						}
-				    }
-			      
-			  }
-		            
+			},
+			"bodyClass" : "display-card card1",
+			"assets"    : []
 		},
 
 		{
-			  "name"    : "card2",
-			  "id"      : "card",
-			  "tpl"     : "card.hbs",
-			  "priority": 0.50,
-			  "partial" : {
+			"name"    : "card2",
+			"id"      : "card",
+			"tpl"     : "card.hbs",
+			"output"   : {
+				"en"  : "en/cards/card2.php",
+				"fr"  : "fr/cards/card2.php"
+			},
+			"route"   : {
+				"en"  : "/en/cards/card2",
+				"fr"  : "/fr/cards/card2"
+			},
+			"priority": 0.50,
+			"partial" : {
 
-			  },
-			  "data" : {
-
-				    "en": {
-						"output"    : "en/cards/card2.php",
-						"route"     : "/en/cards/card2",
-						"assets"    : [
-
-						],
-						"label"     : "Card02",
-						"bodyClass" : "display-card card2",
-						"meta":{
-						  "title":"JS Project - Card#02",
-						  "description" : "JS Project description - Card#02"
-						},
-						"content" : {
-						  "title" : "Card#02",
-						  "description" : "This is the second card !"
-						}
-				    },
-				    "fr": {
-						"output"    : "fr/fiches/fiche2.php",
-						"route"     : "/fr/fiches/fiche2",
-						"assets"    : [
-
-						],
-						"label"     : "Fiche02",
-						"bodyClass" : "display-card card2",
-						"meta":{
-						  "title":"Projet JS - Fiche#02",
-						  "description" : "Projet JS description - Fiche#02"
-						},
-						"content" : {
-						  "title" : "Fiche#02",
-						  "description" : "C'est la 2ème fiche !"
-						}
-				    }
-			      
-			  }
-		            
+			},
+			"bodyClass" : "display-card card2",
+			"assets"    : []
 		},
 
 		{
-			  "name"    : "card3",
-			  "id"      : "card",
-			  "tpl"     : "card.hbs",
-			  "priority": 0.50,
-			  "partial" : {
+			"name"    : "card3",
+			"id"      : "card",
+			"tpl"     : "card.hbs",
+			"output"   : {
+				"en"  : "en/cards/card3.php",
+				"fr"  : "fr/cards/card3.php"
+			},
+			"route"   : {
+				"en"  : "/en/cards/card3",
+				"fr"  : "/fr/cards/card3"
+			},
+			"priority": 0.50,
+			"partial" : {
 
-			  },
-			  "data" : {
-
-				    "en": {
-						"output"    : "en/cards/card3.php",
-						"route"     : "/en/cards/card3",
-						"assets"    : [
-
-						],
-						"label"     : "Card03",
-						"bodyClass" : "display-card card3",
-						"meta":{
-						  "title":"JS Project - Card#03",
-						  "description" : "JS Project description - Card#03"
-						},
-						"content" : {
-						  "title" : "Card#03",
-						  "description" : "This is the third card !"
-						}
-				    },
-				    "fr": {
-						"output"    : "fr/fiches/fiche3.php",
-						"route"     : "/fr/fiches/fiche3",
-						"assets"    : [
-
-						],
-						"label"     : "Fiche03",
-						"bodyClass" : "display-card card3",
-						"meta":{
-						  "title":"Projet JS - Fiche#03",
-						  "description" : "Projet JS description - Fiche#03"
-						},
-						"content" : {
-						  "title" : "Fiche#03",
-						  "description" : "C'est la 3ème fiche !"
-						}
-				    }
-			      
-			  }
-		            
+			},
+			"bodyClass" : "display-card card3",
+			"assets"    : []
 		},
 
 		{
 			"name"    : "about",
 			"id"      : "about",
 			"tpl"     : "about.hbs",
+			"output"   : {
+				"en"  : "en/about.php",
+				"fr"  : "fr/a-propos.php"
+			},
+			"route"   : {
+				"en"  : "/en/about",
+				"fr"  : "/fr/a-propos"
+			},
 			"priority": 0.50,
 			"partial" : {
 
 			},
-			"data" : {
-				"en": {
-						"output"    : "en/about.php",
-						"route"     : "/en/about",
-						"assets"	: [
-						
-						],
-						"label"		: "About",
-						"meta":{
-							"title":"JS Project - about",
-							"description" : "About en"
-						},
-						"content" : {
-							"header" : {
-								"title" : "About the JS Project"
-							},
-							"body" : "About the JS Project"
-						}
-				},
-				"fr": {
-						"output"    : "fr/a-propos.php",
-						"route"     : "/fr/a-propos",
-						"assets"	: [
-							
-						],
-						"label"		: "À propos",
-						"meta":{
-							"title":"Projet JS - A propos",
-							"description" : "A propos de"
-						},
-						"content" : {
-							"header" : {
-								"title" : "À propos du Projet JS"
-							},
-							"body" : "À propos du Projet JS"
-						}
-				}
-				
-			}
-			
+			"assets"    : []
 		}
 
 	]

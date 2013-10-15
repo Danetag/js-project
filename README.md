@@ -51,9 +51,9 @@ This project uses [grunt-spritesmith](https://github.com/Ensighten/grunt-sprites
 
 Spritesmith supports multiple sprite engines however all of the current engines require external software to be installed.
 
-As a result, you must either have [PhantomJS][phantomjs] installed for Spritesmith to run properly. 
+As a result, you must either have [PhantomJS](http://phantomjs.org/) installed for Spritesmith to run properly. 
 
-You just have to install PhantomJS
+You just have to install PhantomJS through npm
 
 ```
 npm install -g phantomjs

@@ -159,7 +159,7 @@ JSP.Card = (function(window){
 		unbindEvents : function()
 		{
 			this.View.unbindEvents.call(this.View);
-		}
+		},
 		deleteClass : function()
 		{
 			this.View.deleteClass.call(this.View);

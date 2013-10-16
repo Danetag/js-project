@@ -74,6 +74,27 @@ JSP.Pages.card = (function($){
 		
 	}
 
+
+	CardPage.prototype.hideLoader = function()
+	{
+		var Card = this.cards[ this.cards.length - 1 ];
+		
+		//hide Loader
+		Card.bind.call( Card, Card.EVENT.LOADER_IS_DESTROYED, this.loaderDestroyed.bind(this));
+		Card.hideLoader.call(Card);
+	}
+
+	CardPage.prototype.loaderDestroyed = function()
+	{
+		var Card = this.cards[ this.cards.length - 1 ];
+
+		Card.unbind.call( Card, Card.EVENT.LOADER_IS_DESTROYED, this.loaderDestroyed.bind(this));
+		this.dispatch(this.EVENT.LOADER_IS_DESTROYED);
+	}
+
+
+
+
 	CardPage.prototype.onViewInitAfterLoad = function()
 	{
 		var Card = this.cards[ this.cards.length - 1 ];
@@ -136,6 +157,12 @@ JSP.Pages.card = (function($){
 
 		this.dispatch( this.EVENT.SHOWN );
 	};
+
+	CardPage.prototype.unbindEvents = function()
+	{
+		var Card = this.cards[ this.cards.length - 1 ];
+		Card.unbindEvents();
+	}
 
 	CardPage.prototype.hide = function()
 	{

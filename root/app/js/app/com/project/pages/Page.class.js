@@ -99,10 +99,6 @@ JSP.Page = (function(window){
 		},
 		hideLoader : function()
 		{
-			////console.log("hideLoader", this.name)
-			//SHow general menu.
-			JSP.Pages.main.View.showMenu();
-
 			//hide Loader
 			this.Loader.bind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.loaderHidden.bind(this) );
 			this.Loader.hide.call(this.Loader);

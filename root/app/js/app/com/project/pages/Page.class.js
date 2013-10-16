@@ -79,9 +79,6 @@ JSP.Page = (function(window){
 		initView : function()
 		{
 			this.View = JSP.Views[ this.id ];
-
-			//change theme
-			JSP.Pages.main.View.changeTheme(this.theme);
 			
 			this.View.bind( this.View.EVENT.INIT, this.onViewInit.bind(this));
 

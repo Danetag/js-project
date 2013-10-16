@@ -13,6 +13,10 @@ JSP.Pages.card = (function($){
 
     CardPage.prototype.init   = function(obj)
 	{
+		this.id 	    = obj.id;
+		this.name       = obj.name;
+		this.jSVar      = obj.jSVar;
+
 		//if one existed and we would like to display it.. Do nothing ! Just block and it will dispatch on load.
 		if( this.cards[0] != undefined && this.cards[0].name == obj.name )
 		{

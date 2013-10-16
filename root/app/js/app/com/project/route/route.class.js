@@ -5,8 +5,6 @@ JSP.Route = (function(window){
 		this.name = null;
 		this.id   = null;
 		this.title= null;
-		this.transition = null;
-		this.theme = null;
 
 		this.jSVar = null;
 	};
@@ -20,8 +18,6 @@ JSP.Route = (function(window){
 			this.url   		= route.url;
 			this.name  		= route.name;
 			this.title  	= route.title;
-			this.transition = route.transition;
-			this.theme 		= route.theme;
 
 			this.jSVar      = route.jSVar;
 

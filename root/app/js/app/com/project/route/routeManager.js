@@ -78,9 +78,7 @@ JSP.routeManager = {};
 	    				url   		: pageLang.route, 
 	    				name  		: pageLang.name, 
 	    				id    	    : id, 
-	    				title 		: pageLang.title, 
-	    				transition  : page.transition, 
-	    				theme 		: page.theme,
+	    				title 		: pageLang.title,
 	    				jSVar 		: page.jSVar
 	    			});
 
@@ -98,7 +96,7 @@ JSP.routeManager = {};
 	        //History.log(State.data, State.title, State.url);
 
 	        var page  = this.getCurrentRoute(State);
-	        this.next = { id : page.id, name : page.name, title : page.title, transition : page.transition, theme : page.theme, jSVar : page.jSVar};
+	        this.next = { id : page.id, name : page.name, title : page.title, jSVar : page.jSVar};
 
 	        ////console.log("onStateChange this.next.id", this.next.id, this.current)
 	        //alert("this.next.id :: "+this.next.id)
@@ -116,7 +114,7 @@ JSP.routeManager = {};
 	        		//GA
 	        		////console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
 					//ga('send', 'pageview', {'page': State.url,'title': State.title} );
-					_gaq.push(['_trackPageview', page.url]);
+					//_gaq.push(['_trackPageview', page.url]);
 					//console.log("router", page.url)
 
 					//title

@@ -9,10 +9,12 @@ JSP.Pages.main = (function($){
 
 	MainPage.prototype.init = function()
 	{
-		this.Loader = new JSP.Loader();
-		this.id = "main";
-		this.initView();
+		this.Loader            = new JSP.Loader();
+		this.Loader.loaderView = new JSP.LoaderViews.Main();
+		this.id   = "main";
+		this.name = "main";
 
+		this.initView();
 		this.load();
 	}
 
@@ -40,14 +42,26 @@ JSP.Pages.main = (function($){
 
 		var currentPage = JSP.Pages[ JSP.routeManager.current.id ];
 
+		currentPage.init({ 
+			id 			: JSP.routeManager.current.id, 
+			name 		: JSP.routeManager.current.name,
+			jSVar 	    : JSP.routeManager.current.jSVar
+		});
+
 		//init View of current Page. No need to Load
-		currentPage.init( JSP.routeManager.current.id, JSP.routeManager.current.name );
+		currentPage.bind( currentPage.EVENT.VIEW_INIT, this.onCurrentViewInit.bind(this) )
 		currentPage.initView();
+
+	}
+
+	MainPage.prototype.onCurrentViewInit = function()
+	{
+		JSP.Pages[ JSP.routeManager.current.id ].unbind( JSP.Pages[ JSP.routeManager.current.id ].EVENT.VIEW_INIT, this.onCurrentViewInit.bind(this) );
 
 		this.Loader.bind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.hidden.bind(this) );
 		this.Loader.hide.call(this.Loader);
+	};
 
-	}
 
 	MainPage.prototype.hidden = function()
 	{

@@ -47,18 +47,6 @@ JSP.main = {};
 
 			JSP.pages.main.init();
 
-			//test
-			/*
-			var loader = new JSP.Loader();
-			
-			loader.init.call(loader);
-			loader.add.call(loader, [{ src: "/img/sprite.png", type:"image" }]);
-			loader.bind.call(loader, loader.EVENT.ENDED, JSP.main.loaded);
-
-			loader.start.call(loader);
-			*/
-
-
 		}
 	}
 

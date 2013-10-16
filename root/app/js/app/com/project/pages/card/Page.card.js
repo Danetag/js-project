@@ -11,16 +11,16 @@ JSP.Pages.card = (function($){
 
     //Public override
 
-    CardPage.prototype.init   = function(id, name)
+    CardPage.prototype.init   = function(obj)
 	{
 		//if one existed and we would like to display it.. Do nothing ! Just block and it will dispatch on load.
-		if( this.cards[0] != undefined && this.cards[0].name == name )
+		if( this.cards[0] != undefined && this.cards[0].name == obj.name )
 		{
 			this.block = true;
 			return;
 		}
 
-		var Card = new JSP.Card(id, name);
+		var Card = new JSP.Card(obj);
 		Card.init();
 
 		//if there's one, display the new one and delete the old one
@@ -47,7 +47,8 @@ JSP.Pages.card = (function($){
 		var Card = this.cards[ this.cards.length - 1 ];
 
 		Card.unbind.call( Card, Card.EVENT.LOADED, this.loaded.bind(this));
-		this.initView();
+		this.dispatch(this.EVENT.IS_LOADED);
+		//this.initView();
 
 	};
 

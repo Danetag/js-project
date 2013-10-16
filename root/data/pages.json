@@ -29,6 +29,7 @@
 				"en"  : "/en",
 				"fr"  : "/fr"
 			},
+			"jSVar"   : {},
 			"priority": 0.80,
 			"partial" : {
 

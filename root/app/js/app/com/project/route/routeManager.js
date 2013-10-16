@@ -59,7 +59,7 @@ JSP.routeManager = {};
 	    		var page = data.pages[name];
 	    		var id = page.id;
 
-	    		//console.log("page", page)
+	    		////console.log("page", page)
 
 	    		for(var lang in page)
 	    		{
@@ -71,25 +71,37 @@ JSP.routeManager = {};
 
 	    			var pageLang = page[lang];
 
-	    			//console.log("route", { url : pageLang.route, name : pageLang.label, id : id } )
+	    			////console.log("route", { url : pageLang.route, name : pageLang.label, id : id } )
 
 	    			var routeOject =  new JSP.Route();
-	    			routeOject.init.call( routeOject, { url : pageLang.route, name : pageLang.name, id : id, title : pageLang.title }  );
+	    			routeOject.init.call( routeOject, { 
+	    				url   		: pageLang.route, 
+	    				name  		: pageLang.name, 
+	    				id    	    : id, 
+	    				title 		: pageLang.title, 
+	    				transition  : page.transition, 
+	    				theme 		: page.theme,
+	    				jSVar 		: page.jSVar
+	    			});
 
 	    			this.routes[lang].push ( routeOject );
 	    		}
 	    	}
 
-	    	//console.log(this.routes)
+	    	////console.log(this.routes)
 
 	    },
-	    onStateChange : function(){
-		
+	    onStateChange : function(f){
+
+	    	var force = f || false;
 			var State = History.getState(); // Note: We are using History.getState() instead of event.state
 	        //History.log(State.data, State.title, State.url);
 
 	        var page  = this.getCurrentRoute(State);
-	        this.next = { id : page.id, name : page.name, title : page.title };
+	        this.next = { id : page.id, name : page.name, title : page.title, transition : page.transition, theme : page.theme, jSVar : page.jSVar};
+
+	        ////console.log("onStateChange this.next.id", this.next.id, this.current)
+	        //alert("this.next.id :: "+this.next.id)
 
 	        //hide if not new
 	        if(this.current != null )
@@ -97,20 +109,25 @@ JSP.routeManager = {};
 
 	        	var currentRouteObject = this.getCurrentRouteObject();
 
-	        	//console.log("test", currentRouteObject.id , this.next.id , currentRouteObject.name , this.next.name )
-	        	if( currentRouteObject.id != this.next.id || currentRouteObject.name != this.next.name )
+	        	////console.log("test", currentRouteObject.id , this.next.id , currentRouteObject.name , this.next.name )
+	        	if( currentRouteObject.id != this.next.id || currentRouteObject.name != this.next.name || force )
 	        	{
 
 	        		//GA
-	        		//console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
+	        		////console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
 					//ga('send', 'pageview', {'page': State.url,'title': State.title} );
+					_gaq.push(['_trackPageview', page.url]);
+					//console.log("router", page.url)
 
 					//title
 					document.title = this.next.title;
 
-	        		//console.log("page to load", page, "hide it ", JSP.Pages[ this.current.id ])
-	        		JSP.Pages[ this.next.id ].init( this.next.id, this.next.name );
-	        		JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextLoaded.bind(this) );
+	        		////console.log("page to load", page, "hide it ", JSP.Pages[ this.current.id ])
+
+	        		JSP.Pages[ this.current.id ].unbindEvents();
+	        		JSP.Pages[ this.next.id ].init( this.next ); //init Controller
+
+	        		JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.IS_LOADED, this.nextLoaded.bind(this) );
 					JSP.Pages[ this.next.id ].load();
 	        	}
 
@@ -118,35 +135,49 @@ JSP.routeManager = {};
 	    	else
 	    	{
 	    		//new
-	    		this.current = { id : page.id, name : page.name };
+	    		this.current = this.next;
+	    		////console.log("this.current", this.current)
 	    	}
 		},
 		nextLoaded : function()
 		{
-			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextLoaded.bind(this) );
+			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.IS_LOADED, this.nextLoaded.bind(this) );
 
-			//console.log("routemanager : hide the current one  " +this.current.id );
-
+			//destroy old one
 			JSP.Pages[ this.current.id ].bind( JSP.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
 		    JSP.Pages[ this.current.id ].hide();
 		},
 		currentPageHidden : function()
 		{
 			JSP.Pages[ this.current.id ].unbind( JSP.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
-			JSP.Pages[ this.current.id ].unload();
 
-			//Show the next one
-			//console.log("routemanager : show " +this.next.id );
+			//init view next one
+			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextPageViewInit.bind(this) );
+			JSP.Pages[ this.next.id ].initView();
 
+		},
+		nextPageViewInit : function()
+		{
+			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextPageViewInit.bind(this) );
 
+			// Destroy the loader
+			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.LOADER_IS_DESTROYED, this.loaderDestroyed.bind(this) );
+			JSP.Pages[ this.next.id ].hideLoader();
+		},
+		loaderDestroyed : function()
+		{
+			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.LOADER_IS_DESTROYED, this.loaderDestroyed.bind(this) );
 
+			// Finally, show it ! (bind event actually)
 			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.SHOWN, this.nextPageShow.bind(this) );
 			JSP.Pages[ this.next.id ].show();
-
 		},
 		nextPageShow : function()
 		{
+			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.SHOWN, this.nextPageShow.bind(this) );
+
 			this.current = this.next; //new current
+			////console.log("new this.current", this.current)
 
 		},
 	    getRoute : function(key, lang)
@@ -163,12 +194,26 @@ JSP.routeManager = {};
 
 	    	return null;
 	    },
+	    getRouteObject : function(key, lang)
+	    {
+	    	var l = lang || JSP.conf.lang;
+
+	    	for (var i in this.routes[l])
+	    	{
+	    		var route = this.routes[l][i];
+
+	    		if(route.name == key)
+	    			return route;
+	    	}
+
+	    	return null;
+	    },
 	    getCurrentRoute : function(State)
 	    {
 
 	    	for(var i in this.routes[JSP.conf.lang] )
 	    	{
-	    		
+	    		console.log(State.url  , JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url )
 	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url )
 	    		{
 	    			return this.routes[JSP.conf.lang][i];

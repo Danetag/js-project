@@ -1,10 +1,10 @@
 JSP.Card = (function(window){
 
-	function Card(id, name){
+	function Card(obj){
 
-		this.id      = id;
-		this.name    = name;
-		this.idxCard = parseInt( name.replace("card", ''), 10 );
+		this.id      = obj.id;
+		this.name    = obj.name;
+		this.idxCard = parseInt( obj.name.replace("card", ''), 10 );
 
 		this.Model  = null;
 		this.View   = null;
@@ -17,7 +17,8 @@ JSP.Card = (function(window){
 			LOADED   : "loaded",
 			INIT     : "init",
 			SHOWN    : "shownCard",
-			HIDDEN   : "hiddenCard"
+			HIDDEN   : "hiddenCard",
+			LOADER_IS_DESTROYED : "LoaderIsDestroyed"
 		};
 	};
 
@@ -122,7 +123,9 @@ JSP.Card = (function(window){
 		{
 			this.Loader.unbind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.loaderHidden.bind(this) );
 			this.Loader.destroy.call( this.Loader );
-			this.Loader = null;			
+			this.Loader = null;	
+
+			this.dispatch( this.EVENT.LOADER_IS_DESTROYED );		
 		},
 		onViewInit : function()
 		{
@@ -153,6 +156,10 @@ JSP.Card = (function(window){
 			this.View.unbind.call( this.View, this.View.EVENT.HIDDEN, this.hidden.bind(this) );
 			this.dispatch( this.EVENT.HIDDEN );
 		},
+		unbindEvents : function()
+		{
+			this.View.unbindEvents.call(this.View);
+		}
 		deleteClass : function()
 		{
 			this.View.deleteClass.call(this.View);

@@ -112,8 +112,8 @@ module.exports = function(grunt) {
 
                 data.baseURL 			= common.baseURL;
 
-                data.dirnameApp 		= __dirname + "/app/";
-                data.dirnameDist 		= __dirname + "/dist/";
+                data.dirnameApp 		= global.GRUNT.dirname + "/app/";
+                data.dirnameDist 		= global.GRUNT.dirname + "/dist/";
 
                 data.translateJS       	= translate.translateJS[lang];
                 data.nbItemtranslateJS 	= translate.translateJS[lang].length - 1;
@@ -146,6 +146,7 @@ module.exports = function(grunt) {
 
                     var prevCard  = tools.getPageInJSON("card" + idxPrev);
                     data.prevCard = prevCard.data[lang];
+                    data.prevCard.route = prevCard.route[lang];
 
                     //next
                     var idxNext  =  idxCard+1;
@@ -157,6 +158,7 @@ module.exports = function(grunt) {
 
                     var nextCard  = tools.getPageInJSON("card" + idxNext);
                     data.nextCard = nextCard.data[lang];
+                    data.nextCard.route = nextCard.route[lang];
 
                 }
 

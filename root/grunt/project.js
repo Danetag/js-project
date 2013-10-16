@@ -19,6 +19,7 @@ var _initPages = function()
             route     : page.route, 
             priority  : page.priority, 
             data      : global.GRUNT.content[page.name],
+            jSVar     : page.jSVar     || {},
             partials  : page.partials  || {},
             hasLayout : page.hasLayout || true,
             assets    : page.assets    || [],
@@ -69,7 +70,7 @@ var _initRoutes = function()
         for ( var lang in page.data)
         {
         	var content  = page.data[lang];
-        	route[lang] = { route : content.route, label : content.label, assets : content.assets, title:content.meta.title, name : page.name };	
+        	route[lang] = { route : page.route[lang], label : content.label, assets : page.assets, title:content.meta.title, name : page.name };   
         }
 
 

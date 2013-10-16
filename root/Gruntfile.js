@@ -24,6 +24,7 @@ module.exports = function (grunt) {
 
     configOptions.pkg       = grunt.file.readJSON('package.json');
 
+    global.GRUNT.dirname    = __dirname;
     global.GRUNT.pkg        = grunt.file.readJSON('package.json');
     global.GRUNT.common     = grunt.file.readJSON('./data/common.json').common;
     global.GRUNT.jsfiles    = grunt.file.readJSON('./data/jsfiles.json').js;

@@ -21,6 +21,8 @@ JSP.Views.main = (function($){
 		this.$.header.a = $("#header a");
 		this.$.body     = $("body");
 		this.$.content  = $("#content");
+
+		this.bindEvents();
 	}
 
 	MainView.prototype.bindEvents = function()

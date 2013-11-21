@@ -94,7 +94,7 @@ var _initSitemap = function()
         for( var lang in page.data)
         {
             sitemap.push({
-                loc      : page.route[lang].route,
+                loc      : page.route[lang],
                 priority : page.priority
             });
         }
@@ -114,10 +114,6 @@ var _initCSS = function()
 
 var _initJS = function()
 {
-    global.GRUNT.jsfiles.app.unshift(  { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.js'} );
-    global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.min.js'} );
-    global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.min.js'} );
-
     // Concat JS
     var JStoConcat = [];
     for(var i in global.GRUNT.jsfiles.app)
@@ -126,6 +122,11 @@ var _initJS = function()
     }
 
     global.GRUNT.jsfiles.concat = JStoConcat;
+
+    global.GRUNT.jsfiles.app.unshift(  { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.js'} );
+    global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.min.js'} );
+    global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.min.js'} );
+
 }
 
 var _initConfigScripts = function()
@@ -158,6 +159,7 @@ var project = function ()
         _initCSS();
         _initJS();
         _initConfigScripts();
+        _initSitemap();
 	}
 }
 

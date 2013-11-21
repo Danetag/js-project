@@ -211,7 +211,7 @@ JSP.routeManager = {};
 
 	    	for(var i in this.routes[JSP.conf.lang] )
 	    	{
-	    		console.log(State.url  , JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url )
+
 	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url )
 	    		{
 	    			return this.routes[JSP.conf.lang][i];

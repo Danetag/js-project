@@ -18,5 +18,10 @@ module.exports = {
 		files: [
 			{expand: true, cwd: 'app/m/', src: ['**'], dest: 'dist/m/', filter: 'isFile'}, // includes files in path
 		]
+	},
+	font : {
+		files: [
+			{expand: true, cwd: 'app/css/font/', src: ['**'], dest: 'dist/css/font/', filter: 'isFile'}, // includes files in path
+		]
 	}
 }

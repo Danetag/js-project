@@ -1,10 +1,10 @@
 {{> partial.headerPHP}}
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie11 lt-ie10 lt-ie9"> <![endif]-->
-<!--[if IE 9]>         <html class="no-js lt-ie11 lt-ie10"> <![endif]-->
-<!--[if IE 10]>         <html class="no-js lt-ie11"> <![endif]-->
+<!--[if lt IE 7]><html class="ie6 no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8 lt-ie7 is-ie" lang="{{lang}}"> <![endif]-->
+<!--[if IE 7]><html class="ie7 no-js lt-ie11 lt-ie10 lt-ie9 lt-ie8 is-ie" lang="{{lang}}"> <![endif]-->
+<!--[if IE 8]><html class="ie8 no-js lt-ie11 lt-ie10 lt-ie9 is-ie" lang="{{lang}}"> <![endif]-->
+<!--[if IE 9]><html class="ie9 no-js lt-ie11 lt-ie10 is-ie" lang="{{lang}}"> <![endif]-->
+<!--[if IE 10]><html class="ie10 no-js lt-ie11 is-ie" lang="{{lang}}"> <![endif]-->
 <!--[if gt IE 10]><!--> <html class="no-js" lang="{{lang}}"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
@@ -38,8 +38,8 @@
         <link rel="shortcut icon" type="image/gif" href="<?php echo $baseURL; ?>/img/favicon.gif" />
         <link rel="icon" type="image/gif" href="<?php echo $baseURL; ?>/img/favicon.gif" />
 
-        <!--[if lte IE 10]>
-            <script src="/img/ie6/warning.js"></script>
+        <!--[if lte IE 7]>
+            <script src="<?php echo $baseURL; ?>/img/ie6/warning.js"></script>
             <script>
                 window.onload=function(){  
                     e("/img/ie6/"); 
@@ -47,25 +47,60 @@
             </script>
         <![endif]-->
 
+        <!--[if lt IE 9]>
+            <script src="<?php echo $baseURL; ?>/js/vendor/html5shiv.js"></script>
+        <![endif]-->
+
+
         <script type="text/javascript">
 
             document.documentElement.className ="has-js " + document.documentElement.className;
 
-            var _redirectMobile = {
-                isMobileFromUA : "<?php echo $isMobile; ?>",
-                lang           : "<?php echo $lang; ?>",
-                baseURL        : "<?php echo $baseURL; ?>",
-                isMobile       : false
-            }
+            var _redirect = { isMobileFromUA : "<?php echo $isMobile; ?>", lang : "{{lang}}",  langSrv : "<?php echo $lang; ?>", baseURL : "<?php echo $baseURL; ?>", isMobile : false, hasPushstate  : !!(window.history && history.pushState) };
 
             //JS redirection
-            if ( _redirectMobile.isMobileFromUA ) /* Mobile */ 
-               _redirectMobile.isMobile = true;
+            if ( _redirect.isMobileFromUA ) /* Mobile */ 
+               _redirect.isMobile = true;
 
-            if( _redirectMobile.isMobile )
+            if( _redirect.isMobile )
             {
-                window.location = _redirectMobile.baseURL + "/m/?lang=" + _redirectMobile.lang;
+                window.location = _redirect.baseURL + "/m/?lang=" + _redirect.langSrv;
             }  
+
+             /* redirect if need (pushstate) */
+
+            if( !_redirect.hasPushstate )
+            {
+
+                var _pushStateObj = {};
+
+                _pushStateObj.bRdr = window.location.href.slice(window.location.href.indexOf("/") + 1).split("/");
+                _pushStateObj.base = _redirect.baseURL + "/" + _redirect.lang + "/#/";
+                _pushStateObj.bRdrBase = _redirect.baseURL.slice(_redirect.baseURL.indexOf("/") + 1).split("/");
+                _pushStateObj.startIdx = 3;
+                _pushStateObj.st = _pushStateObj.bRdrBase.length + 1; //+1 = lang
+
+
+                if(_pushStateObj.bRdr[3] == "#")
+                    _pushStateObj.startIdx = 4;
+
+                if(_pushStateObj.bRdr[_pushStateObj.st] == "#")
+                    _pushStateObj.st++;
+
+                for(var i = _pushStateObj.st; i <= _pushStateObj.bRdr.length; i++)
+                {
+                    if(_pushStateObj.bRdr[i] != "" && _pushStateObj.bRdr[i] != undefined )
+                        _pushStateObj.base += _pushStateObj.bRdr[i] + "/";
+                }
+
+                // redirect
+                window.location = _pushStateObj.base;
+                
+            }
+
+            if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i)) {
+                document.documentElement.className = "ipad ios7 " + document.documentElement.className;
+            }
 
         </script>
 
@@ -78,7 +113,7 @@
         <script src="<?php echo $baseURL; ?>/js/vendor/detectizr.min.js"></script>
 
     </head>
-    <body>
+    <body class="{{bodyClass}}">
 
     <div id="loader"></div>
 
@@ -86,7 +121,7 @@
         <nav>
             <ul>
                 {{#each menu}}
-                     <li><a href="<?php echo $baseURL; ?>{{route}}">{{label}}</a></li>
+                        <li><a href="<?php echo $baseURL; ?>{{route}}" data-id="{{@key}}">{{label}}</a></li>
                 {{/each}}
             </ul>
         </nav>

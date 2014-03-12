@@ -26,75 +26,92 @@
 				"fr"  : "fr/index.php"
 			},
 			"route"   : {
-				"en"  : "/en",
-				"fr"  : "/fr"
+				"en"  : "/en/",
+				"fr"  : "/fr/"
 			},
-			"jSVar"   : {},
+			"bodyClass" : "",
+			"jSVar"   : {
+				
+			},
 			"priority": 0.80,
 			"partial" : {
 
 			},
-			"assets"    : []
+			"assets"    : [
+
+			]
 		},
 
 		{
-			"name"    : "card1",
-			"id"      : "card",
-			"tpl"     : "card.hbs",
+			"name"    : "card01",
+			"id"      : "card01",
+			"tpl"     : "card01.hbs",
 			"output"   : {
-				"en"  : "en/cards/card1.php",
-				"fr"  : "fr/cards/card1.php"
+				"en"  : "en/cards/card01.php",
+				"fr"  : "fr/cards/card01.php"
 			},
 			"route"   : {
-				"en"  : "/en/cards/card1",
-				"fr"  : "/fr/cards/card1"
+				"en"  : "/en/cards/card01",
+				"fr"  : "/fr/cards/card01"
 			},
 			"priority": 0.50,
 			"partial" : {
 
 			},
-			"bodyClass" : "display-card card1",
-			"assets"    : []
+			"bodyClass" : "display-card card01",
+			"jSVar"   : {
+				"cardID" : 1
+			},
+			"assets"    : [
+			]
 		},
 
 		{
-			"name"    : "card2",
-			"id"      : "card",
-			"tpl"     : "card.hbs",
+			"name"    : "card02",
+			"id"      : "card02",
+			"tpl"     : "card02.hbs",
 			"output"   : {
-				"en"  : "en/cards/card2.php",
-				"fr"  : "fr/cards/card2.php"
+				"en"  : "en/cards/card02.php",
+				"fr"  : "fr/cards/card02.php"
 			},
 			"route"   : {
-				"en"  : "/en/cards/card2",
-				"fr"  : "/fr/cards/card2"
+				"en"  : "/en/cards/card02",
+				"fr"  : "/fr/cards/card02"
 			},
 			"priority": 0.50,
 			"partial" : {
 
 			},
-			"bodyClass" : "display-card card2",
-			"assets"    : []
+			"bodyClass" : "display-card card02",
+			"jSVar"   : {
+				"cardID" : 2
+			},
+			"assets"    : [
+			]
 		},
 
 		{
-			"name"    : "card3",
-			"id"      : "card",
-			"tpl"     : "card.hbs",
+			"name"    : "card03",
+			"id"      : "card03",
+			"tpl"     : "card03.hbs",
 			"output"   : {
-				"en"  : "en/cards/card3.php",
-				"fr"  : "fr/cards/card3.php"
+				"en"  : "en/cards/card03.php",
+				"fr"  : "fr/cards/card03.php"
 			},
 			"route"   : {
-				"en"  : "/en/cards/card3",
-				"fr"  : "/fr/cards/card3"
+				"en"  : "/en/cards/card03",
+				"fr"  : "/fr/cards/card03"
 			},
 			"priority": 0.50,
 			"partial" : {
 
 			},
-			"bodyClass" : "display-card card3",
-			"assets"    : []
+			"bodyClass" : "display-card card03",
+			"jSVar"   : {
+				"cardID" : 3
+			},
+			"assets"    : [
+			]
 		},
 
 		{
@@ -103,17 +120,23 @@
 			"tpl"     : "about.hbs",
 			"output"   : {
 				"en"  : "en/about.php",
-				"fr"  : "fr/a-propos.php"
+				"fr"  : "fr/about.php"
 			},
 			"route"   : {
 				"en"  : "/en/about",
 				"fr"  : "/fr/a-propos"
 			},
-			"priority": 0.50,
+			"bodyClass" : "",
+			"jSVar"   : {
+				
+			},
+			"priority": 0.80,
 			"partial" : {
 
 			},
-			"assets"    : []
+			"assets"    : [
+
+			]
 		}
 
 	]

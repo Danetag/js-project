@@ -204,6 +204,7 @@ exports.template = function(grunt, init, done) {
             "grunt-contrib-less"    : "x", 
             "grunt-contrib-htmlmin" : "x", 
             "grunt-contrib-copy"    : "x", 
+            "grunt-contrib-clean"    : "x", 
             "grunt-contrib-cssmin"  : "x", 
             "grunt-closure-compiler": "x", 
         };

@@ -14,8 +14,11 @@
 
 		JSP.conf = {};
 
-		JSP.conf.lang      = "{{lang}}";
-		JSP.conf.baseUrl   = "<?php echo $baseURL; ?>";
+		JSP.conf.lang       = "{{lang}}";
+		JSP.conf.baseUrl    = "<?php echo $baseURL; ?>";
+		JSP.conf.jSVar      = {{{commonjSVar}}};
+		JSP.conf.cardInfos 	= {{{cardInfos}}};
+		JSP.conf.hasPushState 	= _redirect.hasPushstate;
 		JSP.conf.translate = {
 			{{#each translateJS}}
 				"{{key}}" : "{{value}}" {{#ifCond @index "<" ../nbItemtranslateJS}} , {{/ifCond}}
@@ -28,27 +31,71 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="<?php echo $baseURL; ?>/js/vendor/jquery.min.js">\x3C/script>')</script>
 
-	<script src="<?php echo $baseURL; ?>/js/vendor/head.min.js"></script>
+	<script src="<?php echo $baseURL; ?>/js/vendor/head.load.min.js"></script>
 
     <script>
+    
 	    var aScript = [
 			{{#each aJS}} 
-				{ src : "<?php echo $baseURL; ?>{{src}}" }  {{#ifCond @index "<" ../nbScripts}} , {{/ifCond}}
+				"<?php echo $baseURL; ?>{{src}}"   {{#ifCond @index "<" ../nbScripts}} , {{/ifCond}}
 			{{/each}}
 		];
-		if( document.documentElement.className.indexOf("lt-ie10") > -1 ) //IE < 10
+
+		var aScriptOnlyIE = {{{aScriptOnlyIE}}};
+
+		//delete some scripts
+
+		if( document.documentElement.className.indexOf("lt-ie9") > -1 ) //IE < 9
 		{
 			
+			for (var i in aScriptOnlyIE)
+			{
+				var scriptIE = aScriptOnlyIE[i];
+
+				for(var j in aScript)
+				{
+					var script = aScript[j];
+
+					//match
+					if( script.indexOf(scriptIE.src) > -1 )
+					{
+						//delete it from the array of Loading scripts
+						aScript.splice(j, 1);
+					}
+
+
+				}
+			}
 		}
 		else
 		{
-
-			for(var i in aScript)
+			for (var i in aScriptOnlyIE)
 			{
-				var src = aScript[i].src;
-				head.js(src);
+				var scriptIE = aScriptOnlyIE[i];
+
+				for(var j in aScript)
+				{
+					var script = aScript[j];
+
+					//match
+					if( script.indexOf(scriptIE.ie) > -1 )
+					{
+						//delete it from the array of Loading scripts
+						aScript.splice(j, 1);
+					}
+
+
+				}
 			}
 		}
+
+		head.load(aScript, function(e){
+
+			$(document).ready( NRT.main.onReady.bind(NRT.main) );
+
+		} );
+		
+		
 	</script>
 
 	</body>

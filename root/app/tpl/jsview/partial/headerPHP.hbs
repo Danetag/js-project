@@ -1,0 +1,36 @@
+<?php
+
+// Define application environment
+defined('APPLICATION_ENV')
+    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+
+
+$baseURL = "{{baseURL.production}}";
+
+switch(APPLICATION_ENV)
+{
+    case "developmentapp"  : $baseURL = "{{baseURL.developmentapp}}" ; break;
+    case "developmentdist" : $baseURL = "{{baseURL.developmentdist}}"; break;
+    case "staging"         : $baseURL = "{{baseURL.staging}}"; break;
+    case "preprod" 		   : $baseURL = "{{baseURL.preprod}}"; break;
+    case "production"      : $baseURL = "{{baseURL.production}}"; break;
+}
+
+
+/* LANG */
+
+$lang = "en";
+
+$browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+switch ($browserLanguage){
+    case "fr":
+        //echo "PAGE FR";
+        $lang = "fr";
+        break;        
+}
+
+header ("Content-Type:text/xml");  
+
+?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL; ?>

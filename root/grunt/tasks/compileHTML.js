@@ -3,7 +3,7 @@
 module.exports = function(grunt) {
 
     var Handlebars   = require('handlebars');
-    var tools 		 = require("../tools").tools;
+    var tools        = require("../tools").tools;
     var changedFiles = {};
     var common       = global.GRUNT.common;
     var jsfiles      = global.GRUNT.jsfiles;
@@ -44,6 +44,20 @@ module.exports = function(grunt) {
             }
         }
 
+
+        _generateFiles({ files : files, context : context, forJSViews : true  }); // For JS Views
+        _generateFiles({ files : files, context : context, forJSViews : false });  // Full HTML
+
+
+    });
+
+    var _generateFiles = function(options)
+    {
+        var files   = options.files;
+        var context = options.context;
+
+        console.log("---------------")
+
         for(var i in files)
         {
             var file     = files[i];
@@ -51,12 +65,25 @@ module.exports = function(grunt) {
 
             /* Partial */
 
+            console.log("file", file.src)
+
             //Common
             if( file.hasLayout)
             {
-                for(var key in common.partial)
+
+                var partials = common.partial;
+
+                if(options.forJSViews)
                 {
-                    Handlebars.registerPartial("partial." + key, grunt.file.read( common.tplSrc + common.partial[key] ) );    
+                    partials = common.partialJS;
+                }    
+
+                for(var key in partials)
+                {
+
+                    var filenamePartial = common.tplSrc + partials[key];
+
+                    Handlebars.registerPartial("partial." + key, grunt.file.read( filenamePartial ) );    
                 }
             }
 
@@ -99,6 +126,22 @@ module.exports = function(grunt) {
                
             });
 
+            Handlebars.registerHelper("debug", function(optionalValue) {
+                console.log("Current Context");
+                console.log("====================");
+                console.log(this);
+
+                if (optionalValue) {
+                    console.log("Value");
+                    console.log("====================");
+                    console.log(optionalValue);
+                }
+            });
+
+            Handlebars.registerHelper('value_of', function(context, key, options) {
+                return options.fn(context[key]);
+            });
+
          
             /* output by Language */
 
@@ -107,24 +150,30 @@ module.exports = function(grunt) {
                 var data = file.data[lang];
 
                 /* CSS/JS */
-                data.aCSS    			= cssfiles.app;
-                data.aJS     			= jsfiles.app;
+                data.aCSS               = cssfiles.app;
+                data.aJS                = jsfiles.app;
 
-                data.baseURL 			= common.baseURL;
+                data.baseURL            = common.baseURL;
+                data.commonjSVar        = JSON.stringify(common.jSVar);
 
-                data.dirnameApp 		= global.GRUNT.dirname + "/app/";
-                data.dirnameDist 		= global.GRUNT.dirname + "/dist/";
+                data.dirnameApp         = global.GRUNT.dirname + "/app/";
+                data.dirnameDist        = global.GRUNT.dirname + "/dist/";
 
-                data.translateJS       	= translate.translateJS[lang];
-                data.nbItemtranslateJS 	= translate.translateJS[lang].length - 1;
+                data.translateJS        = translate.translateJS[lang];
+                data.nbItemtranslateJS  = translate.translateJS[lang].length - 1;
 
-                data.translate   		= translate.translateHTML[lang];
+                data.translate          = translate.translateHTML[lang];
 
-                data.nbScripts   		= data.aJS.length - 1;
+                data.cardInfos         = _getCardsInfos(lang);
 
-                data.lang    			= lang;
-                data.menu    			= global.GRUNT.menu[lang];
+                data.aScriptOnlyIE      = JSON.stringify(global.GRUNT.jsfiles.aScriptOnlyIE);
 
+                data.nbScripts          = data.aJS.length - 1;
+
+                data.lang               = lang;
+                data.menu               = global.GRUNT.menu[lang];
+
+                data.bodyClass          = file.bodyClass;
 
                 if( file.id == "card" )
                 {
@@ -162,32 +211,75 @@ module.exports = function(grunt) {
 
                 }
 
-                var output   = template( data );
+
+                var output              = template( data );
+
+                
+                if(file.output[lang] == undefined)
+                {
+                    console.log("-- !!! Please be sure to remove "+file.id+".hbs from the " + lang +"/ folder");
+                }
 
                 //app
-                grunt.file.write( "app/" + file.output[lang], output);
+                var url = _getURL( file.output[lang], options.forJSViews);
+                grunt.file.write( "app/" + url, output);
+
 
                 if( context == "dist" ) // Build
                 {
                     /* CSS/JS */
-                    data.aCSS    			= cssfiles.dist;
-                	data.aJS     			= jsfiles.dist;
-                    data.nbScripts       	= data.aJS.length - 1;
+                    data.aCSS               = cssfiles.dist;
+                    data.aJS                = jsfiles.dist;
+                    data.nbScripts          = data.aJS.length - 1;
 
-                    var outputDist   		= template( data ); 
+                    var outputDist          = template( data ); 
 
-                    grunt.file.write( "dist/" + file.output[lang], outputDist);
-                    console.log( "dist/" + file.output[lang] + " generated");
+                    grunt.file.write( "dist/" + url, outputDist);
+                    console.log( "dist/" + url + " generated");
 
                 }   
 
-                console.log( "app/" + file.output[lang] + " generated");
+                console.log( "app/" + url + " generated");
 
 
             }
 
         }   
+    }
 
-    });
+    var _getURL = function(filename, forJSViews)
+    {
+        if(!forJSViews)
+            return filename;
+
+        var extension = filename.split('.').pop();
+        filename      = filename.substr(0, filename.length - extension.length )
+
+        return filename + "view." + extension;
+
+    }
+
+    var _getCardsInfos = function(lang)
+    {
+        var aCardInfos = {};
+
+        for(var i in global.GRUNT.tplFiles)
+        {
+            var file = global.GRUNT.tplFiles[i];
+
+            if( file.id.indexOf("card0") > -1 )
+            {
+                var card = {};
+
+                //Card
+                card.title                 = file.data[lang].content.title;
+                card.nbCard                = file.jSVar.cardID;
+
+                aCardInfos[file.id] = card;
+            }
+        }
+
+        return JSON.stringify(aCardInfos);
+    }
 
 };

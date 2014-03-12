@@ -1,18 +1,74 @@
 {
 	"common": {
 		"baseURL" : {
-			"developmentapp"  : "http://js-project.app",
-			"developmentdist" : "http://js-project.dist",
-			"production"      : "http://js-project.com"
+			"developmentapp"  : "http://nr.tentation.dev.app",
+			"developmentdist" : "http://nr.tentation.dev.dist",
+			"staging" 		  : "http://www.arnaud-tanielian.fr/tentation",
+			"preprod" 		  : "http://prep-origin.ninaricci.com/tentationexperience",
+			"production"      : "http://www.ninaricci.com/tentationexperience"
 		},
 		"partial" : {
 			"headerPHP" : "partial/headerPHP.hbs",
 			"header"    : "partial/header.hbs",
-			"footer"    : "partial/footer.hbs"
+			"footer"    : "partial/footer.hbs",
+			"shareScene": "partial/sceneshare.hbs"
+		},
+		"partialJS" : {
+			"headerPHP" : "jsview/partial/headerPHP.hbs",
+			"header"    : "jsview/partial/header.hbs",
+			"footer"    : "jsview/partial/footer.hbs",
+			"shareScene": "partial/sceneshare.hbs"
 		},
 		"assets" : [
-			{ "src" : "/img/sprite@2x.png", "type" : "image" }
+			{ "src" : "/img/sprite.png", "id" : "sprite" },
+			{ "src" : "/img/share/bg.png", "id" : "share_bg" },
+			{ "src" : "/img/scenes/appleCollect/particules.gif", "id" : "apple_particules" },
+			{ "src" : "/media/sound/loop3.mp3", "id" : "loop" },
+			{ "src" : "/media/sound/roll1.mp3", "id" : "sound_roll" },
+			{ "src" : "/media/sound/roll5.mp3", "id" : "sound_roll_2" },
+			{ "src" : "/media/sound/share.mp3", "id" : "sound_share" },
+			{ "src" : "/media/sound/win.mp3", "id" : "sound_win" },
+			{ "src" : "/media/sound/intro_open.mp3", "id" : "sound_intro" },
+			{ "src" : "/media/sound/loader_intermediaire_tick.mp3", "id" : "loader_intermediaire_tick" },
+			{ "src" : "/media/sound/loader_intermediaire.mp3", "id" : "loader_intermediaire" }
 		],
+		"jSVar" : {
+			"spriteAppleConfig" : {
+					"infos" : {
+						"id" : "anim_apple_",
+						"fps"    : 0.5,
+						"desktop" : {
+							"widthTile"   	: 130,
+							"heightTile"  	: 130,
+							"scale" 		: 0.7
+						},
+						"tablet" : {
+							"widthTile"   	: 130,
+							"heightTile"  	: 130,
+							"scale" 		: 0.7
+						}
+					},
+					"aSpriteObj" : [
+						{ 
+							"nbTile" : 38,
+							"desktop" : {
+								"url" 			: "/img/scenes/appleCollect/anims/flacon/flacon_01.png",
+								"urlScaled" 	: "/img/scenes/appleCollect/anims/flacon/flacon_01_scaled.png",
+								"width"			: 4940,
+								"height"		: 130
+								
+							},
+							"tablet" : {
+								"url" 			: "/img/scenes/appleCollect/anims/main/flacon_01.png",
+								"urlScaled" 	: "/img/scenes/appleCollect/anims/main/flacon_01_scaled.png",
+								"width"			: 4940,
+								"height"		: 130
+							}
+						}
+						
+					]
+				}
+		},
 		"tplSrc" : "app/tpl/"
 	}
 }

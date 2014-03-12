@@ -22,10 +22,12 @@ module.exports = function(grunt) {
         "devUpdateJS",
         "copy:vendor",
         "uglify:base",
+        "copy:ie",
         "closure-compiler"
     ]);
 
     grunt.registerTask("build", [
+        'clean',
         "BuildUpdateHTML",
         "BuildUpdateSprite",
         "BuildUpdateCSS", 

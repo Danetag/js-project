@@ -6,7 +6,10 @@ JSP.routeManager = {};
 
     /* Action */
     
-    var RouteManager = function(){}
+    var RouteManager = function(){
+    	this.firstTime = true;
+    	this.openShareAfter = false;
+    }
 
 	// PUBLIC
 	RouteManager.prototype =  {
@@ -24,7 +27,10 @@ JSP.routeManager = {};
 	    	this.initRoutes(data);
 	    	this.bindEvents();
 
-	    	this.onStateChange();	
+	    	if( !JSP.conf.hasPushState )
+	    		this.onStateChange(null, true);	
+	    	else
+	    		this.onStateChange();	
 	    },
 		bind : function(name, f)
 		{
@@ -45,6 +51,7 @@ JSP.routeManager = {};
 
 	    bindEvents : function()
 	    {
+	    	//JSP.PopupsManager.bind( JSP.PopupsManager.EVENT.CLOSE, this.onPopupManagerClose.bind(this) );
 	    	History.Adapter.bind(window,'statechange', this.onStateChange.bind(this) );
 	    },
 	    unbindEvents : function()
@@ -54,16 +61,17 @@ JSP.routeManager = {};
 
 	    initRoutes : function(data)
 	    {
+
 	    	for(var name in data.pages)
 	    	{
 	    		var page = data.pages[name];
 	    		var id = page.id;
 
-	    		////console.log("page", page)
+	    		////JSP.console.log(page)
 
 	    		for(var lang in page)
 	    		{
-	    			if(lang == "id")
+	    			if(lang == "id" || lang == "bodyClass" || lang == "jSVar" || lang == "popupClass" )
 	    				continue;
 
 	    			if(this.routes[lang] == undefined)
@@ -71,7 +79,10 @@ JSP.routeManager = {};
 
 	    			var pageLang = page[lang];
 
-	    			////console.log("route", { url : pageLang.route, name : pageLang.label, id : id } )
+	    			if(id == "homepage")
+	    				continue;
+
+	    			//////JSP.console.log("route", { url : pageLang.route, name : pageLang.label, id : id } )
 
 	    			var routeOject =  new JSP.Route();
 	    			routeOject.init.call( routeOject, { 
@@ -79,26 +90,76 @@ JSP.routeManager = {};
 	    				name  		: pageLang.name, 
 	    				id    	    : id, 
 	    				title 		: pageLang.title,
-	    				jSVar 		: page.jSVar
+	    				jSVar 		: page.jSVar,
+	    				bodyClass   : ( page.bodyClass != undefined && page.bodyClass.length ) ? page.bodyClass : null,
+	    				popupClass   : ( page.popupClass != undefined && page.popupClass.length ) ? page.popupClass : null
 	    			});
 
 	    			this.routes[lang].push ( routeOject );
 	    		}
 	    	}
 
-	    	////console.log(this.routes)
+	    	////JSP.console.log(this.routes)
 
 	    },
-	    onStateChange : function(f){
+	    onStateChange : function(e, f){
 
 	    	var force = f || false;
 			var State = History.getState(); // Note: We are using History.getState() instead of event.state
-	        //History.log(State.data, State.title, State.url);
 
-	        var page  = this.getCurrentRoute(State);
-	        this.next = { id : page.id, name : page.name, title : page.title, jSVar : page.jSVar};
+	        //JSP.console.log("onStateChange :: ", State.data, State.title, State.url); //alert in IE8
 
-	        ////console.log("onStateChange this.next.id", this.next.id, this.current)
+	        var page     =  null;
+
+	        if( !JSP.conf.hasPushState ) //prevent double redirection from History.js
+			{	
+
+				State.url = JSP.helpers.Url.fixHash(State.url);
+
+				//JSP.console.log("url fixed :: " + State.url)
+
+				page     = this.getCurrentRoute(State);
+
+				if( this.current != null && this.firstTime && ( ( this.current.id != page.id || this.current.name != page.name ) ) )
+				{
+					//si pas de second passage lors du 1er chargement
+					////JSP.console.log("PASSAGE :: ", this.current.id ," , ", page.id ," , ", this.current.name ," , ", page.name)
+					this.firstTime = false;
+
+					if(page.id == "index" )
+					{
+						//JSP.console.log("YOU SHALL NOT PASS");
+						return; // YOU SHALL NOT PASS
+					}
+						
+				}	
+
+				////JSP.console.log("firstTime :: "+this.firstTime)
+
+				if( this.firstTime )
+				{
+					
+					this.current = { id : page.id, name : page.name, title : page.title, jSVar : page.jSVar, bodyClass: page.bodyClass, popupClass : page.popupClass};
+					
+					////JSP.console.log(">>> first, go to page", page.id)
+
+					////JSP.console.log("force :: "+force)
+					
+					if(!force) //si second passage lors du 1er chargement
+						this.firstTime = false;
+					else
+						JSP.Pages.main.init(); // INIT NOW ON FORCE
+
+					return;
+				}
+
+			}	
+
+	        page  = this.getCurrentRoute(State);
+	        //JSP.console.log(">>> go to page", page.id)
+	        this.next = { id : page.id, name : page.name, title : page.title, jSVar : page.jSVar, bodyClass: page.bodyClass, popupClass : page.popupClass};
+
+	        //////JSP.console.log("onStateChange this.next.id", this.next.id, this.current)
 	        //alert("this.next.id :: "+this.next.id)
 
 	        //hide if not new
@@ -107,26 +168,31 @@ JSP.routeManager = {};
 
 	        	var currentRouteObject = this.getCurrentRouteObject();
 
-	        	////console.log("test", currentRouteObject.id , this.next.id , currentRouteObject.name , this.next.name )
+	        	//////JSP.console.log("test", currentRouteObject.id , this.next.id , currentRouteObject.name , this.next.name )
 	        	if( currentRouteObject.id != this.next.id || currentRouteObject.name != this.next.name || force )
 	        	{
 
 	        		//GA
-	        		////console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
+	        		//////JSP.console.log('GA :: send', 'pageview', {'page': State.url,'title': State.title} )
 					//ga('send', 'pageview', {'page': State.url,'title': State.title} );
 					//_gaq.push(['_trackPageview', page.url]);
-					//console.log("router", page.url)
+					////JSP.console.log("router", page.url)
 
 					//title
 					document.title = this.next.title;
 
-	        		////console.log("page to load", page, "hide it ", JSP.Pages[ this.current.id ])
-
-	        		JSP.Pages[ this.current.id ].unbindEvents();
-	        		JSP.Pages[ this.next.id ].init( this.next ); //init Controller
-
-	        		JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.IS_LOADED, this.nextLoaded.bind(this) );
-					JSP.Pages[ this.next.id ].load();
+	        		//////JSP.console.log("page to load", page, "hide it ", JSP.Pages[ this.current.id ])
+	        		if( JSP.PopupsManager.isOpen )
+		    		{
+		    			JSP.Pages[ this.current.id ].View.bind( JSP.Pages[ this.current.id ].View.EVENT.POPUP_CLOSE, this.onPopupManagerClose.bind(this) );
+		    			JSP.PopupsManager.close();
+		    		}
+		    		else
+	        		{
+	        			this.changePage();
+	        		}	
+	        		
+	        		
 	        	}
 
 	    	}
@@ -134,14 +200,20 @@ JSP.routeManager = {};
 	    	{
 	    		//new
 	    		this.current = this.next;
-	    		////console.log("this.current", this.current)
+	    		//////JSP.console.log("this.current", this.current)
 	    	}
 		},
-		nextLoaded : function()
+		onPopupManagerClose : function()
 		{
-			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.IS_LOADED, this.nextLoaded.bind(this) );
+			JSP.Pages[ this.current.id ].View.unbind( JSP.Pages[ this.current.id ].View.EVENT.POPUP_CLOSE, this.onPopupManagerClose.bind(this) );
+			this.changePage();
+		},
+		changePage : function()
+		{
+			JSP.Pages[ this.current.id ].unbindEvents();
+    		JSP.Pages[ this.next.id ].init( this.next ); //init Controller
 
-			//destroy old one
+    		//hide old one
 			JSP.Pages[ this.current.id ].bind( JSP.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
 		    JSP.Pages[ this.current.id ].hide();
 		},
@@ -149,11 +221,26 @@ JSP.routeManager = {};
 		{
 			JSP.Pages[ this.current.id ].unbind( JSP.Pages[ this.current.id ].EVENT.HIDDEN, this.currentPageHidden.bind(this) );
 
+			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.LOADER_VIEW_SHOWN, this.nextLoaderViewShown.bind(this) );
+			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.IS_LOADED, this.nextLoaded.bind(this) );
+			JSP.Pages[ this.next.id ].load();
+		},
+			nextLoaderViewShown : function()
+			{
+				JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.LOADER_VIEW_SHOWN, this.nextLoaderViewShown.bind(this) );
+
+				//destroy the old 
+				JSP.Pages[ this.current.id ].destroy();
+			},
+		nextLoaded : function()
+		{
+			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.IS_LOADED, this.nextLoaded.bind(this) );
+
 			//init view next one
 			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextPageViewInit.bind(this) );
 			JSP.Pages[ this.next.id ].initView();
-
 		},
+		
 		nextPageViewInit : function()
 		{
 			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.VIEW_INIT, this.nextPageViewInit.bind(this) );
@@ -167,15 +254,17 @@ JSP.routeManager = {};
 			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.LOADER_IS_DESTROYED, this.loaderDestroyed.bind(this) );
 
 			// Finally, show it ! (bind event actually)
+			////JSP.console.log("routeManager should bind shown of :: ", this.next.id )
 			JSP.Pages[ this.next.id ].bind( JSP.Pages[ this.next.id ].EVENT.SHOWN, this.nextPageShow.bind(this) );
 			JSP.Pages[ this.next.id ].show();
 		},
 		nextPageShow : function()
 		{
+			////JSP.console.log("routeManager should UNbind shown of :: ", this.next.id )
 			JSP.Pages[ this.next.id ].unbind( JSP.Pages[ this.next.id ].EVENT.SHOWN, this.nextPageShow.bind(this) );
 
 			this.current = this.next; //new current
-			////console.log("new this.current", this.current)
+			//////JSP.console.log("new this.current", this.current)
 
 		},
 	    getRoute : function(key, lang)
@@ -211,20 +300,24 @@ JSP.routeManager = {};
 
 	    	for(var i in this.routes[JSP.conf.lang] )
 	    	{
-
-	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url )
+	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url || 
+	    			State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url + "/" )
 	    		{
 	    			return this.routes[JSP.conf.lang][i];
 	    		}
 
-	    		//sec...
-	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].url + "/")
+	    		// with # ?
+
+	    		////JSP.console.log(State.url+ " =?= " + JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].urlHashed)
+
+	    		if( State.url  == JSP.conf.baseUrl + this.routes[JSP.conf.lang][i].urlHashed )
 	    		{
 	    			return this.routes[JSP.conf.lang][i];
 	    		}
+
 	    	}
 
-	    	return "index";
+	    	return this.getRouteObject("index", JSP.conf.lang);
 	    },
 	    getCurrentRouteObject : function()
 	    {
@@ -243,6 +336,23 @@ JSP.routeManager = {};
 	    {
 	    	return JSP.pages[ this.current ];
 	    },
+	    goToCard : function(cardID)
+	    {
+	    	var routeObj = this.getRouteObject("card0"+cardID);
+
+	    	//console.log("routeObj", routeObj)
+	    	var href = routeObj.url;
+
+	    	if( !JSP.conf.hasPushState  )
+				href = routeObj.urlHashed
+
+			href = JSP.conf.baseUrl + href;
+
+			//openPopupAfter;
+			this.openShareAfter = true;
+
+			History.pushState(null, null, href );
+	    }
 
 	    
 	};

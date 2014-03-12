@@ -8,5 +8,11 @@ module.exports = {
 			'app/js/lib/*.js'
 		],
 		dest: global.GRUNT.configScripts.libjs.app
+	},
+	libIEjs: {
+		src: [
+			'app/js/libIE/*.js'
+		],
+		dest: global.GRUNT.configScripts.libIEjs.app
 	}
 }

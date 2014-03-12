@@ -21,7 +21,21 @@ module.exports = {
 	},
 	font : {
 		files: [
-			{expand: true, cwd: 'app/css/font/', src: ['**'], dest: 'dist/css/font/', filter: 'isFile'}, // includes files in path
+			{expand: true, cwd: 'app/css/fonts/', src: ['**'], dest: 'dist/css/fonts/', filter: 'isFile'}, // includes files in path
 		]
+	},
+	data : {
+		files: [
+			{expand: true, cwd: 'app/data/', src: ['**'], dest: 'dist/data/', filter: 'isFile'}, // includes files in path
+		]
+	},
+	media : {
+		files: [
+			{expand: true, cwd: 'app/media/', src: ['**'], dest: 'dist/media/', filter: 'isFile'}, // includes files in path
+		]
+	},
+	ie: {
+		src : global.GRUNT.configScripts.libIEjs.app,
+		dest: global.GRUNT.configScripts.libIEjs.dist
 	}
 }

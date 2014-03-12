@@ -5,14 +5,29 @@
 @import "sprite@2x.less";
 @import "mixins.less";
 
-body {
-	margin: 0;
-	font-size:100%;
-    line-height:1.125em;
-
-    background-color: #FFF;
-    overflow: hidden;
+html, body {
+    height: 100%;
 }
+
+body {
+    margin: 0;
+    font-size:100%;
+    //line-height:1.125em;
+
+    background-color: #f8f8f8;
+    overflow: hidden;
+
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing:grayscale;
+
+    .ffregular();
+
+}
+
+button, a {
+    .ffregular();
+}
+
 
 #loader {
 	display: none;
@@ -26,25 +41,57 @@ body {
 }
 
 #content {
-     padding:30px;
-	-webkit-backface-visibility: hidden;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.no-history #content {
+    display: none;
 }
 
 .has-js #loader{
 	display: block;
 }
 
+.has-js .no-loader #loader {
+    display: none;
+    opacity: 0;
+}
+
 /***** Class ****/
 
-.lt-ie10{
+.background {
+    position: absolute;
+    z-index: 0;
+}
 
-	#old-browser{
-		display: block;
-	}
+.valign-center {
+    position: absolute;
+    top:50%;
+    width: 100%;
+}
 
-	#content, #loader, #footer, h1{
-		display: none;
-	}
+@media (orientation:landscape) {
+    
+    html.ipad.ios7 > body {
+        position: fixed;
+        bottom: 0;
+        top: 0px;
+        width:100%;
+        height: 672px !important;
+    }
+
+}
+
+.garbage{
+    position: absolute;
+    left:-9999px;
+    top:-9999px;
 }
 
 

@@ -4,23 +4,36 @@
 
 			{ "src" : "/js/app/com/project/conf/conf.js"},
 
+			{ "src" : "/js/app/com/project/pages/Page.class.js"},
+			{ "src" : "/js/app/com/project/pages/View.class.js"},
+
+			{ "src" : "/js/app/com/project/pages/cards/Cards.page.class.js"},
+			{ "src" : "/js/app/com/project/pages/cards/Cards.view.class.js"},
+
+			{ "src" : "/js/app/com/project/loader/view/Loader.view.class.js"},
+
 			{ "src" : "/js/app/com/project/route/route.class.js"},
 			{ "src" : "/js/app/com/project/route/routeManager.js"},
 
 			{ "src" : "/js/app/com/project/model/Model.class.js"},
 			{ "src" : "/js/app/com/project/model/dataManager.js"},
-
-			{ "src" : "/js/app/com/project/loader/view/Loader.view.class.js"},
+			
 			{ "src" : "/js/app/com/project/loader/view/Loader.main.class.js"},
 			{ "src" : "/js/app/com/project/loader/view/Loader.card.class.js"},
+			{ "src" : "/js/app/com/project/loader/view/Loader.basic.class.js"},
+			{ "src" : "/js/app/com/project/loader/view/Loader.popup.class.js"},
 
-			{ "src" : "/js/app/com/project/loader/type/Loader.type.class.js"},
-			{ "src" : "/js/app/com/project/loader/type/Loader.image.class.js"},
-			{ "src" : "/js/app/com/project/loader/type/Loader.data.class.js"},
 			{ "src" : "/js/app/com/project/loader/Loader.js"},
+			{ "src" : "/js/app/com/project/loader/AssetsManager.js"},
 
-			{ "src" : "/js/app/com/project/pages/Page.class.js"},
-			{ "src" : "/js/app/com/project/pages/View.class.js"},
+			{ "src" : "/js/app/com/project/video/VideoManager.js"},
+			{ "src" : "/js/app/com/project/popup/PopupsManager.js"},
+			{ "src" : "/js/app/com/project/sound/SoundManager.js"},
+
+			{ "src" : "/js/app/com/project/helpers/BackgroundSize.js"},
+			{ "src" : "/js/app/com/project/helpers/Positionr.js"},
+			{ "src" : "/js/app/com/project/helpers/Url.js"},
+			{ "src" : "/js/app/com/project/helpers/Console.js"},
 
 			{ "src" : "/js/app/com/project/pages/main/Page.main.js"},
 			{ "src" : "/js/app/com/project/pages/main/views/View.main.js"},
@@ -28,9 +41,12 @@
 			{ "src" : "/js/app/com/project/pages/index/Page.index.js"},
 			{ "src" : "/js/app/com/project/pages/index/views/View.index.js"},
 
-			{ "src" : "/js/app/com/project/pages/card/Page.card.js"},
-			{ "src" : "/js/app/com/project/pages/card/Card.class.js"},
-			{ "src" : "/js/app/com/project/pages/card/views/View.card.js"},
+			{ "src" : "/js/app/com/project/pages/cards/card01/Page.card01.js"},
+			{ "src" : "/js/app/com/project/pages/cards/card01/views/View.card01.js"},
+			{ "src" : "/js/app/com/project/pages/cards/card02/Page.card02.js"},
+			{ "src" : "/js/app/com/project/pages/cards/card02/views/View.card02.js"},
+			{ "src" : "/js/app/com/project/pages/cards/card03/Page.card03.js"},
+			{ "src" : "/js/app/com/project/pages/cards/card03/views/View.card03.js"},
 
 			{ "src" : "/js/app/com/project/pages/about/Page.about.js"},
 			{ "src" : "/js/app/com/project/pages/about/views/View.about.js"},

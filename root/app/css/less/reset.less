@@ -132,7 +132,7 @@ input::-moz-focus-inner { // Inner padding and border oddities in FF3/4
   padding: 0;
   border: 0;
 }
-button,
+
 html input[type="button"], // Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls.
 input[type="reset"],
 input[type="submit"] {
@@ -268,3 +268,6 @@ textarea {
   min-height: @inputHeight; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
   .box-sizing(border-box); // Makes inputs behave like true block-level elements
 }
+
+button { background: none; border: none; margin: 0; padding: 0;line-height: normal; width: auto; overflow: visible; }
+

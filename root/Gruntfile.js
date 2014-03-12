@@ -20,6 +20,7 @@ module.exports = function (grunt) {
     var test      = require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     global.GRUNT      = {}
+    global.GRUNT.grunt      = grunt;
     var configOptions = {};
 
     configOptions.pkg       = grunt.file.readJSON('package.json');
@@ -29,10 +30,7 @@ module.exports = function (grunt) {
     global.GRUNT.common     = grunt.file.readJSON('./data/common.json').common;
     global.GRUNT.jsfiles    = grunt.file.readJSON('./data/jsfiles.json').js;
     global.GRUNT.cssfiles   = grunt.file.readJSON('./data/cssfiles.json').css;
-    global.GRUNT.menu       = grunt.file.readJSON('./data/menu.json').menu;
-    global.GRUNT.content    = grunt.file.readJSON('./data/content.json');
     global.GRUNT.pages      = grunt.file.readJSON('./data/pages.json').pages;
-    global.GRUNT.translate  = grunt.file.readJSON('./data/translate.json');
 
     //init some 
     var project = require("./grunt/project").project;

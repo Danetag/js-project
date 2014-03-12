@@ -1,0 +1,7 @@
+[
+	{ "key" : "skipIntro", "value" : "Passer" },
+	{ "key" : "soundOn", "value" : "Son ON" },
+	{ "key" : "soundOff", "value" : "Son OFF" },
+	{ "key" : "loading", "value" : "Chargement" },
+	{ "key" : "close", "value" : "Fermer" }
+]

@@ -11,7 +11,8 @@ JSP.dataManager = {};
 		init : function(data)
 	    {
             //Assets
-            this.primaryAssets = data.primaryAssets;
+            if(data.primaryAssets)
+                this.primaryAssets = data.primaryAssets;
 
 	    	this.initModels(data);
 	    },
@@ -31,7 +32,7 @@ JSP.dataManager = {};
 
                 if( name == "homepage")
                     continue;
-
+                
                 var name   = page[ JSP.conf.lang ].name;
                 var url    = page[ JSP.conf.lang ].route;
                 var assets = page[ JSP.conf.lang ].assets;
@@ -55,8 +56,8 @@ JSP.dataManager = {};
             if( !this.collections.hasOwnProperty(key) )
             {
                 this.collections[key] = [];
-                
             }
+            
             this.collections[key][Model.name] = Model;
 
         },

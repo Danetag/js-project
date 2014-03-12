@@ -7,18 +7,13 @@ JSP.LoaderViews.Main = (function(window){
 
 	LoaderViewMain.prototype.el   = function()
 	{
-		this.html = '<div id="loader"></div>';
 		this.$ = {
 			loader : null
 		};
 
 		this.$.loader = $("#loader");
 
-		if( this.$.loader[0] == undefined )
-		{
-			this.$.loader = $('<div id="loader"></div>');
-			$("body").prepend( this.$.loader );
-		}	
+
 	};
 
 	LoaderViewMain.prototype.show = function()

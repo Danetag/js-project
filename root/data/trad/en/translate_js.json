@@ -1,0 +1,7 @@
+[
+	{ "key" : "skipIntro", "value" : "Skip" },
+	{ "key" : "soundOn", "value" : "Sound ON" },
+	{ "key" : "soundOff", "value" : "Sound OFF" },
+	{ "key" : "loading", "value" : "Loading" },
+	{ "key" : "close", "value" : "close" }
+]

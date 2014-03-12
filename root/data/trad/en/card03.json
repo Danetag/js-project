@@ -1,0 +1,11 @@
+{
+	"label"     : "Card03",
+	"meta":{
+	  "title":"JS Project  - Card03",
+	  "description" : "JS Project  description - Card03"
+	},
+	"content" : {
+	  "title" : "Card03"
+	}
+
+}

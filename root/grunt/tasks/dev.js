@@ -2,6 +2,19 @@
 
 module.exports = function(grunt) {
 
+    grunt.registerTask( "dev",[
+        "devUpdateSprite",
+        "devUpdateJSON",
+        "devUpdateHTML",
+        "devUpdateCSS",
+        "devUpdateJS"
+    ]);
+
+    grunt.registerTask( "devPJ",[
+        "devUpdateJSON",
+        "devUpdateHTML"
+    ]);
+
     grunt.registerTask( "devUpdateSprite",[
         "sprite",
         "devUpdateCSS"
@@ -21,7 +34,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask( "devUpdateJS", [
         "concat:js", 
-        "concat:libjs"
+        "concat:libjs",
+        "concat:libIEjs",
     ]);
 
 };

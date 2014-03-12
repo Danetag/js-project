@@ -2,14 +2,72 @@
 
 var tools = require("./tools").tools;
 
+var _initLang = function()
+{
+    var aFolderLang = tools.findSubFiles('./data/trad/*');
+
+    var aLang = [];
+
+    for(var i in aFolderLang)
+    {
+        var dir      = aFolderLang[i];
+        var lang     = dir.replace("./data/trad/", "");
+        var contents = tools.findSubFiles( dir + '/**/*.json');
+
+        aLang.push({ lang : lang, dir : dir, contents : contents });
+    }
+
+    //console.log("aLang", aLang)
+
+    global.GRUNT.aLang = aLang;
+}
+
+var _initTranslate = function()
+{
+    //translate.translateJS[lang]
+    //translate.translateHTML[lang];
+
+    var nameFileTranslateJS   = "translate_js.json";
+    var nameFileTranslateHTML = "translate_html.json";
+
+    var translate = { translateJS : [], translateHTML : [] };
+
+    for(var i in global.GRUNT.aLang)
+    {
+        var oLang = global.GRUNT.aLang[i];
+
+        var files = oLang.contents;
+
+        for(var j in files)
+        {
+            var file = files[j];
+
+            //Translate JS
+            if( file.replace( oLang.dir + "/", "") ==  nameFileTranslateJS)
+            {
+                translate.translateJS[oLang.lang] = global.GRUNT.grunt.file.readJSON(file);
+            }
+
+            //Translate HTML
+            if( file.replace( oLang.dir + "/", "") ==  nameFileTranslateHTML)
+            {
+                translate.translateHTML[oLang.lang] = global.GRUNT.grunt.file.readJSON(file);
+            }
+        }
+    }
+
+    global.GRUNT.translate = translate;
+}
+
 var _initPages = function()
 {
 
-	var tplFiles = [];
+    var tplFiles = [];
 
-	for (var i in global.GRUNT.pages)
+    for (var i in global.GRUNT.pages)
     {
-        var page = global.GRUNT.pages[i];
+        var page    = global.GRUNT.pages[i];
+        var data    = tools.getContents(page.id);
 
         tplFiles.push( { 
             id        : page.id,
@@ -18,12 +76,13 @@ var _initPages = function()
             output    : page.output, 
             route     : page.route, 
             priority  : page.priority, 
-            data      : global.GRUNT.content[page.name],
-            jSVar     : page.jSVar     || {},
-            partials  : page.partials  || {},
-            hasLayout : page.hasLayout || true,
-            assets    : page.assets    || [],
-            bodyClass : page.bodyClass || ""
+            data      : data,
+            jSVar     : page.jSVar          || {},
+            partials  : page.partials       || {},
+            hasLayout : page.hasLayout      || true,
+            assets    : page.assets         || [],
+            bodyClass  : page.bodyClass     || "",
+            popupClass : page.popupClass    || ""
         });
     }
 
@@ -33,9 +92,32 @@ var _initPages = function()
 
 var _initMenu = function()
 {
-	var menu = [];
+    var nameFileMenu   = "menu.json";
 
-	for(var lang in global.GRUNT.menu)
+    var aMenu = [];
+
+    for(var i in global.GRUNT.aLang)
+    {
+        var oLang = global.GRUNT.aLang[i];
+
+        var files = oLang.contents;
+
+        for(var j in files)
+        {
+            var file = files[j];
+
+            if( file.replace( oLang.dir + "/", "") ==  nameFileMenu)
+            {
+                aMenu[oLang.lang] = global.GRUNT.grunt.file.readJSON(file);
+            }
+        }
+    }
+
+    global.GRUNT.menu = aMenu;
+
+    var menu = [];
+
+    for(var lang in global.GRUNT.menu)
     {   
         var names = global.GRUNT.menu[lang];
 
@@ -48,9 +130,9 @@ var _initMenu = function()
                 continue; //homepage
 
             if(menu[lang] === undefined)
-                menu[lang] = [];
+                menu[lang] = {};
 
-            menu[lang].push( { route : page.route[lang], label : page.data[lang].label } )
+            menu[lang][name] = { route : page.route[lang], label : page.data[lang].label };
         }
     }
 
@@ -59,21 +141,41 @@ var _initMenu = function()
 
 var _initRoutes = function()
 {
-	var routes = { pages : {} };
+    var routes = { pages : {} };
+    routes.primaryAssets = global.GRUNT.common.assets;
 
     for( var i in global.GRUNT.tplFiles)
     {
         var page  = global.GRUNT.tplFiles[i];
+
+        if(page.id == "homepage")
+            continue;
+
         var route = {};
-        route.id = page.id;
+
+        route.id    = page.id;
+
+        if(page.jSVar != undefined)
+            route.jSVar = page.jSVar;
+
+        if(page.bodyClass != undefined)
+            route.bodyClass = page.bodyClass;
+
+        if(page.popupClass != undefined)
+            route.popupClass = page.popupClass;
 
         for ( var lang in page.data)
         {
-        	var content  = page.data[lang];
-        	route[lang] = { route : page.route[lang], label : content.label, assets : page.assets, title:content.meta.title, name : page.name };   
+            var content  = page.data[lang];
+            route[lang] = { 
+                route   : page.route[lang], 
+                label   : content.label, 
+                assets  : page.assets, 
+                assetsMemoryless  : page.assetsMemoryless, 
+                title   : content.meta.title, 
+                name    : page.name 
+            };   
         }
-
-
 
         routes.pages[page.name] = route;
 
@@ -123,9 +225,22 @@ var _initJS = function()
 
     global.GRUNT.jsfiles.concat = JStoConcat;
 
-    global.GRUNT.jsfiles.app.unshift(  { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.js'} );
-    global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.min.js'} );
+    //add new items in the begining of the array
+
     global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.min.js'} );
+
+    global.GRUNT.jsfiles.app.unshift(  { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.js'} );
+    global.GRUNT.jsfiles.app.unshift(  { src : '/js/'+ global.GRUNT.pkg.namespace +'.libIE.js'} );
+
+    global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.min.js'} );
+    global.GRUNT.jsfiles.dist.unshift( { src : '/js/'+ global.GRUNT.pkg.namespace +'.libIE.min.js'} );
+
+    
+
+    global.GRUNT.jsfiles.aScriptOnlyIE = [  
+        { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.js', ie : '/js/'+ global.GRUNT.pkg.namespace +'.libIE.js' } ,
+        { src : '/js/'+ global.GRUNT.pkg.namespace +'.lib.min.js', ie : '/js/'+ global.GRUNT.pkg.namespace +'.libIE.min.js' } ,
+    ]
 
 }
 
@@ -144,6 +259,10 @@ var _initConfigScripts = function()
         libjs : {
             app  : 'app/js/'+ global.GRUNT.pkg.namespace +'.lib.js',
             dist : 'dist/js/'+ global.GRUNT.pkg.namespace +'.lib.min.js'
+        },
+        libIEjs : {
+            app  : 'app/js/'+ global.GRUNT.pkg.namespace +'.libIE.js',
+            dist : 'dist/js/'+ global.GRUNT.pkg.namespace +'.libIE.min.js'
         }
     };
 }
@@ -151,16 +270,18 @@ var _initConfigScripts = function()
 var project = function () 
 {
 
-	this.init = function()
+    this.init = function()
     {
-		_initPages();
-		_initMenu();
-		_initRoutes();
+        _initLang();
+        _initTranslate();
+        _initPages();
+        _initMenu();
+        _initRoutes();
         _initCSS();
         _initJS();
         _initConfigScripts();
         _initSitemap();
-	}
+    }
 }
 
 

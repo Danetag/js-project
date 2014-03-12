@@ -11,13 +11,20 @@ JSP.LoaderView = (function(window){
 		this.$ = {
 
 		};
+
+		this.TL = {};
+
 		this.html = "";
+		this.nbItemsToLoad = 0;
+		this.pct = 0;
 	};
 
 	LoaderView.prototype = 
 	{
-		init : function()
+		init : function(nbItems)
 		{
+			this.nbItemsToLoad = nbItems;
+
 			this.el();
 			this.append();
 			this.bindEvents();
@@ -65,17 +72,45 @@ JSP.LoaderView = (function(window){
 		{
 
 		},
+		setPct : function(pct) //to override
+		{
+
+		},
 		show : function()
 		{
 			this.dispatch( this.EVENT.SHOWN );
 		},
 		hide : function()
 		{
+
+			this.unbind();
+			this.unbindEvents();
+
 			this.dispatch( this.EVENT.HIDDEN );
+		},
+		destroyTL : function()
+		{
+			for(var i=0; i < this.TL.length; i++ )
+			{
+				var tl = this.TL[i];
+
+				if(tl == null)
+					continue;
+
+				tl.kill();
+				tl.clear();
+				tl = null;
+			};
+
+			this.TL = {};
 		},
 		destroy : function()
 		{
+			this.destroyTL();
 
+			this.$.loader.remove();
+			this.$.loader = null;
+			
 		}
 		
 	}

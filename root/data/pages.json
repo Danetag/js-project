@@ -120,7 +120,7 @@
 			"tpl"     : "about.hbs",
 			"output"   : {
 				"en"  : "en/about.php",
-				"fr"  : "fr/about.php"
+				"fr"  : "fr/a-propos.php"
 			},
 			"route"   : {
 				"en"  : "/en/about",

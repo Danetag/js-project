@@ -40,6 +40,42 @@ button, a {
     z-index: 100;
 }
 
+#loader-basic {
+
+    background-color: #f8f8f8;
+    height:100%;
+    left:0;
+    position: absolute;
+    top:0;
+    width:100%;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+
+    .translate3d(0,0,0);
+
+    .label {
+        color:#000;
+        position: absolute;
+        top:47%;
+        text-align: center;
+        left:0;
+        display: block;
+        font-size: 1.4rem;
+        width: 100%;
+    }
+
+    .spinner{
+        .sprite(@spinner_blue);
+        position: absolute;
+        left:50%;
+        top:50%;
+        margin:-8px 0 0 -8px;
+    }
+    
+
+}
+
 #content {
     padding:60px;
     position: absolute;

@@ -41,6 +41,7 @@ button, a {
 }
 
 #content {
+    padding:60px;
     position: absolute;
     left:0;
     right:0;
@@ -48,6 +49,8 @@ button, a {
     bottom:0;
     -webkit-backface-visibility: hidden;
     overflow: hidden;
+
+    z-index: 100;
 }
 
 .no-history #content {
@@ -165,6 +168,8 @@ keyframes rotating {
 #header{
 
     padding:30px;
+    position: relative;
+    z-index: 150;
 
     li {
         display: inline-block;

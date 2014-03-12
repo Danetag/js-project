@@ -1,0 +1,13 @@
+{
+	"label"		: "À propos",
+	"meta":{
+		"title":"JS Project  - À propos",
+		"description" : "JS Project "
+	},
+	"content" : {
+		"header" : {
+			"title" : "JS Project - À propos"
+		},
+		"body" : "À propos"
+	}
+}

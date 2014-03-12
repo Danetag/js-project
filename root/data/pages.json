@@ -45,7 +45,7 @@
 		{
 			"name"    : "card01",
 			"id"      : "card01",
-			"tpl"     : "card01.hbs",
+			"tpl"     : "card.hbs",
 			"output"   : {
 				"en"  : "en/cards/card01.php",
 				"fr"  : "fr/cards/card01.php"
@@ -69,7 +69,7 @@
 		{
 			"name"    : "card02",
 			"id"      : "card02",
-			"tpl"     : "card02.hbs",
+			"tpl"     : "card.hbs",
 			"output"   : {
 				"en"  : "en/cards/card02.php",
 				"fr"  : "fr/cards/card02.php"
@@ -93,7 +93,7 @@
 		{
 			"name"    : "card03",
 			"id"      : "card03",
-			"tpl"     : "card03.hbs",
+			"tpl"     : "card.hbs",
 			"output"   : {
 				"en"  : "en/cards/card03.php",
 				"fr"  : "fr/cards/card03.php"

@@ -1,8 +1,8 @@
 {
 	"common": {
 		"baseURL" : {
-			"developmentapp"  : "http://jsproject.dev.app",
-			"developmentdist" : "http://jsproject.dev.dist",
+			"developmentapp"  : "http://js-project.app",
+			"developmentdist" : "http://js-project.dist",
 			"production"      : "http://www.production.com"
 		},
 		"partial" : {

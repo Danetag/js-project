@@ -7,8 +7,9 @@
 			{ "src" : "/js/app/com/project/pages/Page.class.js"},
 			{ "src" : "/js/app/com/project/pages/View.class.js"},
 
-			{ "src" : "/js/app/com/project/pages/cards/Cards.page.class.js"},
-			{ "src" : "/js/app/com/project/pages/cards/Cards.view.class.js"},
+			{ "src" : "/js/app/com/project/pages/cards/Card.class.js"},
+			{ "src" : "/js/app/com/project/pages/cards/Page.card.js"},
+			{ "src" : "/js/app/com/project/pages/cards/views/View.card.js"},
 
 			{ "src" : "/js/app/com/project/loader/view/Loader.view.class.js"},
 
@@ -40,13 +41,6 @@
 
 			{ "src" : "/js/app/com/project/pages/index/Page.index.js"},
 			{ "src" : "/js/app/com/project/pages/index/views/View.index.js"},
-
-			{ "src" : "/js/app/com/project/pages/cards/card01/Page.card01.js"},
-			{ "src" : "/js/app/com/project/pages/cards/card01/views/View.card01.js"},
-			{ "src" : "/js/app/com/project/pages/cards/card02/Page.card02.js"},
-			{ "src" : "/js/app/com/project/pages/cards/card02/views/View.card02.js"},
-			{ "src" : "/js/app/com/project/pages/cards/card03/Page.card03.js"},
-			{ "src" : "/js/app/com/project/pages/cards/card03/views/View.card03.js"},
 
 			{ "src" : "/js/app/com/project/pages/about/Page.about.js"},
 			{ "src" : "/js/app/com/project/pages/about/views/View.about.js"},

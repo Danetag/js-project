@@ -159,7 +159,7 @@ JSP.Page = (function(window){
 			this.Loader.add.call( this.Loader , JSP.dataManager.primaryAssets );
 		}
 		
-		Page.prototype.addAssetsFromPageToLoad = function()r
+		Page.prototype.addAssetsFromPageToLoad = function()
 		{
 			//this.showItemsToLoad( "this.assets", this.assets);
 			this.Loader.add.call(this.Loader, this.assets);

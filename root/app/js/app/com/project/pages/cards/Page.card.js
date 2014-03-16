@@ -11,21 +11,23 @@ JSP.Pages.card = (function($){
 
     //Public override
 
-    CardPage.prototype.init   = function(obj)
+    CardPage.prototype.init   = function(o)
 	{
-		this.id 	    = obj.id;
-		this.name       = obj.name;
-		this.jSVar      = obj.jSVar;
-
+		
 		//if one existed and we would like to display it.. Do nothing ! Just block and it will dispatch on load.
-		if( this.cards[0] != undefined && this.cards[0].name == obj.name )
+		if( this.cards[0] != undefined && this.cards[0].name == o.name )
 		{
 			this.block = true;
 			return;
 		}
 
-		var Card = new JSP.Card(obj);
-		Card.init();
+		o.loaderViewType = "card";
+
+		if( !this.cards.length ) //first
+			o.loaderViewType = "basic";
+
+		var Card = new JSP.Card();
+		Card.init(o);
 
 		//if there's one, display the new one and delete the old one
 		this.cards.push(Card);
@@ -41,8 +43,7 @@ JSP.Pages.card = (function($){
 		}
 
 		var Card = this.cards[ this.cards.length - 1 ];
-
-		Card.bind.call( Card, Card.EVENT.LOADED, this.loaded.bind(this));
+		Card.bind.call( Card, Card.EVENT.IS_LOADED, this.loaded.bind(this));
 		Card.load.call( Card );
 	}
 
@@ -50,7 +51,7 @@ JSP.Pages.card = (function($){
 	{
 		var Card = this.cards[ this.cards.length - 1 ];
 
-		Card.unbind.call( Card, Card.EVENT.LOADED, this.loaded.bind(this));
+		Card.unbind.call( Card, Card.EVENT.IS_LOADED, this.loaded.bind(this));
 		this.dispatch(this.EVENT.IS_LOADED);
 		//this.initView();
 
@@ -60,7 +61,7 @@ JSP.Pages.card = (function($){
 	{
 		var Card = this.cards[ this.cards.length - 1 ];
 
-		Card.bind.call( Card, Card.EVENT.INITVIEW, this.onViewInit.bind(this));
+		Card.bind.call( Card, Card.EVENT.VIEW_INIT, this.onViewInit.bind(this));
 		Card.initView.call( Card );
 	}
 
@@ -69,7 +70,7 @@ JSP.Pages.card = (function($){
 		
 		var Card = this.cards[ this.cards.length - 1 ];
 
-		Card.unbind.call(Card, Card.EVENT.INITVIEW, this.onViewInit.bind(this));
+		Card.unbind.call(Card, Card.EVENT.VIEW_INIT, this.onViewInit.bind(this));
 		this.dispatch(this.EVENT.VIEW_INIT);
 		
 	}
@@ -176,7 +177,7 @@ JSP.Pages.card = (function($){
 		{
 			var Card = this.cards[ this.cards.length - 1 ];
 
-			//hide current
+			//final hide current
 			Card.bind.call( Card, Card.EVENT.HIDDEN, this.hidden.bind(this) );
 			Card.hide.call( Card );
 		}
@@ -184,14 +185,22 @@ JSP.Pages.card = (function($){
 
 		CardPage.prototype.hidden = function()
 		{
-			var Card = this.cards[ this.cards.length - 1 ];
-
-			Card.unbind.call( Card, Card.EVENT.HIDDEN, this.hidden.bind(this) );
-			Card.destroy.call( Card );
-			this.cards.length = 0; //FINAL DESTROY MOUHAHAHAHA
-
 			this.dispatch( this.EVENT.HIDDEN );
 		};
+
+	CardPage.prototype.destroy = function()
+	{
+		// Only final destruction
+		if( JSP.routeManager.next.id == "card")
+			return;
+
+		var Card = this.cards[ this.cards.length - 1 ];
+
+		Card.unbind.call( Card, Card.EVENT.HIDDEN, this.hidden.bind(this) );
+		Card.destroy.call( Card );
+		this.cards.length = 0; //FINAL DESTROY MOUHAHAHAHA
+
+	}
 
 
 	return new CardPage();

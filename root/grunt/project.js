@@ -67,7 +67,7 @@ var _initPages = function()
     for (var i in global.GRUNT.pages)
     {
         var page    = global.GRUNT.pages[i];
-        var data    = tools.getContents(page.id);
+        var data    = tools.getContents(page.name);
 
         tplFiles.push( { 
             id        : page.id,

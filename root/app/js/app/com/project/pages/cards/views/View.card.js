@@ -1,97 +1,55 @@
 JSP.CardView = (function($){
 
-	function CardView()
-	{
-		this.Model    = null;
-		this.name     = null;
-		this.idxCard  = 1;
+
+	/* I assume it's not a popup */
+
+	function CardView(){  
 
 		this.direction      = null;
 		this.hasAlreadyOne  = false;
 		this.canClick       = false;
 
-		this.$ = {
-			oldPage : null,
-			body    : null,
-			page    : null,
-			info    : null,
-			infoContent       : null,
-			prev    : null,
-			next    : null,
-			close   : null
-		}
-
-		this.events   = {};
-		this.EVENT    = {
-			INIT     : "init",
-			SHOWN    : "shown",
-			HIDDEN   : "hiddencardView"
-		};
+		JSP.View.call(this); 
 
 	}
-    
-    CardView.prototype = {
 
-    	init : function(Model, name, idxCard)
+    CardView.prototype = Object.create(JSP.View.prototype);
+	CardView.prototype.constructor = CardView;
+
+    CardView.prototype.init = function(o)
+	{
+		this.id    				= o.id;
+		this.name  				= o.name;
+		this.Model 				= o.Model;
+		this.jSVar 				= o.jSVar;
+		this.bodyClass 			= o.bodyClass;
+		this.popupClass 		= o.popupClass;
+		this.isPopup 			= o.isPopup || false;
+		this.idxCard 			= o.idxCard;
+
+		this.el();
+		this.bindEvents();
+
+		//Bind main link events
+		this.bindLinkEvents();
+
+		this.dispatch(this.EVENT.INIT);
+	}
+
+	CardView.prototype.el = function()
 		{
-			this.Model   = Model;
-			this.name    = name;
-			this.idxCard = idxCard;
-
-			this.el();
-			this.bindEvents();
-
-			this.dispatch(this.EVENT.INIT);
-		},
-		bind : function(name, f)
-		{
-			this.events[name] = new signals.Signal();
-			this.events[name].add(f);
-		},
-		unbind : function(name, f)
-		{
-			if(f != undefined)
-				this.events[name].remove(f);
-			else if( name != undefined)
-				this.events[name].removeAll();
-			else
-			{
-				for(var name in this.events)
-				{
-					this.unbind(name);
-				}
-			}
-		},
-		dispatch : function(name)
-		{
-			if( this.events[name] == undefined ) // Only if the event is registred
-				return;
-
-			this.events[name].dispatch();
-
-		},
-		
-		destroy : function()
-		{
-			this.unbindEvents();
-
-			this.$.page.remove();
-			this.unbind();
-		},
-		el : function()
-		{
-			this.$.body = $("body");
-
-			//Init view
-			this.$.body.addClass("display-card");
-
 			//Page-card
 			this.$.page = $(".page-card");
 			
 			if( this.$.page[0] == undefined) //no fiche
 			{
-				//inject HTML
-				$("#content").append( this.Model.get("html") );
+
+				var $html = $.parseHTML(this.Model.get("html"));
+
+				//clean it and inject HTML
+				JSP.Views.main.$.content.empty()
+									.show()
+									.html($html);
 				
 				this.$.page = $(".page-card");
 
@@ -151,152 +109,163 @@ JSP.CardView = (function($){
 			this.$.close 			 = this.$.info.find(".close");
 
 
-		},
-		bindEvents : function()
+	}
+
+	CardView.prototype.bindEvents = function()
+	{
+
+		var self = this;
+
+		this.$.prev.on("click", function(e){ 
+
+			e.preventDefault();
+
+			if(!self.canClick )
+				return false;
+
+			$(document).off("keyup");
+
+			History.pushState(null, null, $(this).attr("href") );
+		})
+
+		this.$.next.on("click", function(e){ 
+
+			e.preventDefault();
+
+			if(!self.canClick )
+				return false;
+
+			$(document).off("keyup");
+
+			History.pushState(null, null, $(this).attr("href") );
+		})
+
+		this.$.close.on("click", function(e){
+
+			e.preventDefault();
+
+			if(!self.canClick )
+				return false;
+
+			$(document).off("keyup");
+
+			History.pushState(null, null, $(this).attr("href") );
+
+		});
+
+		$(document).on("keyup", function(e)
 		{
-
-			var self = this;
-
-			this.$.prev.on("click", function(e){ 
-
-				e.preventDefault();
-
-				if(!self.canClick )
-					return false;
-
-				$(document).off("keyup");
-
-				History.pushState(null, null, $(this).attr("href") );
-			})
-
-			this.$.next.on("click", function(e){ 
-
-				e.preventDefault();
-
-				if(!self.canClick )
-					return false;
-
-				$(document).off("keyup");
-
-				History.pushState(null, null, $(this).attr("href") );
-			})
-
-			this.$.close.on("click", function(e){
-
-				e.preventDefault();
-
-				if(!self.canClick )
-					return false;
-
-				$(document).off("keyup");
-
-				History.pushState(null, null, $(this).attr("href") );
-
-			});
-
-			$(document).on("keyup", function(e)
+			switch(e.keyCode)
 			{
-				switch(e.keyCode)
-				{
-					case 27 /* esc */   : e.preventDefault(); self.$.close.trigger("click"); break;
-					case 37 /* left */  : e.preventDefault(); self.$.prev.trigger("click"); break;
-					case 39 /* right */ : e.preventDefault(); self.$.next.trigger("click"); break;				
-				}
-			});
-
-		},
-		unbindEvents : function()
-		{
-
-			this.$.prev.off("click");
-			this.$.next.off("click");
-			this.$.close.off("click");
-
-		},
-		show : function()
-		{
-			var self = this;
-
-			if(!this.hasAlreadyOne)
-			{
-				TweenLite.to( this.$.close, 1, { delay : 0.2, opacity:1 });
-				TweenLite.to( this.$.infoContent, 0.8, { delay : 0.2, opacity:1, onComplete: function(){ 
-
-					self.endShow();
-
-				}});
+				case 27 /* esc */   : e.preventDefault(); self.$.close.trigger("click"); break;
+				case 37 /* left */  : e.preventDefault(); self.$.prev.trigger("click"); break;
+				case 39 /* right */ : e.preventDefault(); self.$.next.trigger("click"); break;				
 			}
-			else
-			{
-				var wdW = $(window).width();
-
-				var x      = wdW;
-				var xStart = -wdW;
-				if(this.direction == "left")
-				{
-					xStart = wdW;
-					x = -wdW;
-				}
-
-				TweenLite.fromTo( this.$.oldPage, 0.6, { x : 0 }, { x : x });
-				TweenLite.fromTo( this.$.page,    0.6, { x : xStart, opacity : 1 }, { x : 0, onComplete : function(){
-
-					self.endShow();
-
-				}});
-					
-				
-			}
-
-			
-		},
-		endShow : function()
-		{
-			this.$.oldPage = null;
-			this.$.page.removeClass("staging");
-
-			//z index
-			this.$.page.css("zIndex", 31);
-			this.canClick = true;
-			this.$.body.removeClass("display-card");
-
-			this.dispatch( this.EVENT.SHOWN );
-		},
-		hideInterCard : function()
-		{
-			
-		},
-		deleteClass : function() //Delete the class only if we are going to another card
-		{
-			this.$.body.removeClass(this.name);
-		},
-		hide : function()
-		{
-
-			this.hideCard();
-			
-		},
-		hideCard : function()
-		{
-			var self = this;
-
-			TweenLite.to( self.$.page, 0.8, { opacity:0 , ease:Cubic.easeOut , onComplete: function(){ 
-
-				$(document).off("keyup");
-				
-				setTimeout(function(){
-
-					self.dispatch( self.EVENT.HIDDEN );
-					self.destroy();
-
-				}, 200)
-				
-			}});
-
-		}
+		});
 
 	}
 	
+	CardView.prototype.unbindEvents = function()
+	{
+
+		this.$.prev.off("click");
+		this.$.next.off("click");
+		this.$.close.off("click");
+
+	}
+	
+	CardView.prototype.show = function()
+	{
+		var self = this;
+
+		if(!this.hasAlreadyOne)
+		{
+			TweenLite.to( this.$.close, 1, { delay : 0.2, opacity:1 });
+			TweenLite.to( this.$.infoContent, 0.8, { delay : 0.2, opacity:1, onComplete: function(){ 
+
+				self.endShow();
+
+			}});
+		}
+		else
+		{
+			var wdW = $(window).width();
+
+			var x      = wdW;
+			var xStart = -wdW;
+			if(this.direction == "left")
+			{
+				xStart = wdW;
+				x = -wdW;
+			}
+
+			TweenLite.fromTo( this.$.oldPage, 0.6, { x : 0 }, { x : x });
+			TweenLite.fromTo( this.$.page,    0.6, { x : xStart, opacity : 1 }, { x : 0, onComplete : function(){
+
+				self.endShow();
+
+			}});
+				
+			
+		}
+		
+	}
+	
+	CardView.prototype.endShow = function()
+	{
+		this.$.oldPage = null;
+		this.$.page.removeClass("staging");
+
+		//z index
+		this.$.page.css("zIndex", 31);
+		this.canClick = true;
+		JSP.Views.main.$.body.removeClass("display-card");
+
+		this.dispatch( this.EVENT.SHOWN );
+	}
+
+	CardView.prototype.hideInterCard = function()
+	{
+		
+	}
+	
+	CardView.prototype.deleteClass = function() //Delete the class only if we are going to another card
+	{
+		JSP.Views.main.$.body.removeClass(this.name);
+	}
+
+	CardView.prototype.hide = function()
+	{
+		this.unbindLinkEvents();
+		this.hideCard();	
+	}
+	
+	CardView.prototype.hideCard = function()
+	{
+		var self = this;
+
+		TweenLite.to( self.$.page, 0.8, { opacity:0 , ease:Cubic.easeOut , onComplete: function(){ 
+
+			$(document).off("keyup");
+			
+			setTimeout(function(){
+
+				self.dispatch( self.EVENT.HIDDEN );
+				self.destroy();
+
+			}, 200)
+			
+		}});
+
+	}
+
+	CardView.prototype.destroy = function()
+	{
+		this.unbindEvents();
+
+		this.$.page.remove();
+		this.unbind();
+	}
 
 	return CardView;	
 

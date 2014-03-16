@@ -1,183 +1,70 @@
-JSP.Card = (function(window){
+JSP.Card = (function($){
 
-	function Card(obj){
+	function Card(){  JSP.Page.call(this); }
 
-		this.id      = obj.id;
-		this.name    = obj.name;
-		this.idxCard = parseInt( obj.name.replace("card", ''), 10 );
-
-		this.Model  = null;
-		this.View   = null;
-		this.Loader = null;
-
-		this.events   = {};
-
-		this.EVENT    = {
-			INITVIEW : "initView",
-			LOADED   : "loaded",
-			INIT     : "init",
-			SHOWN    : "shownCard",
-			HIDDEN   : "hiddenCard",
-			LOADER_IS_DESTROYED : "LoaderIsDestroyed"
-		};
-	};
+    Card.prototype = Object.create(JSP.Page.prototype);
+	Card.prototype.constructor = Card;
 
     //Public override
 
-    Card.prototype  = 
+    Card.prototype.init = function(o)
 	{
-		init : function()
-		{
-			this.initModel();
-		},
-		initModel : function()
-		{
-			this.Model = JSP.dataManager.find(this.id, this.name);
-		},
-		initView : function()
-		{
-			this.View = new JSP.CardView();
+		this.id 	     	= o.id;
+		this.name        	= o.name;
+		this.jSVar       	= o.jSVar;
+		this.bodyClass   	= o.bodyClass;
+		this.popupClass  	= o.popupClass;
+		this.isPopup     	= o.isPopup;
+		this.loaderViewType = o.loaderViewType;
 
-			this.View.bind.call(this.View, this.View.EVENT.INIT, this.onViewInit.bind(this));
-			this.View.init.call(this.View , this.Model, this.name, this.idxCard );
-		},
-		bind : function(name, f)
-		{
-			this.events[name] = new signals.Signal();
-			this.events[name].add(f);
-		},
-		unbind : function(name, f)
-		{
-			if(f != undefined && this.events[name] != undefined )
-				this.events[name].remove(f);
-			else if( name != undefined)
-				this.events[name].removeAll();
-			else
-			{
-				for(var name in this.events)
-				{
-					this.unbind(name);
-				}
-			}
-		},
-		dispatch : function(name)
-		{
-			if( this.events[name] == undefined ) // Only if the event is registred
-				return;
+		this.idxCard 		= parseInt( o.name.replace("card", ''), 10 );
 
-			this.events[name].dispatch();
+		this.initModel();
+		this.initAssets();
+	}
 
-		},
-		load : function()
-		{
-			this.Loader = new JSP.Loader();
-			this.Loader.loaderView  = new JSP.LoaderViews.Card(); //basic
+	Card.prototype.initView = function()
+	{
+		this.View = new JSP.CardView();
 
-			this.Loader.init.call(this.Loader);
+		this.View.bind.call(this.View, this.View.EVENT.INIT, this.onViewInit.bind(this));
+		this.View.init.call(this.View , 
+		{ 
+			id    			 : this.id, 
+			name  			 : this.name, 
+			Model 			 : this.Model,
+			jSVar 			 : this.jSVar,
+			bodyClass 		 : this.bodyClass,
+			popupClass 		 : this.popupClass,
+			isPopup	         : this.isPopup,
+			idxCard			 : this.idxCard
+		});
+	}
 
-			//Data
-			if( this.Model.get("html") == undefined)
-			{
-				this.addDataToLoad();
-			}
+	Card.prototype.initLoaderView = function() //to override
+	{
+		switch(this.loaderViewType)
+		{
+			case "basic" : this.Loader.loaderView  = new JSP.LoaderViews.Basic(); break;
+			case "card"  : this.Loader.loaderView  = new JSP.LoaderViews.Card(); break;
 
-			//Assets
-			this.addAssetsToLoad();
-			
-			this.Loader.bind.call(this.Loader, this.Loader.EVENT.ENDED, this.loaded.bind(this) );
-			this.Loader.start.call(this.Loader);
-		},
-			addDataToLoad : function()
-			{
-				this.Loader.add.call(this.Loader, [{ src: this.Model.url, type:"data", name:"html" }]);
-			},
-			addAssetsToLoad : function()
-			{
-				this.Loader.add.call(this.Loader, this.Model.assets);
-			},
-
-		loaded : function()
-		{
-			this.Loader.unbind.call(this.Loader, this.Loader.EVENT.ENDED, this.loaded.bind(this) );
-
-			if( this.Model.get("html") == undefined)
-			{
-				var indexHTML = this.Loader.aKeyToItems["html"];
-				var html      = this.Loader.aItems[indexHTML].data;
-
-				this.Model.set("html", html);
-			}
-
-			this.dispatch( this.EVENT.LOADED );
-
-			//this.initView();
-			this.hideLoader();
-		},
-		hideLoader : function()
-		{
-			//hide Loader
-			this.Loader.bind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.loaderHidden.bind(this) );
-			this.Loader.hide.call(this.Loader);
-		},
-		loaderHidden : function()
-		{
-			this.Loader.unbind.call(this.Loader, this.Loader.EVENT.HIDDEN, this.loaderHidden.bind(this) );
-			this.Loader.destroy.call( this.Loader );
-			this.Loader = null;	
-
-			this.dispatch( this.EVENT.LOADER_IS_DESTROYED );		
-		},
-		onViewInit : function()
-		{
-			this.View.unbind.call(this.View, this.View.EVENT.INIT, this.onViewInit.bind(this));
-			this.dispatch(this.EVENT.INITVIEW);
-		},
-		show : function()
-		{
-			this.View.bind.call( this.View, this.View.EVENT.SHOWN, this.shown.bind(this) );
-			this.View.show.call( this.View )
-		},
-		shown : function()
-		{
-			this.View.unbind.call( this.View, this.View.EVENT.SHOWN, this.shown.bind(this) );
-			this.dispatch( this.EVENT.SHOWN );
-		},
-		hideInterCard : function()
-		{
-			this.View.hideInterCard.call( this.View )
-		},
-		hide : function()
-		{
-			this.View.bind.call( this.View, this.View.EVENT.HIDDEN, this.hidden.bind(this)  ); //this.hidden.bind(this) 
-			this.View.hide.call( this.View )
-		},
-		hidden : function()
-		{
-			this.View.unbind.call( this.View, this.View.EVENT.HIDDEN, this.hidden.bind(this) );
-			this.dispatch( this.EVENT.HIDDEN );
-		},
-		unbindEvents : function()
-		{
-			this.View.unbindEvents.call(this.View);
-		},
-		deleteClass : function()
-		{
-			this.View.deleteClass.call(this.View);
-		},
-		destroy : function()
-		{
-			this.View.destroy.call(this.View);
-			this.unbind();
-			
-			this.Model = null;
-			this.View  = null;
+			default      : this.Loader.loaderView  = new JSP.LoaderViews.Card(); break;
 		}
+	}
 
+	Card.prototype.hideInterCard = function()
+	{
+		this.View.hideInterCard.call( this.View );
+	}
+
+	Card.prototype.deleteClass = function()
+	{
+		this.View.deleteClass.call(this.View);
 	}
 
 	return Card;
 
-})(window);
+})(jQuery);
 
 
 

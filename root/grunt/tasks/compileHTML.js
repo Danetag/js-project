@@ -175,6 +175,9 @@ module.exports = function(grunt) {
 
                 data.bodyClass          = file.bodyClass;
 
+
+
+
                 if( file.id == "card" )
                 {
                     //get current
@@ -185,17 +188,26 @@ module.exports = function(grunt) {
                     data.nbCards = nbCards;
                     data.name    = nameCard;
 
+
+
                     //prev
                     var idxPrev  =  idxCard-1;
 
                     if( idxPrev <= 0)
                     {
                         idxPrev = nbCards;
+                    } 
+
+                    if( idxPrev < 10)
+                    {
+                        idxPrev = "0" + idxPrev;
                     }  
 
                     var prevCard  = tools.getPageInJSON("card" + idxPrev);
                     data.prevCard = prevCard.data[lang];
+
                     data.prevCard.route = prevCard.route[lang];
+
 
                     //next
                     var idxNext  =  idxCard+1;
@@ -205,11 +217,17 @@ module.exports = function(grunt) {
                         idxNext = 1;
                     }  
 
+                    if( idxNext < 10)
+                    {
+                        idxNext = "0" + idxNext;
+                    }
+
                     var nextCard  = tools.getPageInJSON("card" + idxNext);
                     data.nextCard = nextCard.data[lang];
                     data.nextCard.route = nextCard.route[lang];
 
                 }
+
 
 
                 var output              = template( data );

@@ -44,7 +44,7 @@
 
 		{
 			"name"    : "card01",
-			"id"      : "card01",
+			"id"      : "card",
 			"tpl"     : "card.hbs",
 			"output"   : {
 				"en"  : "en/cards/card01.php",
@@ -68,7 +68,7 @@
 
 		{
 			"name"    : "card02",
-			"id"      : "card02",
+			"id"      : "card",
 			"tpl"     : "card.hbs",
 			"output"   : {
 				"en"  : "en/cards/card02.php",
@@ -92,7 +92,7 @@
 
 		{
 			"name"    : "card03",
-			"id"      : "card03",
+			"id"      : "card",
 			"tpl"     : "card.hbs",
 			"output"   : {
 				"en"  : "en/cards/card03.php",

@@ -4,7 +4,7 @@
 
 			{ "src" : "/js/app/com/project/conf/conf.js"},
 
-			{ "src" : "/js/app/com/project/events/EventDispatcher.class.class.js"},
+			{ "src" : "/js/app/com/project/events/EventDispatcher.class.js"},
 
 			{ "src" : "/js/app/com/project/pages/Page.class.js"},
 			{ "src" : "/js/app/com/project/pages/View.class.js"},

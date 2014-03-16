@@ -2,8 +2,10 @@ JSP.LoaderViews = {};
 
 JSP.LoaderView = (function(window){
 
-	function LoaderView(){
-		this.events   = {};
+	function LoaderView()
+	{
+		JSP.EventDispatcher.call(this);
+
 		this.EVENT    = {
 			SHOWN    : "shown",
 			HIDDEN   : "hidden"
@@ -19,101 +21,73 @@ JSP.LoaderView = (function(window){
 		this.pct = 0;
 	};
 
-	LoaderView.prototype = 
+	LoaderView.prototype = Object.create(JSP.EventDispatcher.prototype);
+	LoaderView.prototype.constructor = LoaderView;
+
+	LoaderView.prototype.init = function(nbItems)
 	{
-		init : function(nbItems)
+		this.nbItemsToLoad = nbItems;
+
+		this.el();
+		this.append();
+		this.bindEvents();
+	}
+	LoaderView.prototype.bindEvents = function()
+	{
+
+	}
+	LoaderView.prototype.unbindEvents = function()
+	{
+
+	}
+	LoaderView.prototype.el = function()
+	{
+
+	}
+	LoaderView.prototype.append = function()
+	{
+
+	}
+	LoaderView.prototype.setPct = function(pct) //to override
+	{
+
+	}
+	LoaderView.prototype.show = function()
+	{
+		this.dispatch( this.EVENT.SHOWN );
+	}
+	LoaderView.prototype.hide = function()
+	{
+		this.unbind();
+		this.unbindEvents();
+
+		this.dispatch( this.EVENT.HIDDEN );
+	}
+	LoaderView.prototype.destroyTL = function()
+	{
+		for(var i=0; i < this.TL.length; i++ )
 		{
-			this.nbItemsToLoad = nbItems;
+			var tl = this.TL[i];
 
-			this.el();
-			this.append();
-			this.bindEvents();
-		},
-		bind : function(name, f)
-		{
-			this.events[name] = new signals.Signal();
-			this.events[name].add(f);
-		},
-		unbind : function(name, f)
-		{
-			if(f != undefined)
-				this.events[name].remove(f);
-			else if( name != undefined)
-				this.events[name].removeAll();
-			else
-			{
-				for(var name in this.events)
-				{
-					this.unbind(name);
-				}
-			}
-		},
-		dispatch : function(name)
-		{
-			if( this.events[name] == undefined ) // Only if the event is registred
-				return;
+			if(tl == null)
+				continue;
 
-			this.events[name].dispatch();
+			tl.kill();
+			tl.clear();
+			tl = null;
+		};
 
-		},
-		bindEvents : function()
-		{
+		this.TL = {};
+	}
+	LoaderView.prototype.destroy = function()
+	{
+		this.destroyTL();
 
-		},
-		unbindEvents : function()
-		{
-
-		},
-		el : function()
-		{
-
-		},
-		append : function()
-		{
-
-		},
-		setPct : function(pct) //to override
-		{
-
-		},
-		show : function()
-		{
-			this.dispatch( this.EVENT.SHOWN );
-		},
-		hide : function()
-		{
-
-			this.unbind();
-			this.unbindEvents();
-
-			this.dispatch( this.EVENT.HIDDEN );
-		},
-		destroyTL : function()
-		{
-			for(var i=0; i < this.TL.length; i++ )
-			{
-				var tl = this.TL[i];
-
-				if(tl == null)
-					continue;
-
-				tl.kill();
-				tl.clear();
-				tl = null;
-			};
-
-			this.TL = {};
-		},
-		destroy : function()
-		{
-			this.destroyTL();
-
-			this.$.loader.remove();
-			this.$.loader = null;
-			
-		}
+		this.$.loader.remove();
+		this.$.loader = null;
 		
 	}
+	
 
 	return LoaderView;
  

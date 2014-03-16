@@ -5,13 +5,13 @@ JSP.PopupsManager = {};
 
    	function PopupsManager()
    	{
+   		JSP.EventDispatcher.call(this);
+
    		this.html   = '<div id="popup-container"><div class="overlay"></div></div>';
    		this.route  = null; 
    		this.nextID = null;
    		this.nextUrl = null;
    		this.isWorking = false;
-
-   		this.events = {};
 
         this.EVENT = {
             OPEN       : "open",
@@ -26,129 +26,94 @@ JSP.PopupsManager = {};
 
    		this.isOpen = false;
    	};
+
+   	PopupsManager.prototype = Object.create(JSP.EventDispatcher.prototype);
+	PopupsManager.prototype.constructor = PopupsManager;
     
 	// PUBLIC
-	PopupsManager.prototype = 
-    {
-    	bind : function(name, f)
+	PopupsManager.prototype.open = function(id)
+	{
+		if(this.isWorking) //not during transition
+			return;
+
+		if( this.$.popupContainer != null )
 		{
-			this.events[name] = new signals.Signal();
-			this.events[name].add(f);
-		},
-		unbind : function(name, f)
-		{
-			if(f != undefined)
-			{
-				this.events[name].remove(f);
-				delete this.events[name];
-			}	
-			else if( name != undefined)
-			{
-				this.events[name].removeAll();
-				delete this.events[name];
-			}	
-			else
-			{
-				for(var name in this.events)
-				{
-					this.unbind(name);
-				}
-			}
-		},
-		dispatch : function(name, params)
-		{
-			if( this.events[name] == undefined ) // Only if the event is registred
-				return;
+			this.nextID = id;
 
-			if(params != undefined)
-				this.events[name].dispatch(params);
-			else
-				this.events[name].dispatch();
-		},
-		open : function(id)
-		{
-			if(this.isWorking) //not during transition
-				return;
-
-			if( this.$.popupContainer != null )
-			{
-				this.nextID = id;
-
-				//change popup
-				this.changePopup();
-				return;
-			}
-
-			this.isWorking = true;
-
-			this.nextID = null;
-
-			this.route = JSP.routeManager.getRouteObject(id, JSP.conf.lang);
-
-			this.dispatch( this.EVENT.OPEN );
-
-			_initDOM.call(this);
-			_routePopup.call(this);
-
-		},
-		append : function($html)
-		{
-			if(this.$.popupContainer == null)
-			{
-				//JSP.console.log("this.$.popupContainer is null, please open the link through the PopupsManager");
-				return;
-			}
-
-			this.$.popupContainer.append($html);
-		},
-		bindEvents : function()
-		{
-			var self = this;
-
-			this.$.overlay.on("click", function()
-			{
-				self.close();
-			})
-		},
-		unbindEvents : function()
-		{
-			this.$.overlay.off("click");
-		},
-		changePopup : function()
-		{
-			this.close();
-		},
-		close : function()
-		{
-			this.isOpen = false;
-			this.isWorking = true;
-			
-			JSP.Pages[ this.route.id ].bind( JSP.Pages[ this.route.id ].EVENT.HIDDEN, _currentPopinHidden.bind(this) );
-			JSP.Pages[ this.route.id ].hide();
-		},
-		destroy : function()
-		{
-			var self = this;
-
-			TweenLite.to( self.$.popupContainer, 0.7, { autoAlpha:0 , ease:Cubic.easeOut , onComplete: function(){ 
-
-				self.$.popupContainer.remove();
-				self.$.popupContainer = null;
-
-				self.isWorking = false;
-
-				self.dispatch( self.EVENT.CLOSE );
-
-				if( self.nextID != null )
-				{
-					self.open( self.nextID );
-				}
-
-			}});
-			
+			//change popup
+			this.changePopup();
+			return;
 		}
+
+		this.isWorking = true;
+
+		this.nextID = null;
+
+		this.route = JSP.routeManager.getRouteObject(id, JSP.conf.lang);
+
+		this.dispatch( this.EVENT.OPEN );
+
+		_initDOM.call(this);
+		_routePopup.call(this);
+
+	}
+	PopupsManager.prototype.append = function($html)
+	{
+		if(this.$.popupContainer == null)
+		{
+			//JSP.console.log("this.$.popupContainer is null, please open the link through the PopupsManager");
+			return;
+		}
+
+		this.$.popupContainer.append($html);
+	}
+	PopupsManager.prototype.bindEvents = function()
+	{
+		var self = this;
+
+		this.$.overlay.on("click", function()
+		{
+			self.close();
+		})
+	}
+	PopupsManager.prototype.unbindEvents = function()
+	{
+		this.$.overlay.off("click");
+	}
+	PopupsManager.prototype.changePopup = function()
+	{
+		this.close();
+	}
+	PopupsManager.prototype.close = function()
+	{
+		this.isOpen = false;
+		this.isWorking = true;
 		
-	};
+		JSP.Pages[ this.route.id ].bind( JSP.Pages[ this.route.id ].EVENT.HIDDEN, _currentPopinHidden.bind(this) );
+		JSP.Pages[ this.route.id ].hide();
+	}
+	PopupsManager.prototype.destroy = function()
+	{
+		var self = this;
+
+		TweenLite.to( self.$.popupContainer, 0.7, { autoAlpha:0 , ease:Cubic.easeOut , onComplete: function(){ 
+
+			self.$.popupContainer.remove();
+			self.$.popupContainer = null;
+
+			self.isWorking = false;
+
+			self.dispatch( self.EVENT.CLOSE );
+
+			if( self.nextID != null )
+			{
+				self.open( self.nextID );
+			}
+
+		}});
+		
+	}
+		
 
 	var _initDOM = function()
 	{

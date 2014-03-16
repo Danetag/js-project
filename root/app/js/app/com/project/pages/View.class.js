@@ -1,19 +1,21 @@
 JSP.Views = JSP.Views || {};
 
-JSP.View = (function($){
+JSP.View = (function(window){
 
-	var View = function(){
+	function View (){
+
+		JSP.EventDispatcher.call(this);
 
 		this.$ = {
 			page   : null
 		};
-		this.events   = {};
+		
 		this.EVENT    = {
-			INIT     : "init",
-			SHOWN    : "shown",
-			HIDDEN   : "hidden",
+			INIT     	: "init",
+			SHOWN    	: "shown",
+			HIDDEN   	: "hidden",
 			INIT_TABLET : "InitTablet",
-			POPUP_OPEN : "PopupOpen",
+			POPUP_OPEN 	: "PopupOpen",
 			POPUP_CLOSE : "PopupClose"
 		};
 
@@ -28,205 +30,161 @@ JSP.View = (function($){
 		this.isPopup 			= false;
 	}
 
-	View.prototype = {
+	View.prototype = Object.create(JSP.EventDispatcher.prototype);
+	View.prototype.constructor = View;
 
-		bind : function(name, f)
+	View.prototype.init = function(o)
+	{
+		this.id    				= o.id;
+		this.name  				= o.name;
+		this.Model 				= o.Model;
+		this.jSVar 				= o.jSVar;
+		this.bodyClass 			= o.bodyClass;
+		this.popupClass 		= o.popupClass;
+		this.isPopup 			= o.isPopup || false;
+
+		this.el();
+		this.initDOM();
+		this.dispatch(this.EVENT.INIT);
+	}
+
+	View.prototype.el = function()
+	{
+		if(!this.isPopup)
 		{
-			this.events[name] = new signals.Signal();
-			this.events[name].add(f);
-		},
-		unbind : function(name, f)
-		{
-			if(f != undefined)
+			//clean body class
+			JSP.Views.main.$.body.removeClass();
+
+			if( this.bodyClass != null )
 			{
-				this.events[name].remove(f);
-				delete this.events[name];
-			}	
-			else if( name != undefined)
-			{
-				this.events[name].removeAll();
-				delete this.events[name];
-			}	
-			else
-			{
-				for(var name in this.events)
-				{
-					this.unbind(name);
-				}
+				JSP.Views.main.$.body.addClass(this.bodyClass);
 			}
-		},
-		dispatch : function(name)
-		{
-			if( this.events[name] == undefined ) // Only if the event is registred
-				return;
 
-			this.events[name].dispatch();
-
-		},
-
-		init : function(o)
-		{
-			this.id    				= o.id;
-			this.name  				= o.name;
-			this.Model 				= o.Model;
-			this.jSVar 				= o.jSVar;
-			this.bodyClass 			= o.bodyClass;
-			this.popupClass 		= o.popupClass;
-			this.isPopup 			= o.isPopup || false;
-
-			this.el();
-			this.initDOM();
-			this.dispatch(this.EVENT.INIT);
-		},
-		el : function()
-		{
-			if(!this.isPopup)
-			{
-				//clean body class
-				JSP.Views.main.$.body.removeClass();
-
-				if( this.bodyClass != null )
-				{
-					JSP.Views.main.$.body.addClass(this.bodyClass);
-				}
-
-				//popupManager
-				JSP.PopupsManager.bind(JSP.PopupsManager.EVENT.OPEN, this.onPopupOpened.bind(this));
-        		JSP.PopupsManager.bind(JSP.PopupsManager.EVENT.CLOSE, this.onPopupClosed.bind(this));
-				
-			}
+			//popupManager
+			JSP.PopupsManager.bind(JSP.PopupsManager.EVENT.OPEN, this.onPopupOpened.bind(this));
+    		JSP.PopupsManager.bind(JSP.PopupsManager.EVENT.CLOSE, this.onPopupClosed.bind(this));
 			
-			/*
-			//Already did in PopupManager !
-			else
-			{
-				//add popup Class
-				if( this.popupClass != null )
-					JSP.PopupsManager.$.popupContainer.addClass(this.popupClass);
-			}
-			*/
+		}
 
-			//get page
-			this.$.page = $("#page-" + this.name );
+		//get page
+		this.$.page = $("#page-" + this.name );
 
-			if( this.$.page[0] == undefined || !JSP.conf.hasPushState ) //no fiche
-			{
-				//inject HTML
-				var $html = $.parseHTML(this.Model.get("html"));
+		if( this.$.page[0] == undefined || !JSP.conf.hasPushState ) //no fiche
+		{
+			//inject HTML
+			var $html = $.parseHTML(this.Model.get("html"));
 
-				if( !this.isPopup )
-				{
-					JSP.Views.main.$.content.empty()
-											.show()
-											.html($html);
-				}	
-				else
-					JSP.PopupsManager.append($html)
-				
-				this.$.page = $("#page-" + this.name);
-
-				if( this.isPopup )
-					this.$.page.addClass("popup-content");
-			}
-		},
-		initDOM    : function()
-		{
-
-		},
-
-		// TO OVERRIDE
-		onPopupOpened : function()
-		{
-			this.dispatch(this.EVENT.POPUP_OPEN);
-		},
-		onPopupClosed : function()
-		{
-			this.dispatch(this.EVENT.POPUP_CLOSE);
-		},
-
-
-		bindEvents : function()
-		{
-			
-		},
-		bindLinkEvents : function()
-		{
-			JSP.Views.main.bindEvents();
-		},
-		unbindEvents : function()
-		{
-			
-		},
-		unbindLinkEvents : function()
-		{
-			JSP.Views.main.unbindEvents();
-		},
-		unbindPopup : function()
-		{
 			if( !this.isPopup )
 			{
-		        JSP.PopupsManager.unbind(JSP.PopupsManager.EVENT.OPEN, this.onPopupOpened.bind(this));
-        		JSP.PopupsManager.unbind(JSP.PopupsManager.EVENT.CLOSE, this.onPopupClosed.bind(this));
+				JSP.Views.main.$.content.empty()
+										.show()
+										.html($html);
+			}	
+			else
+				JSP.PopupsManager.append($html)
+			
+			this.$.page = $("#page-" + this.name);
 
-		        this.unbindLinkEvents();
-		    }
-		},
-		show : function()
+			if( this.isPopup )
+				this.$.page.addClass("popup-content");
+		}
+	}
+	View.prototype.initDOM    = function()
+	{
+
+	}
+
+	// TO OVERRIDE
+	View.prototype.onPopupOpened = function()
+	{
+		this.dispatch(this.EVENT.POPUP_OPEN);
+	}
+	View.prototype.onPopupClosed = function()
+	{
+		this.dispatch(this.EVENT.POPUP_CLOSE);
+	}
+
+
+	View.prototype.bindEvents = function()
+	{
+		
+	}
+	View.prototype.bindLinkEvents = function()
+	{
+		JSP.Views.main.bindEvents();
+	}
+	View.prototype.unbindEvents = function()
+	{
+		
+	}
+	View.prototype.unbindLinkEvents = function()
+	{
+		JSP.Views.main.unbindEvents();
+	}
+	View.prototype.unbindPopup = function()
+	{
+		if( !this.isPopup )
 		{
-			this.bindEvents();
+	        JSP.PopupsManager.unbind(JSP.PopupsManager.EVENT.OPEN, this.onPopupOpened.bind(this));
+    		JSP.PopupsManager.unbind(JSP.PopupsManager.EVENT.CLOSE, this.onPopupClosed.bind(this));
 
-			if( !this.isPopup )
-				this.bindLinkEvents();
+	        this.unbindLinkEvents();
+	    }
+	}
+	View.prototype.show = function()
+	{
+		this.bindEvents();
 
-			this.dispatch( this.EVENT.SHOWN );
-		},
-		hide : function()
+		if( !this.isPopup )
+			this.bindLinkEvents();
+
+		this.dispatch( this.EVENT.SHOWN );
+	}
+	View.prototype.hide = function()
+	{
+		this.unbindPopup();
+		this.dispatch( this.EVENT.HIDDEN );
+		//this.destroy();
+	}
+	View.prototype.destroy = function() 
+	{
+		this.unbindEvents();
+		this.destroyTL();
+
+		this.$.page.remove();
+		this.$ = {};
+	}
+	View.prototype.killTL = function(name)
+	{
+		if( this.TL[name] == undefined || this.TL[name] == null )
+			return;
+
+		var tl = this.TL[name];
+
+		tl.stop();
+		tl.kill();
+		tl.clear();
+		tl = null;
+
+	}
+	View.prototype.destroyTL = function()
+	{
+		for(var i in this.TL)
 		{
-			this.unbindPopup();
-			this.dispatch( this.EVENT.HIDDEN );
-			//this.destroy();
-		},
-		destroy : function() 
-		{
-			this.unbindEvents();
-			this.destroyTL();
+			var tl = this.TL[i];
 
-			this.$.page.remove();
-			this.$ = {};
-		},
-		killTL : function(name)
-		{
-			if( this.TL[name] == undefined || this.TL[name] == null )
-				return;
-
-			var tl = this.TL[name];
+			if(tl == null)
+				continue;
 
 			tl.stop();
 			tl.kill();
 			tl.clear();
 			tl = null;
+		};
 
-		},
-		destroyTL : function()
-		{
-			for(var i in this.TL)
-			{
-				var tl = this.TL[i];
-
-				if(tl == null)
-					continue;
-
-				tl.stop();
-				tl.kill();
-				tl.clear();
-				tl = null;
-			};
-
-			this.TL = {};
-		}
-
-	};
+		this.TL = {};
+	}
 
 	return View;	
 
-})(jQuery);
+})(window);

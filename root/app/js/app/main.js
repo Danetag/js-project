@@ -95,7 +95,9 @@ JSP.main = {};
 		{
 			JSP.conf.hasAudio = Modernizr.audio;
 
-			if( $('html').is('.ie6, .ie7, .ie8, .ie9, .ie10') )
+			var $html = $('html');
+
+			if( $html.is('.ie6, .ie7, .ie8, .ie9, .ie10') )
 			{
 				JSP.conf.isIE = true;
 			}
@@ -105,6 +107,15 @@ JSP.main = {};
 			{
 				JSP.conf.isIE = true;
 				document.documentElement.className ="is-ie " + document.documentElement.className;
+			}
+
+			// Perfless. List all browsers here
+			if( $html.is('.ie8, .ie9') || JSP.conf.device.browser == "firefox" )
+			{
+				JSP.conf.perfLess = true;
+
+				//remove SVG support, PNG instead, cause SVG causes pain for those browsers
+				$html.removeClass("svg").addClass("no-svg");
 			}
 
 		}

@@ -194,9 +194,10 @@ JSP.Loader = (function(window){
 
 			//this.aItems[1].src = "/img/scenes/scene01/anims/flacon/sprite01.png";
 
-			this.queue.loadManifest(this.aItems);
+			
 			this.queue.loadTimeout = 999999; // Time in milliseconds to assume a load has failed.
-			this.queue.load();
+			this.queue.loadManifest(this.aItems);
+			//this.queue.load();
 
 	    }
 

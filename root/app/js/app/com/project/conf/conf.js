@@ -7,6 +7,7 @@ JSP.conf = {
 	jSVar    		 : JSP.conf.jSVar   || {},
 	cardInfos	  	 : JSP.conf.cardInfos   || {},
 	translate   	 : JSP.conf.translate,
+	perfLess 		 : false,
 	device      	 : null,
 	isIE			 : false,
 	hasPushState	 : JSP.conf.hasPushState || !!(window.history && history.pushState)
@@ -16,8 +17,8 @@ JSP.conf = {
 ;(function(window){
 
 	//init
-	Modernizr.Detectizr.detect();
-	JSP.conf.device = Modernizr.Detectizr.device;
+	Detectizr.detect();
+	JSP.conf.device = Detectizr.device;
 
 })(window);
 

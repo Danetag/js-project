@@ -11,7 +11,8 @@ JSP.LoaderView = (function(window){
 			HIDDEN   : "hidden"
 		};
 		this.$ = {
-
+			parentEl : null,
+			loader   : null
 		};
 
 		this.TL = {};
@@ -27,6 +28,9 @@ JSP.LoaderView = (function(window){
 	LoaderView.prototype.init = function(nbItems)
 	{
 		this.nbItemsToLoad = nbItems;
+
+		if( this.$.parentEl == null)
+			this.$.parentEl = $("body");
 
 		this.el();
 		this.append();

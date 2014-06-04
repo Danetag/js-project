@@ -12,7 +12,7 @@
 			},
 			"priority": 1,
 			"hasLayout" : false,
-			"partial" : {
+			"partials" : {
 				"headerPHP" : "partial/headerPHP.hbs"
 			}
 		},
@@ -34,7 +34,7 @@
 				
 			},
 			"priority": 0.80,
-			"partial" : {
+			"partials" : {
 
 			},
 			"assets"    : [
@@ -55,7 +55,7 @@
 				"fr"  : "/fr/cards/card01"
 			},
 			"priority": 0.50,
-			"partial" : {
+			"partials" : {
 
 			},
 			"bodyClass" : "display-card card01",
@@ -79,7 +79,7 @@
 				"fr"  : "/fr/cards/card02"
 			},
 			"priority": 0.50,
-			"partial" : {
+			"partials" : {
 
 			},
 			"bodyClass" : "display-card card02",
@@ -103,7 +103,7 @@
 				"fr"  : "/fr/cards/card03"
 			},
 			"priority": 0.50,
-			"partial" : {
+			"partials" : {
 
 			},
 			"bodyClass" : "display-card card03",
@@ -131,7 +131,7 @@
 				
 			},
 			"priority": 0.80,
-			"partial" : {
+			"partials" : {
 
 			},
 			"assets"    : [
